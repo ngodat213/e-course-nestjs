@@ -23,28 +23,22 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
-import { BlogModel } from '../blog.model/blog.model';
-import { CourseModel } from '../course.model/course.model';
-import { QuizModel } from '../quiz.model/quiz.model';
-import { TeacherModel } from '../teacher.model/teacher.model';
-interface User extends Document {
+import { Teacher } from '../teacher.model/teacher.model';
+import { CourseLessonModel } from '../course.lesson.model/course.lesson.model';
+import { FeedbackModel } from '../feedback.model/feedback.model';
+interface Course extends Document {
     readonly _id: string;
-    readonly email: string;
-    readonly password: string;
-    readonly username: string;
-    readonly photoUrl: string;
-    readonly blogs: Partial<BlogModel>;
-    readonly qAs: Partial<BlogModel>;
-    readonly courses: Partial<CourseModel>;
-    readonly favouritesCourses: Partial<CourseModel>;
-    readonly favouritesQuizs: Partial<QuizModel>;
-    readonly finishedQuizs: Partial<QuizModel>;
-    readonly favouritesTeachers: Partial<TeacherModel>;
-    readonly favouritesBlogs: Partial<BlogModel>;
-    readonly favouritesQAs: Partial<BlogModel>;
-    readonly created: Date;
-    readonly signedIn: Date;
+    readonly teacherId: Partial<Teacher>;
+    readonly courseImage: string;
+    readonly title: string;
+    readonly description: string;
+    readonly time: string;
+    readonly category: string;
+    readonly rating: Number;
+    readonly register: Number;
+    readonly lessons: Partial<CourseLessonModel>;
+    readonly feedbacks: Partial<FeedbackModel>;
 }
-type UserModel = Model<User>;
-declare const createUserModel: (conn: Connection) => UserModel;
-export { User, UserModel, createUserModel };
+type CourseModel = Model<Course>;
+declare const createCourseModel: (conn: Connection) => CourseModel;
+export { Course, CourseModel, createCourseModel };

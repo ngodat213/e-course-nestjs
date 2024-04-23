@@ -23,28 +23,13 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
-import { BlogModel } from '../blog.model/blog.model';
-import { CourseModel } from '../course.model/course.model';
-import { QuizModel } from '../quiz.model/quiz.model';
-import { TeacherModel } from '../teacher.model/teacher.model';
-interface User extends Document {
+import { UserModel } from '../user.model/user.model';
+interface Feedback extends Document {
     readonly _id: string;
-    readonly email: string;
-    readonly password: string;
-    readonly username: string;
-    readonly photoUrl: string;
-    readonly blogs: Partial<BlogModel>;
-    readonly qAs: Partial<BlogModel>;
-    readonly courses: Partial<CourseModel>;
-    readonly favouritesCourses: Partial<CourseModel>;
-    readonly favouritesQuizs: Partial<QuizModel>;
-    readonly finishedQuizs: Partial<QuizModel>;
-    readonly favouritesTeachers: Partial<TeacherModel>;
-    readonly favouritesBlogs: Partial<BlogModel>;
-    readonly favouritesQAs: Partial<BlogModel>;
-    readonly created: Date;
-    readonly signedIn: Date;
+    readonly userId: Partial<UserModel>;
+    readonly time: Date;
+    readonly rating: Number;
 }
-type UserModel = Model<User>;
-declare const createUserModel: (conn: Connection) => UserModel;
-export { User, UserModel, createUserModel };
+type FeedbackModel = Model<Feedback>;
+declare const createFeedbackModel: (conn: Connection) => FeedbackModel;
+export { Feedback, FeedbackModel, createFeedbackModel };

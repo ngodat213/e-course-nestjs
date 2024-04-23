@@ -1,8 +1,8 @@
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
 import { BlogModel } from '../blog.model/blog.model';
 import { CourseModel } from '../course.model/course.model';
-import { QuizModel} from '../quiz.model/quiz.model';
-import { Teacher} from '../teacher.model/teacher.model';
+import { TeacherModel} from '../teacher.model/teacher.model';
+import { ExamModel } from '../exam.model/exam.model';
 
 interface User extends Document{
   readonly _id: string;
@@ -14,9 +14,9 @@ interface User extends Document{
   readonly qAs: Partial<BlogModel>;
   readonly courses: Partial<CourseModel>;
   readonly favouritesCourses: Partial<CourseModel>;
-  readonly favouritesQuizs: Partial<QuizModel>;
-  readonly finishedQuizs: Partial<QuizModel>;
-  readonly favouritesTeachers: Partial<Teacher>;
+  readonly favouritesQuizs: Partial<ExamModel>;
+  readonly finishedQuizs: Partial<ExamModel>;
+  readonly favouritesTeachers: Partial<TeacherModel>;
   readonly favouritesBlogs: Partial<BlogModel>;
   readonly favouritesQAs: Partial<BlogModel>;
   readonly created: Date;
@@ -36,8 +36,8 @@ const UserSchema = new Schema<User>(
     qAs:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Blog' }] },
     courses:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Course' }] },
     favouritesCourses:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Course' }] },
-    favouritesQuizs:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Quiz' }] },
-    finishedQuizs:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Quiz' }] },
+    favouritesQuizs:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Exam' }] },
+    finishedQuizs:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Exam' }] },
     favouritesTeachers:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Teacher' }] },
     favouritesBlogs:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Blog' }] },
     favouritesQAs:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Blog' }] },

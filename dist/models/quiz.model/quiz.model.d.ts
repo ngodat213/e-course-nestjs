@@ -23,28 +23,15 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
-import { BlogModel } from '../blog.model/blog.model';
-import { CourseModel } from '../course.model/course.model';
-import { QuizModel } from '../quiz.model/quiz.model';
-import { TeacherModel } from '../teacher.model/teacher.model';
-interface User extends Document {
+import { QuizLessonModel } from '../quiz.lesson.model/quiz.lesson.model';
+interface Quiz extends Document {
     readonly _id: string;
-    readonly email: string;
-    readonly password: string;
-    readonly username: string;
-    readonly photoUrl: string;
-    readonly blogs: Partial<BlogModel>;
-    readonly qAs: Partial<BlogModel>;
-    readonly courses: Partial<CourseModel>;
-    readonly favouritesCourses: Partial<CourseModel>;
-    readonly favouritesQuizs: Partial<QuizModel>;
-    readonly finishedQuizs: Partial<QuizModel>;
-    readonly favouritesTeachers: Partial<TeacherModel>;
-    readonly favouritesBlogs: Partial<BlogModel>;
-    readonly favouritesQAs: Partial<BlogModel>;
-    readonly created: Date;
-    readonly signedIn: Date;
+    readonly title: string;
+    readonly description: string;
+    readonly category: string;
+    readonly imageUrl: string;
+    readonly lessons: Partial<QuizLessonModel>;
 }
-type UserModel = Model<User>;
-declare const createUserModel: (conn: Connection) => UserModel;
-export { User, UserModel, createUserModel };
+type QuizModel = Model<Quiz>;
+declare const createQuizModel: (conn: Connection) => QuizModel;
+export { Quiz, QuizModel, createQuizModel };

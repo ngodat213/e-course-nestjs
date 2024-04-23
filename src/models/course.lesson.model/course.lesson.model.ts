@@ -1,5 +1,6 @@
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
 import { CourseVideoModel } from '../course.video.model/course.video.model';
+
 interface CourseLesson extends Document{
   readonly _id: string;
   readonly title: string;
