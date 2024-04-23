@@ -25,8 +25,8 @@
 import { Connection, Document, Model } from 'mongoose';
 import { BlogModel } from '../blog.model/blog.model';
 import { CourseModel } from '../course.model/course.model';
-import { QuizModel } from '../quiz.model/quiz.model';
 import { TeacherModel } from '../teacher.model/teacher.model';
+import { ExamModel } from '../exam.model/exam.model';
 interface User extends Document {
     readonly _id: string;
     readonly email: string;
@@ -37,8 +37,8 @@ interface User extends Document {
     readonly qAs: Partial<BlogModel>;
     readonly courses: Partial<CourseModel>;
     readonly favouritesCourses: Partial<CourseModel>;
-    readonly favouritesQuizs: Partial<QuizModel>;
-    readonly finishedQuizs: Partial<QuizModel>;
+    readonly favouritesQuizs: Partial<ExamModel>;
+    readonly finishedQuizs: Partial<ExamModel>;
     readonly favouritesTeachers: Partial<TeacherModel>;
     readonly favouritesBlogs: Partial<BlogModel>;
     readonly favouritesQAs: Partial<BlogModel>;

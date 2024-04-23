@@ -25,13 +25,12 @@
 import { Connection, Document, Model } from 'mongoose';
 interface CourseVideo extends Document {
     readonly _id: string;
-    readonly title: string;
     readonly part: Number;
-    readonly videoUrl: string;
-    readonly description: string;
+    readonly title: string;
     readonly hour: Number;
     readonly minute: Number;
-    readonly comments: Partial<Comment>;
+    readonly videoUrl: string;
+    readonly videoPublicId: string;
 }
 type CourseVideoModel = Model<CourseVideo>;
 declare const createCourseVideoModel: (conn: Connection) => CourseVideoModel;

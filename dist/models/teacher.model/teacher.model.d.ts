@@ -24,13 +24,13 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
 import { CourseModel } from '../course.model/course.model';
-import { QuizModel } from '../quiz.model/quiz.model';
 import { BlogModel } from '../blog.model/blog.model';
+import { ExamModel } from '../exam.model/exam.model';
 interface Teacher extends Document {
     readonly _id: string;
     readonly description: string;
     readonly courses: Partial<CourseModel>;
-    readonly quizs: Partial<QuizModel>;
+    readonly exams: Partial<ExamModel>;
     readonly blogs: Partial<BlogModel>;
 }
 type TeacherModel = Model<Teacher>;

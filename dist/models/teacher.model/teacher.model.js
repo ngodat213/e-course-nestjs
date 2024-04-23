@@ -6,8 +6,8 @@ const TeacherSchema = new mongoose_1.Schema({
     _id: mongoose_1.SchemaTypes.ObjectId,
     description: { type: mongoose_1.SchemaTypes.String, required: true },
     courses: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: "Course" }],
-    quizs: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: "Quiz" }],
-    blogs: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: "Blogs" }]
+    exams: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: "Exam" }],
+    blogs: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: "Blog" }]
 });
 const createTeacherModel = (connection) => connection.model('Teacher', TeacherSchema, 'Teachers');
 exports.createTeacherModel = createTeacherModel;
