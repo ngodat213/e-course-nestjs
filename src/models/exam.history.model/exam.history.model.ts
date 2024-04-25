@@ -19,7 +19,7 @@ const ExamHistorySchema = new Schema<ExamHistory>(
     exam:{ type: SchemaTypes.ObjectId, ref: 'Exam' },
     submitAt: {type: SchemaTypes.Date, required: true},
     point: {type: SchemaTypes.Number, required: true},
-  }
+  },{ timestamps: true }
 );
 
 const createExamHistoryModel: (conn: Connection) => ExamHistoryModel = (

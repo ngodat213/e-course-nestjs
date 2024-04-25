@@ -58,8 +58,8 @@ let CourseVideoService = class CourseVideoService {
 };
 exports.CourseVideoService = CourseVideoService;
 exports.CourseVideoService = CourseVideoService = __decorate([
-    (0, common_1.Injectable)(),
-    __param(0, (0, common_1.Inject)(database_constants_1.COURSE_MODEL)),
+    (0, common_1.Injectable)({ scope: common_1.Scope.REQUEST }),
+    __param(0, (0, common_1.Inject)(database_constants_1.COURSE_VIDEO_MODEL)),
     __param(1, (0, common_1.Inject)(core_1.REQUEST)),
     __metadata("design:paramtypes", [mongoose_1.Model, Object])
 ], CourseVideoService);

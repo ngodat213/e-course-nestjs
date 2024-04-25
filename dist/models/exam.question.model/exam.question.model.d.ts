@@ -23,6 +23,7 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
+import { ExamLesson } from '../exam.lesson.model/exam.lesson.model';
 interface ExamQuestion extends Document {
     readonly _id: string;
     readonly question: string;
@@ -31,6 +32,7 @@ interface ExamQuestion extends Document {
     }];
     readonly answer: number;
     readonly imageUrl: string;
+    readonly lesson: Partial<ExamLesson>;
 }
 type ExamQuestionModel = Model<ExamQuestion>;
 declare const createExamQuestionModel: (conn: Connection) => ExamQuestionModel;

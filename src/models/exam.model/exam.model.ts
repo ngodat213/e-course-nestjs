@@ -17,7 +17,7 @@ const ExamSchema = new Schema<Exam>(
     description: {type: String, required: true},
     category: {type: String, required: true},
     imageUrl: {type: String, required: true},
-  }
+  },{ timestamps: true }
 );
 
 const createExamModel: (conn: Connection) => ExamModel = (

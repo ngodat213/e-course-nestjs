@@ -10,8 +10,8 @@ const ExamLessonSchema = new mongoose_1.Schema({
     second: { type: mongoose_1.SchemaTypes.Number, required: true },
     selection: { type: mongoose_1.SchemaTypes.Number, required: true },
     point: { type: mongoose_1.SchemaTypes.Number, required: true },
-    questions: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'ExamQuestion' }] },
-});
+    exam: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Exam' },
+}, { timestamps: true });
 const createExamLessonModel = (connection) => connection.model('ExamLesson', ExamLessonSchema, 'ExamLesson');
 exports.createExamLessonModel = createExamLessonModel;
 //# sourceMappingURL=exam.lesson.model.js.map

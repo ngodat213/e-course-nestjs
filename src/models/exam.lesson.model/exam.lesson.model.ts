@@ -24,7 +24,7 @@ const ExamLessonSchema = new Schema<ExamLesson>(
     selection: {type: SchemaTypes.Number, required: true},
     point: {type: SchemaTypes.Number, required: true},
     exam:{ type: SchemaTypes.ObjectId, ref: 'Exam' },
-  }
+  },{ timestamps: true }
 );
 
 const createExamLessonModel: (conn: Connection) => ExamLessonModel = (

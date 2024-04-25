@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Model } from 'mongoose';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
@@ -8,7 +8,7 @@ import { CourseLesson } from 'src/models/course.lesson.model/course.lesson.model
 import { CourseVideo } from 'src/models/course.video.model/course.video.model';
 import { CreateCourseLessonDTO, UpdateCourseLessonDTO } from './course.lesson.dto';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class CourseLessonService {
   constructor(
     @Inject(COURSE_LESSON_MODEL) private lessonModel: Model<CourseLesson>,

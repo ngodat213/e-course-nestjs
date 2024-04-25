@@ -1,18 +1,16 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
-import { COURSE_MODEL } from 'src/database/database.constants';
+import { COURSE_VIDEO_MODEL } from 'src/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { CourseVideo } from 'src/models/course.video.model/course.video.model';
-import { CreateCourseDTO, UpdateCourseDTO } from '../course/course.dto';
 import { Model } from 'mongoose';
-import { Course } from 'src/models/course.model/course.model';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class CourseVideoService {
   constructor(
-    @Inject(COURSE_MODEL) private videoModel: Model<CourseVideo>,
+    @Inject(COURSE_VIDEO_MODEL) private videoModel: Model<CourseVideo>,
     @Inject(REQUEST) private req: AuthenticatedRequest,
   ){}
 

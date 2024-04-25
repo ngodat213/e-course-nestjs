@@ -24,7 +24,7 @@ const CourseVideoSchema = new Schema<CourseVideo>(
     videoUrl: {type: SchemaTypes.String, required: true},
     videoPublicId: {type: SchemaTypes.String, required: true},
     lesson: { type: SchemaTypes.ObjectId, ref: 'Lesson' },
-  }
+  },{ timestamps: true }
 );
 
 const createCourseVideoModel: (conn: Connection) => CourseVideoModel = (

@@ -20,7 +20,7 @@ const ExamQuestionSchema = new Schema<ExamQuestion>(
     answer: {type: SchemaTypes.Number, required: true},
     imageUrl:{type: SchemaTypes.String, required: true},
     lesson: {type: SchemaTypes.ObjectId, ref: 'ExamLesson'},
-  }
+  },{ timestamps: true }
 );
 
 const createExamQuestionModel: (conn: Connection) => ExamQuestionModel = (
