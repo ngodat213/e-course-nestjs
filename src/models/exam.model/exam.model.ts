@@ -1,5 +1,4 @@
 import { Connection, Document, Model, Schema, SchemaType, SchemaTypes, connection } from 'mongoose';
-import { ExamLessonModel } from '../exam.lesson.model/exam.lesson.model';
 
 interface Exam extends Document{
   readonly _id: string,
@@ -7,7 +6,6 @@ interface Exam extends Document{
   readonly description: string,
   readonly category: string,
   readonly imageUrl:  string,
-  readonly lessons: Partial<ExamLessonModel>
 }
 
 type ExamModel = Model<Exam>;
@@ -19,7 +17,6 @@ const ExamSchema = new Schema<Exam>(
     description: {type: String, required: true},
     category: {type: String, required: true},
     imageUrl: {type: String, required: true},
-    lessons:{ type: [{ type: SchemaTypes.ObjectId, ref: 'QuizLesson' }] },
   }
 );
 

@@ -1,5 +1,5 @@
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
-import { ExamQuestionModel } from '../exam.question.model/exam.question.model';
+import { ExamModel } from '../exam.model/exam.model';
 
 interface ExamLesson extends Document{
   readonly _id: string,
@@ -9,7 +9,7 @@ interface ExamLesson extends Document{
   readonly second: Number,
   readonly selection: Number,
   readonly point: Number,
-  readonly questions: Partial<ExamQuestionModel>,
+  readonly exam: Partial<ExamModel>,
 }
 
 type ExamLessonModel = Model<ExamLesson>;
@@ -23,7 +23,7 @@ const ExamLessonSchema = new Schema<ExamLesson>(
     second: {type: SchemaTypes.Number, required: true},
     selection: {type: SchemaTypes.Number, required: true},
     point: {type: SchemaTypes.Number, required: true},
-    questions:{ type: [{ type: SchemaTypes.ObjectId, ref: 'ExamQuestion' }] },
+    exam:{ type: SchemaTypes.ObjectId, ref: 'Exam' },
   }
 );
 
