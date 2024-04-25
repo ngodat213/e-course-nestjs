@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString, IsOptional, IsObject } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsOptional, IsObject, IsUrl } from 'class-validator';
 
 export class CreateCourseVideoDTO {
   @IsNotEmpty()
@@ -19,6 +19,7 @@ export class CreateCourseVideoDTO {
 
   @IsNotEmpty()
   @IsString()
+  @IsUrl()
   readonly videoUrl: string;
 
   @IsNotEmpty()

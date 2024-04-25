@@ -9,83 +9,63 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateCourseVideoDTO = exports.CreateCourseVideoDTO = void 0;
+exports.UpdateExamQuestionDTO = exports.CreateExamQuestionDTO = void 0;
 const class_validator_1 = require("class-validator");
-class CreateCourseVideoDTO {
+class CreateExamQuestionDTO {
 }
-exports.CreateCourseVideoDTO = CreateCourseVideoDTO;
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", Number)
-], CreateCourseVideoDTO.prototype, "part", void 0);
+exports.CreateExamQuestionDTO = CreateExamQuestionDTO;
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], CreateCourseVideoDTO.prototype, "title", void 0);
+], CreateExamQuestionDTO.prototype, "question", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    __metadata("design:type", Array)
+], CreateExamQuestionDTO.prototype, "options", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], CreateCourseVideoDTO.prototype, "hour", void 0);
+], CreateExamQuestionDTO.prototype, "answer", void 0);
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], CreateCourseVideoDTO.prototype, "minute", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsUrl)(),
     __metadata("design:type", String)
-], CreateCourseVideoDTO.prototype, "videoUrl", void 0);
+], CreateExamQuestionDTO.prototype, "imageUrl", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateCourseVideoDTO.prototype, "videoPublicId", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsObject)(),
     __metadata("design:type", Object)
-], CreateCourseVideoDTO.prototype, "lesson", void 0);
-class UpdateCourseVideoDTO {
+], CreateExamQuestionDTO.prototype, "exam", void 0);
+class UpdateExamQuestionDTO {
 }
-exports.UpdateCourseVideoDTO = UpdateCourseVideoDTO;
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", Number)
-], UpdateCourseVideoDTO.prototype, "part", void 0);
+exports.UpdateExamQuestionDTO = UpdateExamQuestionDTO;
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], UpdateCourseVideoDTO.prototype, "title", void 0);
+], UpdateExamQuestionDTO.prototype, "question", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
+    __metadata("design:type", Array)
+], UpdateExamQuestionDTO.prototype, "options", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], UpdateCourseVideoDTO.prototype, "hour", void 0);
+], UpdateExamQuestionDTO.prototype, "answer", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsNumber)(),
-    __metadata("design:type", Number)
-], UpdateCourseVideoDTO.prototype, "minute", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsUrl)(),
     __metadata("design:type", String)
-], UpdateCourseVideoDTO.prototype, "videoUrl", void 0);
+], UpdateExamQuestionDTO.prototype, "imageUrl", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], UpdateCourseVideoDTO.prototype, "videoPublicId", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsObject)(),
+    (0, class_validator_1.ValidateNested)(),
     __metadata("design:type", Object)
-], UpdateCourseVideoDTO.prototype, "lesson", void 0);
-//# sourceMappingURL=course.video.dto.js.map
+], UpdateExamQuestionDTO.prototype, "lesson", void 0);
+//# sourceMappingURL=exam.question.dto.js.map
