@@ -51,7 +51,7 @@ let CourseLessonService = class CourseLessonService {
             .exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`lesson: $id was not found`)));
     }
     deleteAll() {
-        return (0, rxjs_1.from)(this.videoModel.deleteMany({}).exec());
+        return (0, rxjs_1.from)(this.lessonModel.deleteMany({}).exec());
     }
     deleteById(id) {
         return (0, rxjs_1.from)(this.lessonModel.findByIdAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`lesson: $id was not found`)));

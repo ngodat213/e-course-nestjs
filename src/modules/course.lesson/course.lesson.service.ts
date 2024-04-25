@@ -60,7 +60,7 @@ export class CourseLessonService {
   }
 
   deleteAll(): Observable<any>{
-    return from(this.videoModel.deleteMany({}).exec());
+    return from(this.lessonModel.deleteMany({}).exec());
   }
 
   deleteById(id: string): Observable<CourseLesson>{
