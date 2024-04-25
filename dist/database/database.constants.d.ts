@@ -1,0 +1,14 @@
+export declare const DATABASE_CONNECTION = "DATABASE_CONNECTION";
+export declare const COURSE_MODEL = "COURSE_MODEL";
+export declare const COURSE_LESSON_MODEL = "COURSE_LESSON_MODEL";
+export declare const COURSE_VIDEO_MODEL = "COURSE_VIDEO_MODEL";
+export declare const COURSE_ORDER_MODEL = "COURSE_ORDER_MODEL";
+export declare const EXAM_MODEL = "EXAM_MODEL";
+export declare const EXAM_LESSON_MODEL = "EXAM_LESSON_MODEL";
+export declare const EXAM_QUESTION_MODEL = "EXAM_QUESTION_MODEL";
+export declare const EXAM_HISTORY_MODEL = "EXAM_HISTORY_MODEL";
+export declare const USER_MODEL = "USER_MODEL";
+export declare const FEEDBACK_MODEL = "FEEDBACK_MODEL";
+export declare const BLOG_MODEL = "BLOG_MODEL";
+export declare const CONTACT_MODEL = "CONTACT_MODEL";
+export declare const CATEGORY_MODEL = "CATEGORY_MODEL";

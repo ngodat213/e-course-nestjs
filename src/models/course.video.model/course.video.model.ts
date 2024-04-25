@@ -1,4 +1,5 @@
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
+import { CourseLesson } from '../course.lesson.model/course.lesson.model';
 
 interface CourseVideo extends Document{
   readonly _id: string;
@@ -8,6 +9,7 @@ interface CourseVideo extends Document{
   readonly minute: Number;
   readonly videoUrl: string;
   readonly videoPublicId: string;
+  readonly lesson: Partial<CourseLesson>;
 }
 
 type CourseVideoModel = Model<CourseVideo>;
@@ -21,6 +23,7 @@ const CourseVideoSchema = new Schema<CourseVideo>(
     minute: {type: SchemaTypes.Number, required: true},
     videoUrl: {type: SchemaTypes.String, required: true},
     videoPublicId: {type: SchemaTypes.String, required: true},
+    lesson: { type: SchemaTypes.ObjectId, ref: 'Lesson' },
   }
 );
 

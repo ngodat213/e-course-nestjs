@@ -24,11 +24,8 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
 import { Teacher } from '../teacher.model/teacher.model';
-import { CourseLessonModel } from '../course.lesson.model/course.lesson.model';
-import { FeedbackModel } from '../feedback.model/feedback.model';
 import { CategoryModel } from '../category.model/category.model';
 interface Course extends Document {
-    readonly _id: string;
     readonly title: string;
     readonly price: Number;
     readonly description: string;
@@ -38,14 +35,12 @@ interface Course extends Document {
     readonly imagePublicId: string;
     readonly videoIntroduce: string;
     readonly videoPublicId: string;
-    readonly time: string;
+    readonly time: Number;
     readonly language: string;
     readonly updateAt: Date;
     readonly createAt: Date;
-    readonly teacherId: Partial<Teacher>;
+    readonly teacher: Partial<Teacher>;
     readonly category: Partial<CategoryModel>;
-    readonly feedbacks: Partial<FeedbackModel>;
-    readonly lessons: Partial<CourseLessonModel>;
 }
 type CourseModel = Model<Course>;
 declare const createCourseModel: (conn: Connection) => CourseModel;

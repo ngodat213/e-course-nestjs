@@ -5,7 +5,6 @@ import { FeedbackModel } from '../feedback.model/feedback.model';
 import { CategoryModel } from '../category.model/category.model';
 
 interface Course extends Document{
-	readonly _id: string;
 	readonly title: string;
   readonly price: Number;
 	readonly description: string;
@@ -15,21 +14,18 @@ interface Course extends Document{
   readonly imagePublicId: string;
   readonly videoIntroduce: string;
   readonly videoPublicId: string;
-	readonly time: string;
+	readonly time: Number;
   readonly language: string;
   readonly updateAt: Date;
   readonly createAt: Date;
-	readonly teacherId: Partial<Teacher>;
+	readonly teacher: Partial<Teacher>;
 	readonly category: Partial<CategoryModel>;
-	readonly feedbacks: Partial<FeedbackModel>
-	readonly lessons: Partial<CourseLessonModel>
 }
 
 type CourseModel = Model<Course>;
 
 const CourseSchema = new Schema<Course>(
 	{
-		_id: SchemaTypes.ObjectId,
 		title: {type: SchemaTypes.String, required: true},
     price: {type: SchemaTypes.Number, required: true},
 		description: {type: SchemaTypes.String, required: true},
@@ -39,15 +35,11 @@ const CourseSchema = new Schema<Course>(
 		imagePublicId:{type: SchemaTypes.String, required: true},
     videoIntroduce:{type: SchemaTypes.String, required: true},
 		videoPublicId:{type: SchemaTypes.String, required: true},
-		time: {type: SchemaTypes.String, required: true},
+		time: {type: SchemaTypes.Number, required: true},
     language: {type: SchemaTypes.String, required: true},
-    updateAt: {type: SchemaTypes.Date, required: true},
-    createAt:{type: SchemaTypes.Date, required: true},
-    teacherId: {type: SchemaTypes.ObjectId, ref: 'Teacher'},
-		category: {type: SchemaTypes.ObjectId, required: true, ref: 'Category'},
-		feedbacks: { type: [{ type: SchemaTypes.ObjectId, ref: 'Feedback' }] },
-		lessons: { type: [{ type: SchemaTypes.ObjectId, ref: 'CourseLesson' }] },
-	}
+    teacher: {type: SchemaTypes.ObjectId, ref: 'Teacher'},
+		category: {type: SchemaTypes.ObjectId, ref: 'Category'},
+	},{ timestamps: true }
 );
 
 const createCourseModel: (conn: Connection) => CourseModel =(

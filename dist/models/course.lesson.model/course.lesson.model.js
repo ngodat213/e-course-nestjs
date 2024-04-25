@@ -6,7 +6,7 @@ const CourseLessonSchema = new mongoose_1.Schema({
     _id: mongoose_1.SchemaTypes.ObjectId,
     title: { type: mongoose_1.SchemaTypes.String, required: true },
     selection: { type: mongoose_1.SchemaTypes.Number, required: true },
-    videos: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Video' }] },
+    course: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Course' },
 });
 const createCourseLessonModel = (connection) => connection.model('CourseLesson', CourseLessonSchema, 'CourseLessons');
 exports.createCourseLessonModel = createCourseLessonModel;

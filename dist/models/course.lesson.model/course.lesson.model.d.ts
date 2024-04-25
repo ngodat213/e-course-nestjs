@@ -23,12 +23,12 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
-import { CourseVideoModel } from '../course.video.model/course.video.model';
+import { CourseModel } from '../course.model/course.model';
 interface CourseLesson extends Document {
     readonly _id: string;
     readonly title: string;
     readonly selection: Number;
-    readonly videos: Partial<CourseVideoModel>;
+    readonly course: Partial<CourseModel>;
 }
 type CourseLessonModel = Model<CourseLesson>;
 declare const createCourseLessonModel: (conn: Connection) => CourseLessonModel;
