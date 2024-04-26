@@ -24,7 +24,7 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
 import { Observable } from 'rxjs';
-import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
+import { AuthenticatedRequest } from 'src/auth/interfaces/authenticated.request.interface';
 import { ExamLesson } from 'src/models/exam.lesson.model/exam.lesson.model';
 import { Exam } from 'src/models/exam.model/exam.model';
 import { CreateExamDTO, UpdateExamDTO } from './exam.dto';

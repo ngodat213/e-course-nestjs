@@ -22,29 +22,37 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Connection, Document, Model } from 'mongoose';
+import { Connection, Document, Model, Schema } from 'mongoose';
 import { BlogModel } from '../blog.model/blog.model';
 import { CourseModel } from '../course.model/course.model';
 import { TeacherModel } from '../teacher.model/teacher.model';
 import { ExamModel } from '../exam.model/exam.model';
+import { RoleType } from 'src/shared/enum/role.type.enum';
+import { Observable } from 'rxjs';
 interface User extends Document {
-    readonly _id: string;
+    comparePassword(password: string): Observable<boolean>;
     readonly email: string;
     readonly password: string;
     readonly username: string;
     readonly photoUrl: string;
+    readonly roles?: RoleType[];
     readonly blogs: Partial<BlogModel>;
     readonly qAs: Partial<BlogModel>;
     readonly courses: Partial<CourseModel>;
     readonly favouritesCourses: Partial<CourseModel>;
-    readonly favouritesQuizs: Partial<ExamModel>;
-    readonly finishedQuizs: Partial<ExamModel>;
+    readonly favouritesExams: Partial<ExamModel>;
+    readonly finishedExams: Partial<ExamModel>;
     readonly favouritesTeachers: Partial<TeacherModel>;
     readonly favouritesBlogs: Partial<BlogModel>;
     readonly favouritesQAs: Partial<BlogModel>;
-    readonly created: Date;
-    readonly signedIn: Date;
 }
 type UserModel = Model<User>;
+declare const UserSchema: Schema<User, Model<User, any, any, any, Document<unknown, any, User> & User & {
+    _id: import("mongoose").Types.ObjectId;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, User, Document<unknown, {}, import("mongoose").FlatRecord<User>> & import("mongoose").FlatRecord<User> & {
+    _id: import("mongoose").Types.ObjectId;
+}>;
+declare function preSaveHook(next: any): Promise<any>;
+declare function comparePasswordMethod(password: string): Observable<boolean>;
 declare const createUserModel: (conn: Connection) => UserModel;
-export { User, UserModel, createUserModel };
+export { User, UserModel, createUserModel, UserSchema, preSaveHook, comparePasswordMethod, };

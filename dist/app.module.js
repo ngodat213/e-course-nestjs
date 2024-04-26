@@ -24,6 +24,7 @@ const exam_history_module_1 = require("./modules/exam.history/exam.history.modul
 const feedback_module_1 = require("./modules/feedback/feedback.module");
 const blog_module_1 = require("./modules/blog/blog.module");
 const database_module_1 = require("./database/database.module");
+const cloudinary_module_1 = require("./cloudinary/cloudinary.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -44,6 +45,7 @@ exports.AppModule = AppModule = __decorate([
             feedback_module_1.FeedbackModule,
             category_module_1.CategoryModule,
             blog_module_1.BlogModule,
+            cloudinary_module_1.CloudinaryModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
