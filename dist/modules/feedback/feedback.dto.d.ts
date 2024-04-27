@@ -1,11 +1,10 @@
-import { IDTO } from 'src/interfaces/dto.interface';
-export declare class CreateFeedbackDTO implements IDTO {
+export declare class CreateFeedbackDTO {
     readonly userId: string;
     readonly courseId: string;
     readonly title: string;
     readonly rating: number;
 }
-export declare class UpdateFeedbackDTO implements IDTO {
+export declare class UpdateFeedbackDTO {
     readonly userId?: string;
     readonly courseId?: string;
     readonly title?: string;

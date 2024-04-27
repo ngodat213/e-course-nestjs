@@ -27,8 +27,7 @@ import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamHistory } from './exam.history.model';
 import { CreateExamHistoryDTO, UpdateExamHistoryDTO } from './exam.history.dto';
-import { IService } from 'src/interfaces/service.interface';
-export declare class ExamHistoryService implements IService<ExamHistory> {
+export declare class ExamHistoryService {
     private historyModel;
     private req;
     constructor(historyModel: Model<ExamHistory>, req: AuthenticatedRequest);

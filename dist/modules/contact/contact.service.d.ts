@@ -27,8 +27,7 @@ import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Contact } from 'src/modules/contact/contact.model';
 import { CreateContactDTO, UpdateContactDTO } from './contact.dto';
-import { IService } from 'src/interfaces/service.interface';
-export declare class ContactService implements IService<Contact> {
+export declare class ContactService {
     private contactModel;
     private req;
     constructor(contactModel: Model<Contact>, req: AuthenticatedRequest);

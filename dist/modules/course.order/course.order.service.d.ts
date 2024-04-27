@@ -27,8 +27,7 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { Model } from 'mongoose';
 import { Observable } from 'rxjs';
 import { CreateCourseOrderDTO, UpdateCourseOrderDTO } from './course.order.dto';
-import { IService } from 'src/interfaces/service.interface';
-export declare class CourseOrderService implements IService<CourseOrder> {
+export declare class CourseOrderService {
     private orderModel;
     private req;
     constructor(orderModel: Model<CourseOrder>, req: AuthenticatedRequest);

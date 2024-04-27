@@ -28,8 +28,7 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import { CreateCourseLessonDTO, UpdateCourseLessonDTO } from './course.lesson.dto';
-import { IService } from 'src/interfaces/service.interface';
-export declare class CourseLessonService implements IService<CourseLesson> {
+export declare class CourseLessonService {
     private lessonModel;
     private videoModel;
     private req;

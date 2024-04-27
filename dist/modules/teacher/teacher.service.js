@@ -9,24 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TeacherService = void 0;
 const common_1 = require("@nestjs/common");
 let TeacherService = class TeacherService {
-    findAll(keyword, skip, limit) {
-        throw new Error('Method not implemented.');
-    }
-    findById(id) {
-        throw new Error('Method not implemented.');
-    }
-    save(data) {
-        throw new Error('Method not implemented.');
-    }
-    update(id, data) {
-        throw new Error('Method not implemented.');
-    }
-    deleteAll(id) {
-        throw new Error('Method not implemented.');
-    }
-    deleteById(id) {
-        throw new Error('Method not implemented.');
-    }
 };
 exports.TeacherService = TeacherService;
 exports.TeacherService = TeacherService = __decorate([

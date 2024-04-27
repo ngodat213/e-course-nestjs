@@ -1,5 +1,4 @@
-import { IDTO } from 'src/interfaces/dto.interface';
-export declare class CreateExamHistoryDTO implements IDTO {
+export declare class CreateExamHistoryDTO {
     readonly userId: string;
     readonly examId: string;
     readonly point: Number;

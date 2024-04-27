@@ -1,11 +1,10 @@
-import { IDTO } from 'src/interfaces/dto.interface';
-export declare class CreateContactDTO implements IDTO {
+export declare class CreateContactDTO {
     fullName: string;
     mail: string;
     text: string;
     topic: string;
 }
-export declare class UpdateContactDTO implements IDTO {
+export declare class UpdateContactDTO {
     fullName?: string;
     mail?: string;
     text?: string;

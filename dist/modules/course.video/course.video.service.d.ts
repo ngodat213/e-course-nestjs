@@ -27,8 +27,7 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import { Model } from 'mongoose';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
-import { IService } from 'src/interfaces/service.interface';
-export declare class CourseVideoService implements IService<CourseVideo> {
+export declare class CourseVideoService {
     private videoModel;
     private req;
     constructor(videoModel: Model<CourseVideo>, req: AuthenticatedRequest);

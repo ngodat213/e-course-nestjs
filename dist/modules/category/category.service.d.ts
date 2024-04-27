@@ -27,8 +27,7 @@ import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Category } from 'src/modules/category/category.model';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
-import { IService } from 'src/interfaces/service.interface';
-export declare class CategoryService implements IService<Category> {
+export declare class CategoryService {
     private categoryModel;
     private req;
     constructor(categoryModel: Model<Category>, req: AuthenticatedRequest);

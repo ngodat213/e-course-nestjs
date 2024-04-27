@@ -27,8 +27,7 @@ import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
-import { IService } from 'src/interfaces/service.interface';
-export declare class ExamQuestionService implements IService<ExamQuestion> {
+export declare class ExamQuestionService {
     private questionModel;
     private req;
     constructor(questionModel: Model<ExamQuestion>, req: AuthenticatedRequest);

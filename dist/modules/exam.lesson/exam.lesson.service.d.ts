@@ -28,8 +28,7 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { CreateExamLessonDTO, UpdateExamLessonDTO } from './exam.lesson.dto';
-import { IService } from 'src/interfaces/service.interface';
-export declare class ExamLessonService implements IService<ExamLesson> {
+export declare class ExamLessonService {
     private lessonModel;
     private questionModel;
     private req;

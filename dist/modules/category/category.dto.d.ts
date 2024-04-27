@@ -1,7 +1,6 @@
-import { IDTO } from "src/interfaces/dto.interface";
-export declare class CreateCategoryDTO implements IDTO {
+export declare class CreateCategoryDTO {
     readonly title: string;
 }
-export declare class UpdateCategoryDTO implements IDTO {
+export declare class UpdateCategoryDTO {
     readonly title?: string;
 }

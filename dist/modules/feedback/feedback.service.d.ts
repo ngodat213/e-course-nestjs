@@ -27,8 +27,7 @@ import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Feedback } from 'src/modules/feedback/feedback.model';
 import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';
-import { IService } from 'src/interfaces/service.interface';
-export declare class FeedbackService implements IService<Feedback> {
+export declare class FeedbackService {
     private feedbackModel;
     private req;
     constructor(feedbackModel: Model<Feedback>, req: AuthenticatedRequest);

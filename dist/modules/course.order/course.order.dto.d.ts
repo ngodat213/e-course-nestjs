@@ -1,12 +1,11 @@
-import { IDTO } from 'src/interfaces/dto.interface';
-export declare class CreateCourseOrderDTO implements IDTO {
+export declare class CreateCourseOrderDTO {
     readonly user: string;
     readonly course: string;
     readonly totalPrice: number;
     readonly payment: string;
     readonly paymentStatus: string;
 }
-export declare class UpdateCourseOrderDTO implements IDTO {
+export declare class UpdateCourseOrderDTO {
     readonly user?: string;
     readonly course?: string;
     readonly totalPrice?: number;
