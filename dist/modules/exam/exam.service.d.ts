@@ -25,10 +25,11 @@
 import { Model } from 'mongoose';
 import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
-import { ExamLesson } from 'src/models/exam.lesson.model/exam.lesson.model';
-import { Exam } from 'src/models/exam.model/exam.model';
+import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
+import { Exam } from 'src/modules/exam/exam.model';
 import { CreateExamDTO, UpdateExamDTO } from './exam.dto';
-export declare class ExamService {
+import { IService } from 'src/interfaces/service.interface';
+export declare class ExamService implements IService<Exam> {
     private examModel;
     private lessonModel;
     private req;

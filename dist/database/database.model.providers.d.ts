@@ -25,50 +25,50 @@
 import { Connection } from 'mongoose';
 export declare const databaseModelsProviders: ({
     provide: string;
-    useFactory: (connection: Connection) => import("src/models/course.model/course.model").CourseModel;
+    useFactory: (connection: Connection) => import("src/modules/course/course.model").CourseModel;
     inject: string[];
 } | {
     provide: string;
-    useFactory: (connection: Connection) => import("src/models/course.lesson.model/course.lesson.model").CourseLessonModel;
+    useFactory: (connection: Connection) => import("src/modules/course.lesson/course.lesson.model").CourseLessonModel;
     inject: string[];
 } | {
     provide: string;
-    useFactory: (connection: Connection) => import("src/models/course.video.model/course.video.model").CourseVideoModel;
+    useFactory: (connection: Connection) => import("src/modules/course.video/course.video.model").CourseVideoModel;
     inject: string[];
 } | {
     provide: string;
-    useFactory: (connection: Connection) => import("src/models/course.order.model/course.order.model").CourseOrderModel;
+    useFactory: (connection: Connection) => import("src/modules/course.order/course.order.model").CourseOrderModel;
     inject: string[];
 } | {
     provide: string;
-    useFactory: (connection: Connection) => import("src/models/exam.model/exam.model").ExamModel;
+    useFactory: (connection: Connection) => import("src/modules/exam/exam.model").ExamModel;
     inject: string[];
 } | {
     provide: string;
-    useFactory: (connection: Connection) => import("src/models/exam.lesson.model/exam.lesson.model").ExamLessonModel;
+    useFactory: (connection: Connection) => import("src/modules/exam.lesson/exam.lesson.model").ExamLessonModel;
     inject: string[];
 } | {
     provide: string;
-    useFactory: (connection: Connection) => import("src/models/exam.history.model/exam.history.model").ExamHistoryModel;
+    useFactory: (connection: Connection) => import("src/modules/exam.history/exam.history.model").ExamHistoryModel;
     inject: string[];
 } | {
     provide: string;
-    useFactory: (connection: Connection) => import("src/models/user.model/user.model").UserModel;
+    useFactory: (connection: Connection) => import("src/modules/user/user.model").UserModel;
     inject: string[];
 } | {
     provide: string;
-    useFactory: (connection: Connection) => import("src/models/feedback.model/feedback.model").FeedbackModel;
+    useFactory: (connection: Connection) => import("src/modules/feedback/feedback.model").FeedbackModel;
     inject: string[];
 } | {
     provide: string;
-    useFactory: (connection: Connection) => import("src/models/blog.model/blog.model").BlogModel;
+    useFactory: (connection: Connection) => import("src/modules/blog/blog.model").BlogModel;
     inject: string[];
 } | {
     provide: string;
-    useFactory: (connection: Connection) => import("src/models/category.model/category.model").CategoryModel;
+    useFactory: (connection: Connection) => import("src/modules/category/category.model").CategoryModel;
     inject: string[];
 } | {
     provide: string;
-    useFactory: (connection: Connection) => import("src/models/contact.model/contact.model").ContactModel;
+    useFactory: (connection: Connection) => import("src/modules/contact/contact.model").ContactModel;
     inject: string[];
 })[];

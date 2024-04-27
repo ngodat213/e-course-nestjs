@@ -1,4 +1,5 @@
-export declare class CreateCourseDTO {
+import { IDTO } from 'src/interfaces/dto.interface';
+export declare class CreateCourseDTO implements IDTO {
     readonly title: string;
     readonly price: number;
     readonly description: string;
@@ -17,7 +18,7 @@ export declare class CreateCourseDTO {
         id: string;
     };
 }
-export declare class UpdateCourseDTO {
+export declare class UpdateCourseDTO implements IDTO {
     readonly title?: string;
     readonly price?: number;
     readonly description?: string;

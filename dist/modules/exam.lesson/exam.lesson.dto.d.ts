@@ -1,4 +1,5 @@
-export declare class CreateExamLessonDTO {
+import { IDTO } from 'src/interfaces/dto.interface';
+export declare class CreateExamLessonDTO implements IDTO {
     readonly title: string;
     readonly hour: number;
     readonly minute: number;
@@ -9,7 +10,7 @@ export declare class CreateExamLessonDTO {
         id: string;
     };
 }
-export declare class UpdateExamLessonDTO {
+export declare class UpdateExamLessonDTO implements IDTO {
     readonly title?: string;
     readonly hour?: number;
     readonly minute?: number;

@@ -1,7 +1,7 @@
 import { CourseVideoService } from './course.video.service';
 import { Observable } from 'rxjs';
 import { Response } from 'express';
-import { CourseVideo } from 'src/models/course.video.model/course.video.model';
+import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
 export declare class CourseVideoController {
     private videoService;

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { User, UserModel } from 'src/models/user.model/user.model';
+import { User, UserModel } from 'src/modules/user/user.model';
 import { RegisterDto } from './user.dto';
 import { UserPrincipal } from 'src/interfaces/user-principal.interface';
 import { TokenResult } from 'src/interfaces/auth.interface';

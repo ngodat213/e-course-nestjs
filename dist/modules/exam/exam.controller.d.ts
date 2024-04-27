@@ -1,9 +1,9 @@
 import { Response } from 'express';
 import { Observable } from 'rxjs';
 import { ExamService } from './exam.service';
-import { Exam } from 'src/models/exam.model/exam.model';
+import { Exam } from 'src/modules/exam/exam.model';
 import { CreateExamDTO, UpdateExamDTO } from './exam.dto';
-import { ExamLesson } from 'src/models/exam.lesson.model/exam.lesson.model';
+import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 export declare class ExamController {
     private examService;
     constructor(examService: ExamService);

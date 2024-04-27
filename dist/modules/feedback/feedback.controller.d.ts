@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { FeedbackService } from './feedback.service';
 import { Observable } from 'rxjs';
-import { Feedback } from 'src/models/feedback.model/feedback.model';
+import { Feedback } from 'src/modules/feedback/feedback.model';
 import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';
 export declare class FeedbackController {
     private feedbackService;

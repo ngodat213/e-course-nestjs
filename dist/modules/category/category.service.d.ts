@@ -25,9 +25,10 @@
 import { Model } from 'mongoose';
 import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
-import { Category } from 'src/models/category.model/category.model';
+import { Category } from 'src/modules/category/category.model';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
-export declare class CategoryService {
+import { IService } from 'src/interfaces/service.interface';
+export declare class CategoryService implements IService<Category> {
     private categoryModel;
     private req;
     constructor(categoryModel: Model<Category>, req: AuthenticatedRequest);

@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CategoryService } from './category.service';
 import { Observable, map } from 'rxjs';
-import { Category } from 'src/models/category.model';
+import { Category } from 'src/modules/category/category.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
 

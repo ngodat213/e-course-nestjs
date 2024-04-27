@@ -24,10 +24,11 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
-import { CourseVideo } from 'src/models/course.video.model/course.video.model';
+import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import { Model } from 'mongoose';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
-export declare class CourseVideoService {
+import { IService } from 'src/interfaces/service.interface';
+export declare class CourseVideoService implements IService<CourseVideo> {
     private videoModel;
     private req;
     constructor(videoModel: Model<CourseVideo>, req: AuthenticatedRequest);

@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { FeedbackService } from './feedback.service';
 import { Observable, map } from 'rxjs';
-import { Feedback } from 'src/models/feedback.model';
+import { Feedback } from 'src/modules/feedback/feedback.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';
 

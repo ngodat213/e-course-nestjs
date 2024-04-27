@@ -1,12 +1,12 @@
 import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Observable, map } from 'rxjs';
-import { ExamLesson } from 'src/models/exam.lesson.model';
+import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 import { ExamLessonService } from './exam.lesson.service';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateExamLessonDTO, UpdateExamLessonDTO } from './exam.lesson.dto';
 import { Response } from 'express';
-import { ExamQuestion } from 'src/models/exam.question.model';
+import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 
 @ApiTags('Exam Lesson')
 @Controller({path: 'exam/lessons', scope: Scope.REQUEST})

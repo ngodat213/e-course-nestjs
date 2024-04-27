@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { ContactService } from './contact.service';
-import { Contact } from 'src/models/contact.model/contact.model';
+import { Contact } from 'src/modules/contact/contact.model';
 import { Observable } from 'rxjs';
 import { CreateContactDTO, UpdateContactDTO } from './contact.dto';
 export declare class ContactController {

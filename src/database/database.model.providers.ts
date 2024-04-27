@@ -1,17 +1,17 @@
 import { BLOG_MODEL, CATEGORY_MODEL, CONTACT_MODEL, COURSE_LESSON_MODEL, COURSE_MODEL, COURSE_ORDER_MODEL, COURSE_VIDEO_MODEL, DATABASE_CONNECTION, EXAM_HISTORY_MODEL, EXAM_LESSON_MODEL, EXAM_MODEL, EXAM_QUESTION_MODEL, FEEDBACK_MODEL, USER_MODEL } from './database.constants';
 import { Connection } from 'mongoose';
-import { createCourseModel } from 'src/models/course.model';
-import { createCourseLessonModel } from 'src/models/course.lesson.model';
-import { createCourseVideoModel } from 'src/models/course.video.model';
-import { createCourseOrderModel } from 'src/models/course.order.model';
-import { createExamModel } from 'src/models/exam.model';
-import { createExamLessonModel } from 'src/models/exam.lesson.model';
-import { createExamHistoryModel } from 'src/models/exam.history.model';
-import { createUserModel } from 'src/models/user.model';
-import { createFeedbackModel } from 'src/models/feedback.model';
-import { createBlogModel } from 'src/models/blog.model';
-import { createCategoryModel } from 'src/models/category.model';
-import { createContactModel } from 'src/models/contact.model';
+import { createCourseModel } from 'src/modules/course/course.model';
+import { createCourseLessonModel } from 'src/modules/course.lesson/course.lesson.model';
+import { createCourseVideoModel } from 'src/modules/course.video/course.video.model';
+import { createCourseOrderModel } from 'src/modules/course.order/course.order.model';
+import { createExamModel } from 'src/modules/exam/exam.model';
+import { createExamLessonModel } from 'src/modules/exam.lesson/exam.lesson.model';
+import { createExamHistoryModel } from 'src/modules/exam.history/exam.history.model';
+import { createUserModel } from 'src/modules/user/user.model';
+import { createFeedbackModel } from 'src/modules/feedback/feedback.model';
+import { createBlogModel } from 'src/modules/blog/blog.model';
+import { createCategoryModel } from 'src/modules/category/category.model';
+import { createContactModel } from 'src/modules/contact/contact.model';
 
   export const databaseModelsProviders = [
     // course

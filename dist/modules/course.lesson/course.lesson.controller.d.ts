@@ -1,9 +1,9 @@
 import { CourseLessonService } from './course.lesson.service';
-import { CourseLesson } from 'src/models/course.lesson.model/course.lesson.model';
+import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
 import { Observable } from 'rxjs';
 import { CreateCourseLessonDTO, UpdateCourseLessonDTO } from './course.lesson.dto';
 import { Response } from 'express';
-import { CourseVideo } from 'src/models/course.video.model/course.video.model';
+import { CourseVideo } from 'src/modules/course.video/course.video.model';
 export declare class CourseLessonController {
     private lessonService;
     constructor(lessonService: CourseLessonService);

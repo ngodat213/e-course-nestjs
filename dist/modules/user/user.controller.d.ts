@@ -1,6 +1,6 @@
 import { UserService } from './user.service';
 import { Observable } from 'rxjs';
-import { User } from 'src/models/user.model/user.model';
+import { User } from 'src/modules/user/user.model';
 import { RegisterDto } from './user.dto';
 import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';

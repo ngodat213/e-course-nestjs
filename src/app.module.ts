@@ -18,6 +18,9 @@ import { DatabaseModule } from './database/database.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { HelperModuleModule } from './helper/helper.module.module';
 import { ContactModule } from './modules/contact/contact.module';
+import { TeacherService } from './modules/teacher/teacher.service';
+import { TeacherController } from './modules/teacher/teacher.controller';
+import { TeacherModule } from './modules/teacher/teacher.module';
 
 @Module({
   imports: [
@@ -38,9 +41,10 @@ import { ContactModule } from './modules/contact/contact.module';
     BlogModule,
     CloudinaryModule,
     HelperModuleModule,
+    TeacherModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, TeacherController],
+  providers: [AppService, TeacherService],
   exports: [AppService]
 })
 export class AppModule {}

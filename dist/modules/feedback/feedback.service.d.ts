@@ -25,9 +25,10 @@
 import { Model } from 'mongoose';
 import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
-import { Feedback } from 'src/models/feedback.model/feedback.model';
+import { Feedback } from 'src/modules/feedback/feedback.model';
 import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';
-export declare class FeedbackService {
+import { IService } from 'src/interfaces/service.interface';
+export declare class FeedbackService implements IService<Feedback> {
     private feedbackModel;
     private req;
     constructor(feedbackModel: Model<Feedback>, req: AuthenticatedRequest);

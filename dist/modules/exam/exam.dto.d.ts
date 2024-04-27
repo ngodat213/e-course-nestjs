@@ -1,4 +1,5 @@
-export declare class CreateExamDTO {
+import { IDTO } from 'src/interfaces/dto.interface';
+export declare class CreateExamDTO implements IDTO {
     readonly title: string;
     readonly description: string;
     readonly category: string;

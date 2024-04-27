@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { ExamQuestionService } from './exam.question.service';
-import { ExamQuestion } from 'src/models/exam.question.model/exam.question.model';
+import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { Observable } from 'rxjs';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
 export declare class ExamQuestionController {

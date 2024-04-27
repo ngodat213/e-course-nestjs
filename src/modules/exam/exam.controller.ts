@@ -3,10 +3,10 @@ import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Observable, map } from 'rxjs';
 import { ExamService } from './exam.service';
-import { Exam } from 'src/models/exam.model';
+import { Exam } from 'src/modules/exam/exam.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateExamDTO, UpdateExamDTO } from './exam.dto';
-import { ExamLesson } from 'src/models/exam.lesson.model';
+import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 
 @ApiTags('Exam')
 @Controller({path: 'exams', scope: Scope.REQUEST})

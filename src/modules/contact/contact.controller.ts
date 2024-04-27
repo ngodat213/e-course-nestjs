@@ -2,7 +2,7 @@ import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, P
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ContactService } from './contact.service';
-import { Contact } from 'src/models/contact.model';
+import { Contact } from 'src/modules/contact/contact.model';
 import { Observable, map } from 'rxjs';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateContactDTO, UpdateContactDTO } from './contact.dto';

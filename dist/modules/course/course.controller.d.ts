@@ -1,9 +1,9 @@
 import { Response } from 'express';
 import { CourseService } from './course.service';
 import { Observable } from 'rxjs';
-import { Course } from 'src/models/course.model/course.model';
+import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
-import { CourseLesson } from 'src/models/course.lesson.model/course.lesson.model';
+import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
 export declare class CourseController {
     private courseService;
     constructor(courseService: CourseService);

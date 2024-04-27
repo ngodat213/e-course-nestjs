@@ -25,10 +25,11 @@
 import { Model } from 'mongoose';
 import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
-import { CourseLesson } from 'src/models/course.lesson.model/course.lesson.model';
-import { CourseVideo } from 'src/models/course.video.model/course.video.model';
+import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
+import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import { CreateCourseLessonDTO, UpdateCourseLessonDTO } from './course.lesson.dto';
-export declare class CourseLessonService {
+import { IService } from 'src/interfaces/service.interface';
+export declare class CourseLessonService implements IService<CourseLesson> {
     private lessonModel;
     private videoModel;
     private req;

@@ -25,9 +25,10 @@
 import { Model } from 'mongoose';
 import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
-import { ExamQuestion } from 'src/models/exam.question.model/exam.question.model';
+import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
-export declare class ExamQuestionService {
+import { IService } from 'src/interfaces/service.interface';
+export declare class ExamQuestionService implements IService<ExamQuestion> {
     private questionModel;
     private req;
     constructor(questionModel: Model<ExamQuestion>, req: AuthenticatedRequest);

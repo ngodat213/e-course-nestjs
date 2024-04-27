@@ -10,11 +10,13 @@ exports.ExamHistoryModule = void 0;
 const common_1 = require("@nestjs/common");
 const exam_history_controller_1 = require("./exam.history.controller");
 const exam_history_service_1 = require("./exam.history.service");
+const database_module_1 = require("../../database/database.module");
 let ExamHistoryModule = class ExamHistoryModule {
 };
 exports.ExamHistoryModule = ExamHistoryModule;
 exports.ExamHistoryModule = ExamHistoryModule = __decorate([
     (0, common_1.Module)({
+        imports: [database_module_1.DatabaseModule],
         controllers: [exam_history_controller_1.ExamHistoryController],
         providers: [exam_history_service_1.ExamHistoryService]
     })

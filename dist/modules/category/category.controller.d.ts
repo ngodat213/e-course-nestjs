@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { CategoryService } from './category.service';
 import { Observable } from 'rxjs';
-import { Category } from 'src/models/category.model/category.model';
+import { Category } from 'src/modules/category/category.model';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
 export declare class CategoryController {
     private categoryService;

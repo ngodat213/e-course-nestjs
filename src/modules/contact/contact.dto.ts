@@ -1,5 +1,4 @@
 import { IsString, IsEmail, IsDate, IsBoolean, IsOptional } from 'class-validator';
-import { Transform } from 'class-transformer';
 
 export class CreateContactDTO {
   @IsString()

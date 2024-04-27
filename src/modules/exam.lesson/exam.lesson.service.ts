@@ -4,8 +4,8 @@ import { Model } from 'mongoose';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { EXAM_LESSON_MODEL, EXAM_QUESTION_MODEL } from 'src/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
-import { ExamLesson } from 'src/models/exam.lesson.model';
-import { ExamQuestion } from 'src/models/exam.question.model';
+import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
+import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { CreateExamLessonDTO, UpdateExamLessonDTO } from './exam.lesson.dto';
 
 @Injectable({ scope: Scope.REQUEST })

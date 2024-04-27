@@ -10,11 +10,13 @@ exports.CourseOrderModule = void 0;
 const common_1 = require("@nestjs/common");
 const course_order_controller_1 = require("./course.order.controller");
 const course_order_service_1 = require("./course.order.service");
+const database_module_1 = require("../../database/database.module");
 let CourseOrderModule = class CourseOrderModule {
 };
 exports.CourseOrderModule = CourseOrderModule;
 exports.CourseOrderModule = CourseOrderModule = __decorate([
     (0, common_1.Module)({
+        imports: [database_module_1.DatabaseModule],
         controllers: [course_order_controller_1.CourseOrderController],
         providers: [course_order_service_1.CourseOrderService]
     })
