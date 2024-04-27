@@ -6,7 +6,6 @@ interface Contact extends Document{
   readonly mail: string,
   readonly text: string,
   readonly topic: string,
-  readonly submitAt: Date,
   readonly watched: Boolean,
 }
 
@@ -19,9 +18,8 @@ const ContactSchema = new Schema<Contact>(
     mail: {type: SchemaTypes.String, required: true},
     text: {type: SchemaTypes.String, required: true},
     topic: {type: SchemaTypes.String, required: true},
-    submitAt: {type: SchemaTypes.Date, required: true},
     watched: {type: SchemaTypes.Boolean, required: true},
-  }
+  },{ timestamps: true }
 )
 
 const createContactModel: (conn: Connection) => ContactModel = (

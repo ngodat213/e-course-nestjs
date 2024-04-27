@@ -5,7 +5,7 @@ import { TeacherModel} from '../teacher.model/teacher.model';
 import { ExamModel } from '../exam.model/exam.model';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 import { compare, hash } from 'bcrypt';
-import { Observable, from } from 'rxjs';
+import { Observable, from, map } from 'rxjs';
 
 interface User extends Document{
   comparePassword(password: string): Observable<boolean>;

@@ -16,6 +16,7 @@ import { FeedbackModule } from './modules/feedback/feedback.module';
 import { BlogModule } from './modules/blog/blog.module';
 import { DatabaseModule } from './database/database.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { HelperModuleModule } from './helper/helper.module.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     CategoryModule,
     BlogModule,
     CloudinaryModule,
+    HelperModuleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

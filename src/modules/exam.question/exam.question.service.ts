@@ -3,7 +3,7 @@ import { REQUEST } from '@nestjs/core';
 import { Model } from 'mongoose';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { EXAM_QUESTION_MODEL } from 'src/database/database.constants';
-import { AuthenticatedRequest } from 'src/auth/interfaces/authenticated.request.interface';
+import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamQuestion } from 'src/models/exam.question.model/exam.question.model';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
 

@@ -22,3 +22,9 @@ export class UserDto {
   readonly password: string;
   readonly roles?: RoleType[];
 }
+
+export class ChangePasswordDTO{
+  readonly email: string;
+  readonly oldPw: string;
+  readonly newPw: string;
+}

@@ -3,7 +3,7 @@ import { REQUEST } from '@nestjs/core';
 import { Model } from 'mongoose';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { COURSE_LESSON_MODEL, COURSE_MODEL } from 'src/database/database.constants';
-import { AuthenticatedRequest } from 'src/auth/interfaces/authenticated.request.interface';
+import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Course } from 'src/models/course.model/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { CourseLesson } from 'src/models/course.lesson.model/course.lesson.model';
