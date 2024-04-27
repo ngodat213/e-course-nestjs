@@ -3,7 +3,7 @@ import { REQUEST } from '@nestjs/core';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { COURSE_VIDEO_MODEL } from 'src/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
-import { CourseVideo } from 'src/models/course.video.model/course.video.model';
+import { CourseVideo } from 'src/models/course.video.model';
 import { Model } from 'mongoose';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
 

@@ -2,10 +2,10 @@ import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, P
 import { Response } from 'express';
 import { CourseService } from './course.service';
 import { Observable, map } from 'rxjs';
-import { Course } from 'src/models/course.model/course.model';
+import { Course } from 'src/models/course.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
-import { CourseLesson } from 'src/models/course.lesson.model/course.lesson.model';
+import { CourseLesson } from 'src/models/course.lesson.model';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Course')

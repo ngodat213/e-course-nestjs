@@ -1,5 +1,5 @@
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
-import { CourseLesson } from '../course.lesson.model/course.lesson.model';
+import { CourseLesson } from './course.lesson.model';
 
 interface CourseVideo extends Document{
   readonly part: Number;

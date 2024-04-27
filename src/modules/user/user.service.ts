@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { EMPTY, Observable, from, map, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { USER_MODEL } from 'src/database/database.constants';
-import { User, UserModel } from 'src/models/user.model/user.model';
+import { User, UserModel } from 'src/models/user.model';
 import { ChangePasswordDTO, RegisterDto } from './user.dto';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 import { UserPrincipal } from 'src/interfaces/user-principal.interface';

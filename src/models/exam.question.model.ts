@@ -1,5 +1,5 @@
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
-import { ExamLesson } from '../exam.lesson.model/exam.lesson.model';
+import { ExamLesson } from './exam.lesson.model';
 
 interface ExamQuestion extends Document{
     readonly question: string;

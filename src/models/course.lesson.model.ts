@@ -1,5 +1,5 @@
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
-import { CourseModel } from '../course.model/course.model';
+import { CourseModel } from './course.model';
 
 interface CourseLesson extends Document{
   readonly title: string;

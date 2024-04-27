@@ -2,7 +2,7 @@ import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, P
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ExamQuestionService } from './exam.question.service';
-import { ExamQuestion } from 'src/models/exam.question.model/exam.question.model';
+import { ExamQuestion } from 'src/models/exam.question.model';
 import { Observable, map } from 'rxjs';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';

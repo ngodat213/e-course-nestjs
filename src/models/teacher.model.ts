@@ -1,7 +1,7 @@
 import { Connection, Document, Model, Schema, SchemaType, SchemaTypes, connection } from 'mongoose';
-import { CourseModel } from '../course.model/course.model';
-import { BlogModel } from '../blog.model/blog.model';
-import { ExamModel } from '../exam.model/exam.model';
+import { CourseModel } from './course.model';
+import { BlogModel } from './blog.model';
+import { ExamModel } from './exam.model';
 
 interface Teacher extends Document{
   readonly description: string;

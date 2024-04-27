@@ -1,11 +1,11 @@
 import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope } from '@nestjs/common';
 import { CourseLessonService } from './course.lesson.service';
-import { CourseLesson } from 'src/models/course.lesson.model/course.lesson.model';
+import { CourseLesson } from 'src/models/course.lesson.model';
 import { Observable, map } from 'rxjs';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseLessonDTO, UpdateCourseLessonDTO } from './course.lesson.dto';
 import { Response } from 'express';
-import { CourseVideo } from 'src/models/course.video.model/course.video.model';
+import { CourseVideo } from 'src/models/course.video.model';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Course Lesson')

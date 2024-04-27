@@ -2,7 +2,7 @@ import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, P
 import { CourseVideoService } from './course.video.service';
 import { Observable, map } from 'rxjs';
 import { Response } from 'express';
-import { CourseVideo } from 'src/models/course.video.model/course.video.model';
+import { CourseVideo } from 'src/models/course.video.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
 import { ApiTags } from '@nestjs/swagger';

@@ -1,8 +1,8 @@
 import { Connection, Document, Model, Schema, SchemaType, SchemaTypes } from 'mongoose';
-import { Teacher } from '../teacher.model/teacher.model';
-import { CourseLessonModel } from '../course.lesson.model/course.lesson.model';
-import { FeedbackModel } from '../feedback.model/feedback.model';
-import { CategoryModel } from '../category.model/category.model';
+import { Teacher } from './teacher.model';
+import { CourseLessonModel } from './course.lesson.model';
+import { FeedbackModel } from './feedback.model';
+import { CategoryModel } from './category.model';
 
 interface Course extends Document{
 	readonly title: string;

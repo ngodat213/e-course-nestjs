@@ -1,8 +1,8 @@
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
-import { BlogModel } from '../blog.model/blog.model';
-import { CourseModel } from '../course.model/course.model';
-import { TeacherModel} from '../teacher.model/teacher.model';
-import { ExamModel } from '../exam.model/exam.model';
+import { BlogModel } from './blog.model';
+import { CourseModel } from './course.model';
+import { TeacherModel} from './teacher.model';
+import { ExamModel } from './exam.model';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 import { compare, hash } from 'bcrypt';
 import { Observable, from, map } from 'rxjs';

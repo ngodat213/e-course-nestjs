@@ -1,6 +1,6 @@
 import { Connection, Document, Model, Schema, SchemaType, SchemaTypes, connection } from 'mongoose';
-import { ExamModel } from '../exam.model/exam.model';
-import { UserModel } from '../user.model/user.model';
+import { ExamModel } from './exam.model';
+import { UserModel } from './user.model';
 
 interface ExamHistory extends Document{
   readonly user: Partial<UserModel>,

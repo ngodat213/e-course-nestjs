@@ -1,6 +1,6 @@
 import { Connection, Document, Model, Schema, SchemaType, SchemaTypes, connection } from 'mongoose';
-import { UserModel } from '../user.model/user.model';
-import { CourseModel } from '../course.model/course.model';
+import { UserModel } from './user.model';
+import { CourseModel } from './course.model';
 
 interface CourseOrder extends Document{
   readonly user: Partial<UserModel>,
