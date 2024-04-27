@@ -1,7 +1,6 @@
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
 
 interface Contact extends Document{
-  readonly _id: string,
   readonly fullName: string,
   readonly mail: string,
   readonly text: string,
@@ -13,7 +12,6 @@ type ContactModel = Model<Contact>;
 
 const ContactSchema = new Schema<Contact>(
   {
-    _id: SchemaTypes.ObjectId,
     fullName: {type: SchemaTypes.String, required: true},
     mail: {type: SchemaTypes.String, required: true},
     text: {type: SchemaTypes.String, required: true},

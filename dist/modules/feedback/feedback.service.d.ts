@@ -22,10 +22,19 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Connection, Document, Model } from 'mongoose';
-interface Category extends Document {
-    readonly category: string;
+import { Model } from 'mongoose';
+import { Observable } from 'rxjs';
+import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
+import { Feedback } from 'src/models/feedback.model/feedback.model';
+import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';
+export declare class FeedbackService {
+    private feedbackModel;
+    private req;
+    constructor(feedbackModel: Model<Feedback>, req: AuthenticatedRequest);
+    findAll(keyword?: string, skip?: number, limit?: number): Observable<Feedback[]>;
+    findById(id: string): Observable<Feedback>;
+    save(data: CreateFeedbackDTO): Observable<Feedback>;
+    update(id: string, data: UpdateFeedbackDTO): Observable<Feedback>;
+    deleteAll(): Observable<any>;
+    deleteById(id: string): Observable<Feedback>;
 }
-type CategoryModel = Model<Category>;
-declare const createCategoryModel: (conn: Connection) => CategoryModel;
-export { Category, CategoryModel, createCategoryModel };

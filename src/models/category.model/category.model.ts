@@ -1,7 +1,6 @@
 import { Connection, Document, Model, Schema, SchemaType, SchemaTypes } from 'mongoose';
 
 interface Category extends Document{
-	readonly _id: string;
 	readonly category: string;
 }
 
@@ -9,7 +8,6 @@ type CategoryModel = Model<Category>;
 
 const CategorySchema = new Schema<Category>(
 	{
-		_id: SchemaTypes.ObjectId,
 		category:{type: SchemaTypes.String, required: true},
 	}
 );

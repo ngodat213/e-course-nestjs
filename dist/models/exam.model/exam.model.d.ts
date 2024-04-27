@@ -24,7 +24,6 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
 interface Exam extends Document {
-    readonly _id: string;
     readonly title: string;
     readonly description: string;
     readonly category: string;

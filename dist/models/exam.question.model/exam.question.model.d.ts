@@ -25,7 +25,6 @@
 import { Connection, Document, Model } from 'mongoose';
 import { ExamLesson } from '../exam.lesson.model/exam.lesson.model';
 interface ExamQuestion extends Document {
-    readonly _id: string;
     readonly question: string;
     readonly options: [{
         string: any;

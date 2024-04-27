@@ -2,7 +2,6 @@ import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
 import { ExamLesson } from '../exam.lesson.model/exam.lesson.model';
 
 interface ExamQuestion extends Document{
-    readonly _id: string;
     readonly question: string;
     readonly options: [{string}];
     readonly answer: number;
@@ -14,7 +13,6 @@ type ExamQuestionModel = Model<ExamQuestion>;
 
 const ExamQuestionSchema = new Schema<ExamQuestion>(
   {
-    _id: SchemaTypes.ObjectId,
     question: {type: SchemaTypes.String, required: true},
     options: [{type: SchemaTypes.String, required: true}],
     answer: {type: SchemaTypes.Number, required: true},

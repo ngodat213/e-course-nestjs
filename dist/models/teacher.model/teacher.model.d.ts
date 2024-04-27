@@ -27,7 +27,6 @@ import { CourseModel } from '../course.model/course.model';
 import { BlogModel } from '../blog.model/blog.model';
 import { ExamModel } from '../exam.model/exam.model';
 interface Teacher extends Document {
-    readonly _id: string;
     readonly description: string;
     readonly courses: Partial<CourseModel>;
     readonly exams: Partial<ExamModel>;

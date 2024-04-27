@@ -26,7 +26,6 @@ import { Connection, Document, Model } from 'mongoose';
 import { ExamModel } from '../exam.model/exam.model';
 import { UserModel } from '../user.model/user.model';
 interface ExamHistory extends Document {
-    readonly _id: string;
     readonly user: Partial<UserModel>;
     readonly exam: Partial<ExamModel>;
     readonly submitAt: Date;

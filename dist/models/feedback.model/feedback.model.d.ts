@@ -26,10 +26,8 @@ import { Connection, Document, Model } from 'mongoose';
 import { UserModel } from '../user.model/user.model';
 import { CourseModel } from '../course.model/course.model';
 interface Feedback extends Document {
-    readonly _id: string;
     readonly user: Partial<UserModel>;
     readonly course: Partial<CourseModel>;
-    readonly submitAt: Date;
     readonly title: string;
     readonly rating: Number;
 }

@@ -26,7 +26,6 @@ import { Connection, Document, Model } from 'mongoose';
 import { UserModel } from '../user.model/user.model';
 import { CourseModel } from '../course.model/course.model';
 interface CourseOrder extends Document {
-    readonly _id: string;
     readonly user: Partial<UserModel>;
     readonly course: Partial<CourseModel>;
     readonly orderDate: Date;

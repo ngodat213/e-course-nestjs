@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCourseOrderModel = void 0;
 const mongoose_1 = require("mongoose");
 const CourseOrderSchema = new mongoose_1.Schema({
-    _id: mongoose_1.SchemaTypes.ObjectId,
     user: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'User' },
     course: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Course' },
     orderDate: { type: mongoose_1.SchemaTypes.Date, required: true },

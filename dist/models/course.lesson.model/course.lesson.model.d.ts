@@ -25,7 +25,6 @@
 import { Connection, Document, Model } from 'mongoose';
 import { CourseModel } from '../course.model/course.model';
 interface CourseLesson extends Document {
-    readonly _id: string;
     readonly title: string;
     readonly selection: Number;
     readonly course: Partial<CourseModel>;

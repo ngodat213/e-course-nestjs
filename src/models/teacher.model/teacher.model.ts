@@ -4,7 +4,6 @@ import { BlogModel } from '../blog.model/blog.model';
 import { ExamModel } from '../exam.model/exam.model';
 
 interface Teacher extends Document{
-  readonly _id: string;
   readonly description: string;
   readonly courses: Partial<CourseModel>
   readonly exams: Partial<ExamModel>
@@ -15,7 +14,6 @@ type TeacherModel = Model<Teacher>;
 
 const TeacherSchema = new Schema<Teacher>(
   {
-    _id: SchemaTypes.ObjectId,
     description: {type: SchemaTypes.String, required: true},
     courses: [{type: SchemaTypes.ObjectId, ref: "Course"}],
     exams: [{type: SchemaTypes.ObjectId, ref: "Exam"}],

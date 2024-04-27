@@ -24,7 +24,6 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
 interface Contact extends Document {
-    readonly _id: string;
     readonly fullName: string;
     readonly mail: string;
     readonly text: string;

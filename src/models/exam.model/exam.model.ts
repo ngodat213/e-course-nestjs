@@ -1,7 +1,6 @@
 import { Connection, Document, Model, Schema, SchemaType, SchemaTypes, connection } from 'mongoose';
 
 interface Exam extends Document{
-  readonly _id: string,
   readonly title: string,
   readonly description: string,
   readonly category: string,
@@ -12,7 +11,6 @@ type ExamModel = Model<Exam>;
 
 const ExamSchema = new Schema<Exam>(
   {
-    _id: SchemaTypes.ObjectId,
     title: {type: String, required: true},
     description: {type: String, required: true},
     category: {type: String, required: true},

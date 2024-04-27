@@ -25,7 +25,6 @@
 import { Connection, Document, Model } from 'mongoose';
 import { CourseLesson } from '../course.lesson.model/course.lesson.model';
 interface CourseVideo extends Document {
-    readonly _id: string;
     readonly part: Number;
     readonly title: string;
     readonly hour: Number;
