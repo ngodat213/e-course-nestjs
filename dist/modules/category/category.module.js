@@ -10,11 +10,13 @@ exports.CategoryModule = void 0;
 const common_1 = require("@nestjs/common");
 const category_controller_1 = require("./category.controller");
 const category_service_1 = require("./category.service");
+const database_module_1 = require("../../database/database.module");
 let CategoryModule = class CategoryModule {
 };
 exports.CategoryModule = CategoryModule;
 exports.CategoryModule = CategoryModule = __decorate([
     (0, common_1.Module)({
+        imports: [database_module_1.DatabaseModule],
         controllers: [category_controller_1.CategoryController],
         providers: [category_service_1.CategoryService]
     })

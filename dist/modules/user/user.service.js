@@ -36,8 +36,8 @@ let UserService = class UserService {
         });
         return (0, rxjs_1.from)(created);
     }
-    validateUser(username, pass) {
-        return this.findByEmail(username).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.UnauthorizedException(`username or password is not matched`)), (0, rxjs_1.mergeMap)((user) => {
+    validateUser(email, pass) {
+        return this.findByEmail(email).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.UnauthorizedException(`email: ${email} was not found`)), (0, rxjs_1.mergeMap)((user) => {
             const { _id, password, username, email, roles } = user;
             return user.comparePassword(pass).pipe((0, rxjs_1.map)(m => {
                 if (m) {
@@ -78,6 +78,9 @@ let UserService = class UserService {
         if (withFvQAs)
             userQuery.populate('favouritesQAs');
         return (0, rxjs_1.from)(userQuery.exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`user: $id was not found`)));
+    }
+    lock(id) {
+        return (0, rxjs_1.from)(this.userModel.findById(id));
     }
 };
 exports.UserService = UserService;

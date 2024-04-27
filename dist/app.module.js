@@ -25,6 +25,8 @@ const feedback_module_1 = require("./modules/feedback/feedback.module");
 const blog_module_1 = require("./modules/blog/blog.module");
 const database_module_1 = require("./database/database.module");
 const cloudinary_module_1 = require("./cloudinary/cloudinary.module");
+const helper_module_module_1 = require("./helper/helper.module.module");
+const contact_module_1 = require("./modules/contact/contact.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -33,6 +35,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({ ignoreEnvFile: true }),
             database_module_1.DatabaseModule,
+            contact_module_1.ContactModule,
             course_module_1.CourseModule,
             course_lesson_module_1.CourseLessonModule,
             course_video_module_1.CourseVideoModule,
@@ -46,6 +49,7 @@ exports.AppModule = AppModule = __decorate([
             category_module_1.CategoryModule,
             blog_module_1.BlogModule,
             cloudinary_module_1.CloudinaryModule,
+            helper_module_module_1.HelperModuleModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

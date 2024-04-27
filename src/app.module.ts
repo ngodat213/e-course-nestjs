@@ -17,11 +17,13 @@ import { BlogModule } from './modules/blog/blog.module';
 import { DatabaseModule } from './database/database.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { HelperModuleModule } from './helper/helper.module.module';
+import { ContactModule } from './modules/contact/contact.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ignoreEnvFile: true}),
     DatabaseModule,
+    ContactModule,
     CourseModule,
     CourseLessonModule,
     CourseVideoModule,

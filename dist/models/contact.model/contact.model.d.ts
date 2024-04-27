@@ -29,7 +29,6 @@ interface Contact extends Document {
     readonly mail: string;
     readonly text: string;
     readonly topic: string;
-    readonly submitAt: Date;
     readonly watched: Boolean;
 }
 type ContactModel = Model<Contact>;

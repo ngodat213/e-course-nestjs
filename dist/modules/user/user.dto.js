@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserDto = exports.RegisterDto = void 0;
+exports.ChangePasswordDTO = exports.UserDto = exports.RegisterDto = void 0;
 const class_validator_1 = require("class-validator");
 class RegisterDto {
 }
@@ -32,4 +32,7 @@ __decorate([
 class UserDto {
 }
 exports.UserDto = UserDto;
+class ChangePasswordDTO {
+}
+exports.ChangePasswordDTO = ChangePasswordDTO;
 //# sourceMappingURL=user.dto.js.map
