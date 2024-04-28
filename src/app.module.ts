@@ -39,12 +39,14 @@ import { TeacherModule } from './modules/teacher/teacher.module';
     FeedbackModule,
     CategoryModule,
     BlogModule,
+    TeacherModule,
     CloudinaryModule,
     HelperModuleModule,
-    TeacherModule,
   ],
   controllers: [AppController, TeacherController],
-  providers: [AppService, TeacherService],
+  providers: [
+    AppService, 
+    TeacherService,],
   exports: [AppService]
 })
 export class AppModule {}

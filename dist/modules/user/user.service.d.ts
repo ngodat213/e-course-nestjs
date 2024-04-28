@@ -8,7 +8,7 @@ export declare class UserService {
     private userModel;
     private jwtService;
     constructor(userModel: UserModel, jwtService: JwtService);
-    findByEmail(email: string): Observable<User>;
+    findByEmail(email: string): Observable<User | undefined>;
     exitsByEmail(email: string): Observable<boolean>;
     register(data: RegisterDto): Observable<User>;
     validateUser(email: string, pass: string): Observable<UserPrincipal>;

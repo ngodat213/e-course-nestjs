@@ -13,6 +13,7 @@ export class UserController {
   constructor(private userService: UserService){}
 
   @Get(':id')
+  // @UseGuards(AdminOnlyGuard )
   getUser(
     @Param('id', ParseObjectIdPipe) id: string,
     @Query('withCourses', new DefaultValuePipe(false)) withCourses: boolean,
@@ -38,20 +39,20 @@ export class UserController {
     );
   }
 
-  @Post('/login')
   @UseGuards(LocalAuthGuard)
+  @Post('/login')
   Login(
     @Req() req: AuthenticatedRequest, 
     @Res() res: Response
   ) : Observable<Response>{
     return this.userService.login(req.user).pipe(
-      map(token => {
-        return res
-        .header('Authorization', 'Bearer ' + token.access_token)
-        .json(token)
-        .send()
-      })
-    );
+        map(token => {
+          return res
+            .header('Authorization', 'Bearer ' + token.access_token)
+            .json(token)
+            .send()
+        })
+      );
   }
 
   @Post('/register')

@@ -5,8 +5,7 @@ import { TeacherModel} from '../teacher/teacher.model';
 import { ExamModel } from '../exam/exam.model';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 import { compare, hash } from 'bcrypt';
-import { Observable, from, map } from 'rxjs';
-import { Exclude } from 'class-transformer';
+import { Observable, from} from 'rxjs';
 
 interface User extends Document{
   comparePassword(password: string): Observable<boolean>;
@@ -31,7 +30,7 @@ type UserModel = Model<User>;
 const UserSchema = new Schema<User>(
    {
     email: {type: SchemaTypes.String, unique: true, required: true, match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/},
-    password: {type: SchemaTypes.String, required: true, select: false, excludeIndexes: false},
+    password: {type: SchemaTypes.String, required: true},
     username: {type: SchemaTypes.String, required: true},
     photoUrl: {type: SchemaTypes.String, default: "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"},
     roles: [{ type: SchemaTypes.String, enum: ['ADMIN','TEACHER', 'USER'], required: false },],
@@ -50,10 +49,8 @@ const UserSchema = new Schema<User>(
 async function preSaveHook(next) {
   if(!this.isModified('password')) return next();
 
-  // Hash the password
   const password = await hash(this.password, 12);
   this.set('password', password);
-
   next();
 }
 
@@ -65,19 +62,9 @@ function comparePasswordMethod(password: string): Observable<boolean> {
 
 UserSchema.methods.comparePassword = comparePasswordMethod;
 
-// Virtual course
-
-// Virtual exam
-
-// Virtual blog
-
-// Virtual favorite
-
-// Virtual finish
-
 const createUserModel: (conn: Connection) => UserModel = (
     connection: Connection,
   ) => connection.model<User>('User', UserSchema, 'Users');
 
-export { User, UserModel, createUserModel, UserSchema, preSaveHook, comparePasswordMethod, };
+export { User, UserModel, createUserModel, UserSchema, preSaveHook, comparePasswordMethod};
 

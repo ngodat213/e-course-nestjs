@@ -51,12 +51,15 @@ exports.AppModule = AppModule = __decorate([
             feedback_module_1.FeedbackModule,
             category_module_1.CategoryModule,
             blog_module_1.BlogModule,
+            teacher_module_1.TeacherModule,
             cloudinary_module_1.CloudinaryModule,
             helper_module_module_1.HelperModuleModule,
-            teacher_module_1.TeacherModule,
         ],
         controllers: [app_controller_1.AppController, teacher_controller_1.TeacherController],
-        providers: [app_service_1.AppService, teacher_service_1.TeacherService],
+        providers: [
+            app_service_1.AppService,
+            teacher_service_1.TeacherService,
+        ],
         exports: [app_service_1.AppService]
     })
 ], AppModule);

@@ -55,4 +55,4 @@ declare const UserSchema: Schema<User, Model<User, any, any, any, Document<unkno
 declare function preSaveHook(next: any): Promise<any>;
 declare function comparePasswordMethod(password: string): Observable<boolean>;
 declare const createUserModel: (conn: Connection) => UserModel;
-export { User, UserModel, createUserModel, UserSchema, preSaveHook, comparePasswordMethod, };
+export { User, UserModel, createUserModel, UserSchema, preSaveHook, comparePasswordMethod };

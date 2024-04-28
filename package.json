@@ -33,6 +33,7 @@
     "@types/hapi__joi": "^17.1.14",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
+    "chalk": "^4.1.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cloudinary": "^2.2.0",
@@ -77,14 +78,16 @@
       "ts"
     ],
     "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
+    "testRegex": ".spec.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      ".*(stub.ts)$"
+    ],
+    "testEnvironment": "node",
+    "preset": "ts-jest"
   }
 }

@@ -18,15 +18,17 @@ const user_service_1 = require("../../modules/user/user.service");
 let LocalStrategy = class LocalStrategy extends (0, passport_1.PassportStrategy)(passport_local_1.Strategy) {
     constructor(authService) {
         super({
-            usernameField: 'username',
+            usernameField: 'email',
             passwordField: 'password',
         });
         this.authService = authService;
     }
-    validate(username, password) {
-        return this.authService
-            .validateUser(username, password)
-            .pipe((0, rxjs_1.throwIfEmpty)(() => new common_1.UnauthorizedException()));
+    async validate(email, password) {
+        const user = await (0, rxjs_1.lastValueFrom)(this.authService.validateUser(email, password));
+        if (!user) {
+            throw new common_1.UnauthorizedException();
+        }
+        return user;
     }
 };
 exports.LocalStrategy = LocalStrategy;

@@ -67,8 +67,8 @@ __decorate([
     __metadata("design:returntype", rxjs_1.Observable)
 ], UserController.prototype, "getUser", null);
 __decorate([
-    (0, common_1.Post)('/login'),
     (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
+    (0, common_1.Post)('/login'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

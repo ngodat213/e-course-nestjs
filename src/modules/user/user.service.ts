@@ -1,14 +1,13 @@
 import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { EMPTY, Observable, from, map, mergeMap, of, throwIfEmpty } from 'rxjs';
-import { USER_MODEL } from 'src/database/database.constants';
+import { USER_MODEL } from '../../database/database.constants';
 import { User, UserModel } from 'src/modules/user/user.model';
-import { ChangePasswordDTO, RegisterDto } from './user.dto';
-import { RoleType } from 'src/shared/enum/role.type.enum';
+import { RegisterDto } from './user.dto';
+import { RoleType } from '../../shared/enum/role.type.enum';
 import { UserPrincipal } from 'src/interfaces/user-principal.interface';
 import { TokenResult } from 'src/interfaces/auth.interface';
 import { JwtPayload } from 'src/interfaces/jwt.interface';
 import { JwtService } from '@nestjs/jwt';
-import { UNDEFINED } from 'src/constants/value.constant';
 
 @Injectable()
 export class UserService {
@@ -17,7 +16,7 @@ export class UserService {
     private jwtService: JwtService,
   ){}
 
-  findByEmail(email: string): Observable<User> {
+  findByEmail(email: string): Observable<User | undefined> {
     return from(this.userModel.findOne({ email: email }).exec());
   }
 
@@ -98,14 +97,15 @@ export class UserService {
     return from(this.userModel.findById(id))
   }
 
-  // // Changed password
+  // Changed password
   // changePassword(data: ChangePasswordDTO): Observable<UserPrincipal>{
   //   return this.findByEmail(data.email).pipe(
   //     mergeMap((p) => (p ? of(p) : EMPTY)),
   //     throwIfEmpty(() => new UnauthorizedException(`email: ${data.email} was not found`)),
 
   //     mergeMap((user) => {
-  //       return user.password = data.newPw;
+  //       user.password = data.newPw;
+  //       return user as UserPrincipal;
   //     })
   //   )
   // }
