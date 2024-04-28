@@ -61,6 +61,19 @@ let UserService = class UserService {
             return { access_token };
         }));
     }
+    findAll(keyword, skip = 0, limit = 10) {
+        if (keyword) {
+            return (0, rxjs_1.from)(this.userModel
+                .find({ title: { $regex: '.*' + keyword + '.*' } })
+                .skip(skip)
+                .limit(limit)
+                .exec());
+        }
+        else {
+            console.log(`-${skip} ${limit} ----`);
+            return (0, rxjs_1.from)(this.userModel.find({}).skip(skip).limit(limit).exec());
+        }
+    }
     findById(id, withCourses = false, withExams = false, withBlogs = false, withQAs = false, withFvCourses = false, withFvExams = false, withFvTeacher = false, withFvQAs = false) {
         const userQuery = this.userModel.findOne({ _id: id });
         if (withCourses)

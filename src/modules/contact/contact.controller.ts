@@ -18,7 +18,7 @@ export class ContactController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
   ): Observable<Contact[]>{
-    return this.contactSerivce.findAll(keyword, limit, skip);
+    return this.contactSerivce.findAll(keyword, skip, limit);
   }
 
   @Get(':id')

@@ -18,7 +18,7 @@ export class CourseVideoController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
   ): Observable<CourseVideo[]>{
-    return this.videoService.findAll(keyword, limit, skip);
+    return this.videoService.findAll(keyword, skip, limit);
   }
 
   @Get(':id')

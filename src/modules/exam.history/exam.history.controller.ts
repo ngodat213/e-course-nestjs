@@ -19,7 +19,7 @@ export class ExamHistoryController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
   ): Observable<ExamHistory[]>{
-    return this.historyService.findAll(keyword, limit, skip);
+    return this.historyService.findAll(keyword, skip, limit);
   }
 
   @Get(':id')

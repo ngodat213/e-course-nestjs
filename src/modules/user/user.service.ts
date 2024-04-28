@@ -67,6 +67,20 @@ export class UserService {
     );
   }
 
+  findAll(keyword?: string, skip = 0, limit = 10): Observable<User[]>{
+    if(keyword){
+      return from(
+        this.userModel
+        .find({title: {$regex: '.*' + keyword + '.*'}})
+        .skip(skip)
+        .limit(limit)
+        .exec(),
+      );
+    }else{
+      return from(this.userModel.find({}).skip(skip).limit(limit).exec());
+    }
+  }
+
   findById(id: string, 
     withCourses = false, 
     withExams = false, 

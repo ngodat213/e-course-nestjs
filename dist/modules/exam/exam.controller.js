@@ -24,7 +24,7 @@ let ExamController = class ExamController {
         this.examService = examService;
     }
     getAllExams(keyword, limit, skip) {
-        return this.examService.findAll(keyword, limit, skip);
+        return this.examService.findAll(keyword, skip, limit);
     }
     getExamById(id) {
         return this.examService.findById(id);

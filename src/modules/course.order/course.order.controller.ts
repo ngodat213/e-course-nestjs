@@ -18,7 +18,7 @@ export class CourseOrderController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
   ): Observable<CourseOrder[]>{
-    return this.orderService.findAll(keyword, limit, skip);
+    return this.orderService.findAll(keyword, skip, limit);
   }
 
   @Get(':id')

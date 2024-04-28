@@ -24,7 +24,7 @@ let CourseVideoController = class CourseVideoController {
         this.videoService = videoService;
     }
     getAllVideos(keyword, limit, skip) {
-        return this.videoService.findAll(keyword, limit, skip);
+        return this.videoService.findAll(keyword, skip, limit);
     }
     getCourseById(id) {
         return this.videoService.findById(id);

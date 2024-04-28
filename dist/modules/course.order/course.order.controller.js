@@ -24,7 +24,7 @@ let CourseOrderController = class CourseOrderController {
         this.orderService = orderService;
     }
     getAllCourseOrders(keyword, limit, skip) {
-        return this.orderService.findAll(keyword, limit, skip);
+        return this.orderService.findAll(keyword, skip, limit);
     }
     getCourseOrderById(id) {
         return this.orderService.findById(id);

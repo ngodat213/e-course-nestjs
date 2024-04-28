@@ -1,4 +1,4 @@
-import { Body, ConflictException, Controller, DefaultValuePipe, Get, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, ConflictException, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { Observable, map, mergeMap } from 'rxjs';
@@ -7,13 +7,14 @@ import { RegisterDto } from './user.dto';
 import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
+import { AdminOnlyGuard  } from 'src/auth/guard/admin.only.guard';
 
 @Controller({ path: "/users" })
 export class UserController {
   constructor(private userService: UserService){}
 
   @Get(':id')
-  // @UseGuards(AdminOnlyGuard )
+  @UseGuards(AdminOnlyGuard)
   getUser(
     @Param('id', ParseObjectIdPipe) id: string,
     @Query('withCourses', new DefaultValuePipe(false)) withCourses: boolean,
@@ -37,6 +38,16 @@ export class UserController {
       withFvTeacher, 
       withFvQAs
     );
+  }
+
+  @Get()
+  @UseGuards(AdminOnlyGuard)
+  GetAllUsers(
+    @Query('q') keyword? :string,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
+    @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
+  ):Observable<User[]>{
+    return this.userService.findAll(keyword,skip, limit);
   }
 
   @UseGuards(LocalAuthGuard)

@@ -19,7 +19,7 @@ export class ExamController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
   ): Observable<Exam[]>{
-    return this.examService.findAll(keyword, limit, skip);
+    return this.examService.findAll(keyword, skip, limit);
   }
 
   @Get(':id')

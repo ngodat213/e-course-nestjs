@@ -12,7 +12,6 @@ let AdminOnlyGuard = class AdminOnlyGuard {
     canActivate(context) {
         const request = context.switchToHttp().getRequest();
         const token = request.headers.authorization['Bearer'];
-        console.log(token);
         return true;
     }
 };

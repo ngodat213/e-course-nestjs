@@ -19,7 +19,7 @@ export class CourseLessonController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
   ): Observable<CourseLesson[]>{
-    return this.lessonService.findAll(keyword, limit, skip);
+    return this.lessonService.findAll(keyword, skip, limit);
   }
 
   @Get(':id')

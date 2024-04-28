@@ -13,6 +13,7 @@ export declare class UserService {
     register(data: RegisterDto): Observable<User>;
     validateUser(email: string, pass: string): Observable<UserPrincipal>;
     login(user: UserPrincipal): Observable<TokenResult>;
+    findAll(keyword?: string, skip?: number, limit?: number): Observable<User[]>;
     findById(id: string, withCourses?: boolean, withExams?: boolean, withBlogs?: boolean, withQAs?: boolean, withFvCourses?: boolean, withFvExams?: boolean, withFvTeacher?: boolean, withFvQAs?: boolean): Observable<User>;
     lock(id: string): Observable<User>;
 }

@@ -24,7 +24,7 @@ let FeedbackController = class FeedbackController {
         this.feedbackService = feedbackService;
     }
     getAllFeedbacks(keyword, limit, skip) {
-        return this.feedbackService.findAll(keyword, limit, skip);
+        return this.feedbackService.findAll(keyword, skip, limit);
     }
     getFeedbackById(id) {
         return this.feedbackService.findById(id);

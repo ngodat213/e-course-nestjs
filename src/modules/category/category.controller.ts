@@ -18,7 +18,7 @@ export class CategoryController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
   ): Observable<Category[]>{
-    return this.categoryService.findAll(keyword, limit, skip);
+    return this.categoryService.findAll(keyword, skip, limit);
   }
 
   @Get(':id')

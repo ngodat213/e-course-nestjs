@@ -24,7 +24,7 @@ let CategoryController = class CategoryController {
         this.categoryService = categoryService;
     }
     getAllCategorys(keyword, limit, skip) {
-        return this.categoryService.findAll(keyword, limit, skip);
+        return this.categoryService.findAll(keyword, skip, limit);
     }
     getCategoryById(id) {
         return this.categoryService.findById(id);

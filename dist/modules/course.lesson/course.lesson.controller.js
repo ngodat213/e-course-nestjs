@@ -24,7 +24,7 @@ let CourseLessonController = class CourseLessonController {
         this.lessonService = lessonService;
     }
     getAllLessons(keyword, limit, skip) {
-        return this.lessonService.findAll(keyword, limit, skip);
+        return this.lessonService.findAll(keyword, skip, limit);
     }
     getLessonById(id) {
         return this.lessonService.findById(id);

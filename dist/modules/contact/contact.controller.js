@@ -24,7 +24,7 @@ let ContactController = class ContactController {
         this.contactSerivce = contactSerivce;
     }
     getAllContacts(keyword, limit, skip) {
-        return this.contactSerivce.findAll(keyword, limit, skip);
+        return this.contactSerivce.findAll(keyword, skip, limit);
     }
     getContactById(id) {
         return this.contactSerivce.findById(id);

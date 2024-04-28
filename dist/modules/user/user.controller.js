@@ -19,6 +19,7 @@ const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe")
 const rxjs_1 = require("rxjs");
 const user_dto_1 = require("./user.dto");
 const local_auth_guard_1 = require("../../auth/guard/local-auth.guard");
+const admin_only_guard_1 = require("../../auth/guard/admin.only.guard");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -27,6 +28,9 @@ let UserController = class UserController {
         return this
             .userService
             .findById(id, withCourses, withExams, withBlogs, withQAs, withFvCourses, withFvExams, withFvTeacher, withFvQAs);
+    }
+    GetAllUsers(keyword, limit, skip) {
+        return this.userService.findAll(keyword, skip, limit);
     }
     Login(req, res) {
         return this.userService.login(req.user).pipe((0, rxjs_1.map)(token => {
@@ -53,6 +57,7 @@ let UserController = class UserController {
 exports.UserController = UserController;
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, common_1.UseGuards)(admin_only_guard_1.AdminOnlyGuard),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Query)('withCourses', new common_1.DefaultValuePipe(false))),
     __param(2, (0, common_1.Query)('withExams', new common_1.DefaultValuePipe(false))),
@@ -66,6 +71,16 @@ __decorate([
     __metadata("design:paramtypes", [String, Boolean, Boolean, Boolean, Boolean, Boolean, Boolean, Boolean, Boolean]),
     __metadata("design:returntype", rxjs_1.Observable)
 ], UserController.prototype, "getUser", null);
+__decorate([
+    (0, common_1.Get)(),
+    (0, common_1.UseGuards)(admin_only_guard_1.AdminOnlyGuard),
+    __param(0, (0, common_1.Query)('q')),
+    __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
+    __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number, Number]),
+    __metadata("design:returntype", rxjs_1.Observable)
+], UserController.prototype, "GetAllUsers", null);
 __decorate([
     (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
     (0, common_1.Post)('/login'),

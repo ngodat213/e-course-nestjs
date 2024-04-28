@@ -24,7 +24,7 @@ let CourseController = class CourseController {
         this.courseService = courseService;
     }
     getAllCourses(keyword, limit, skip) {
-        return this.courseService.findAll(keyword, limit, skip);
+        return this.courseService.findAll(keyword, skip, limit);
     }
     getCourseById(id) {
         return this.courseService.findById(id);

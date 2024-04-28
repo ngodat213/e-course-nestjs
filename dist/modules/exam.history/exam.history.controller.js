@@ -24,7 +24,7 @@ let ExamHistoryController = class ExamHistoryController {
         this.historyService = historyService;
     }
     getAllExamHistorys(keyword, limit, skip) {
-        return this.historyService.findAll(keyword, limit, skip);
+        return this.historyService.findAll(keyword, skip, limit);
     }
     getExamHistoryById(id) {
         return this.historyService.findById(id);

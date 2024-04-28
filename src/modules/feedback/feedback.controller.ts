@@ -18,7 +18,7 @@ export class FeedbackController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
   ): Observable<Feedback[]>{
-    return this.feedbackService.findAll(keyword, limit, skip);
+    return this.feedbackService.findAll(keyword,skip, limit);
   }
 
   @Get(':id')
