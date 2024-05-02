@@ -16,7 +16,7 @@ const ContactSchema = new Schema<Contact>(
     mail: {type: SchemaTypes.String, required: true},
     text: {type: SchemaTypes.String, required: true},
     topic: {type: SchemaTypes.String, required: true},
-    watched: {type: SchemaTypes.Boolean, required: true},
+    watched: {type: SchemaTypes.Boolean, default: false},
   },{ timestamps: true }
 )
 

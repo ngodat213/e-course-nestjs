@@ -30,6 +30,10 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateContactDTO.prototype, "topic", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], CreateContactDTO.prototype, "watched", void 0);
 class UpdateContactDTO {
 }
 exports.UpdateContactDTO = UpdateContactDTO;

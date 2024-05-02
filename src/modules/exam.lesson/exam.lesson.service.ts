@@ -26,7 +26,7 @@ export class ExamLessonService {
         .exec()
       );
     }else{
-      from(this.lessonModel.find({}).skip(skip).limit(limit).exec());
+      return from(this.lessonModel.find({}).skip(skip).limit(limit).exec());
     }
   }
 

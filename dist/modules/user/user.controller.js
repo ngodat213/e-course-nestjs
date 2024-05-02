@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
-const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const rxjs_1 = require("rxjs");
 const user_dto_1 = require("./user.dto");
 const local_auth_guard_1 = require("../../auth/guard/local-auth.guard");
@@ -26,11 +25,6 @@ const auth_guard_1 = require("../../auth/guard/auth.guard");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
-    }
-    getUser(id, withCourses, withExams, withBlogs, withQAs, withFvCourses, withFvExams, withFvTeacher, withFvQAs) {
-        return this
-            .userService
-            .findById(id, withCourses, withExams, withBlogs, withQAs, withFvCourses, withFvExams, withFvTeacher, withFvQAs);
     }
     GetAllUsers(keyword, limit, skip) {
         return this.userService.findAll(keyword, skip, limit);
@@ -62,25 +56,9 @@ let UserController = class UserController {
 };
 exports.UserController = UserController;
 __decorate([
-    (0, common_1.Get)(':id'),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
-    __param(1, (0, common_1.Query)('withCourses', new common_1.DefaultValuePipe(false))),
-    __param(2, (0, common_1.Query)('withExams', new common_1.DefaultValuePipe(false))),
-    __param(3, (0, common_1.Query)('withBlogs', new common_1.DefaultValuePipe(false))),
-    __param(4, (0, common_1.Query)('withQAs', new common_1.DefaultValuePipe(false))),
-    __param(5, (0, common_1.Query)('withFvCourses', new common_1.DefaultValuePipe(false))),
-    __param(6, (0, common_1.Query)('withFvExams', new common_1.DefaultValuePipe(false))),
-    __param(7, (0, common_1.Query)('withFvTeacher', new common_1.DefaultValuePipe(false))),
-    __param(8, (0, common_1.Query)('withFvQAs', new common_1.DefaultValuePipe(false))),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Boolean, Boolean, Boolean, Boolean, Boolean, Boolean, Boolean, Boolean]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], UserController.prototype, "getUser", null);
-__decorate([
     (0, common_1.Get)(),
+    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER'])),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['Admin'])),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
@@ -89,7 +67,7 @@ __decorate([
     __metadata("design:returntype", rxjs_1.Observable)
 ], UserController.prototype, "GetAllUsers", null);
 __decorate([
-    (0, common_1.Post)('/current-user'),
+    (0, common_1.Get)('/current'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, current_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),

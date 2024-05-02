@@ -17,45 +17,46 @@ import { AuthGuard } from 'src/auth/guard/auth.guard';
 export class UserController {
   constructor(private userService: UserService){}
 
-  @Get(':id')
-  @UseGuards(AuthGuard)
-  getUser(
-    @Param('id', ParseObjectIdPipe) id: string,
-    @Query('withCourses', new DefaultValuePipe(false)) withCourses: boolean,
-    @Query('withExams', new DefaultValuePipe(false)) withExams: boolean,
-    @Query('withBlogs', new DefaultValuePipe(false)) withBlogs: boolean,
-    @Query('withQAs', new DefaultValuePipe(false)) withQAs: boolean,
-    @Query('withFvCourses', new DefaultValuePipe(false)) withFvCourses: boolean,
-    @Query('withFvExams', new DefaultValuePipe(false)) withFvExams: boolean,
-    @Query('withFvTeacher', new DefaultValuePipe(false)) withFvTeacher: boolean,
-    @Query('withFvQAs', new DefaultValuePipe(false)) withFvQAs: boolean,
-  ): Observable<Partial<User>>{
-    return this
-    .userService
-    .findById(id, 
-      withCourses, 
-      withExams, 
-      withBlogs, 
-      withQAs, 
-      withFvCourses, 
-      withFvExams, 
-      withFvTeacher, 
-      withFvQAs
-    );
-  }
+  // @Get(':id')
+  // @UseGuards(new RoleGuard(['user']))
+  // @UseGuards(AuthGuard)
+  // getUser(
+  //   @Param('id', ParseObjectIdPipe) id: string,
+  //   @Query('withCourses', new DefaultValuePipe(false)) withCourses: boolean,
+  //   @Query('withExams', new DefaultValuePipe(false)) withExams: boolean,
+  //   @Query('withBlogs', new DefaultValuePipe(false)) withBlogs: boolean,
+  //   @Query('withQAs', new DefaultValuePipe(false)) withQAs: boolean,
+  //   @Query('withFvCourses', new DefaultValuePipe(false)) withFvCourses: boolean,
+  //   @Query('withFvExams', new DefaultValuePipe(false)) withFvExams: boolean,
+  //   @Query('withFvTeacher', new DefaultValuePipe(false)) withFvTeacher: boolean,
+  //   @Query('withFvQAs', new DefaultValuePipe(false)) withFvQAs: boolean,
+  // ): Observable<Partial<User>>{
+  //   return this
+  //   .userService
+  //   .findById(id, 
+  //     withCourses, 
+  //     withExams, 
+  //     withBlogs, 
+  //     withQAs, 
+  //     withFvCourses, 
+  //     withFvExams, 
+  //     withFvTeacher, 
+  //     withFvQAs
+  //   );
+  // }
 
   @Get()
+  @UseGuards(new RoleGuard(['USER']))
   @UseGuards(AuthGuard)
-  @UseGuards(new RoleGuard(['Admin']))
   GetAllUsers(
     @Query('q') keyword? :string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
   ):Observable<User[]>{
-    return this.userService.findAll(keyword,skip, limit);
+    return this.userService.findAll(keyword, skip, limit);
   }
 
-  @Post('/current-user')
+  @Get('/current')
   @UseGuards(AuthGuard)
   GetCurrentUser(@GetUser() user: User) {
     return user;

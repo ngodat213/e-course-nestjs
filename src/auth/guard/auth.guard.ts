@@ -22,8 +22,8 @@ export class AuthGuard implements CanActivate{
           secret: process.env.JWT_SECRET_KEY,
         });
 
-        const user = await this.userService.findByEmail(payload.email);
-
+        const user = await this.userService.findOneByEmail(payload.email);
+        console.log(user);
         if (!user) {
           throw new BadRequestException(
             'User not belong to token, please try again',

@@ -24,7 +24,7 @@ export class ContactService {
         .exec()
       );
     }else{
-      from(this.contactModel.find({}).skip(skip).limit(limit).exec());
+      return from(this.contactModel.find({}).skip(skip).limit(limit).exec());
     }
   }
 

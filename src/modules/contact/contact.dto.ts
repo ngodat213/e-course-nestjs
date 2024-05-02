@@ -12,6 +12,9 @@ export class CreateContactDTO {
 
   @IsString()
   topic: string;
+
+  @IsBoolean()
+  watched?: boolean;
 }
 
 export class UpdateContactDTO {

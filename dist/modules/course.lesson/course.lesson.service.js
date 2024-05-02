@@ -33,7 +33,7 @@ let CourseLessonService = class CourseLessonService {
                 .exec());
         }
         else {
-            (0, rxjs_1.from)(this.lessonModel.find({}).skip(skip).limit(limit).exec());
+            return (0, rxjs_1.from)(this.lessonModel.find({}).skip(skip).limit(limit).exec());
         }
     }
     findById(id) {

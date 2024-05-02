@@ -3,6 +3,7 @@ export declare class CreateContactDTO {
     mail: string;
     text: string;
     topic: string;
+    watched?: boolean;
 }
 export declare class UpdateContactDTO {
     fullName?: string;

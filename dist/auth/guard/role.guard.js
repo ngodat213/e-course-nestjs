@@ -17,8 +17,10 @@ let RoleGuard = class RoleGuard {
     }
     canActivate(context) {
         const request = context.switchToHttp().getRequest();
-        console.log(request.user);
-        return false;
+        const role = request.user.roles;
+        console.log(role);
+        const isRole = this.roles.includes(role);
+        return this.roles.includes(role);
     }
 };
 exports.RoleGuard = RoleGuard;

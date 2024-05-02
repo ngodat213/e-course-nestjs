@@ -20,6 +20,10 @@ export class UserService {
     return from(this.userModel.findOne({ email: email }).select('-password').exec());
   }
 
+  findOneByEmail(email: string) {
+    return this.userModel.findOne({ email });
+  }
+
   exitsByEmail(email: string): Observable<boolean>{
     return from(this.userModel.exists({email}).exec()).pipe(
       map((exits) => exits != null),
