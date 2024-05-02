@@ -47,7 +47,8 @@ let CourseService = class CourseService {
     }
     update(id, data) {
         return (0, rxjs_1.from)(this.courseModel
-            .findOneAndUpdate({ _id: id }, { ...data, updateBy: { _id: this.req.user.id } }, { new: true })
+            .findOneAndUpdate({ _id: id }, { ...data,
+        }, { new: true })
             .exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`course: $id was not found`)));
     }
     deleteAll() {

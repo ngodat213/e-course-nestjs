@@ -23,10 +23,8 @@ export declare class UpdateCourseDTO {
     readonly imagePublicId?: string;
     readonly videoIntroduce?: string;
     readonly videoPublicId?: string;
-    readonly time?: string;
+    readonly time?: number;
     readonly language?: string;
-    readonly updateAt?: Date;
-    readonly createAt?: Date;
     readonly teacherId?: string;
     readonly category?: string;
 }

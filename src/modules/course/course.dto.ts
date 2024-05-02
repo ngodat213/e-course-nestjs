@@ -114,23 +114,13 @@ export class UpdateCourseDTO {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsString()
-  readonly time?: string;
+  @IsNumber()
+  readonly time?: number;
 
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   readonly language?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsDate()
-  readonly updateAt?: Date;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsDate()
-  readonly createAt?: Date;
 
   @ApiProperty({ required: false })
   @IsOptional()

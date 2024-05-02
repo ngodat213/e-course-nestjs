@@ -50,7 +50,9 @@ export class CourseService {
       this.courseModel
       .findOneAndUpdate(
         {_id: id},
-        {...data, updateBy: {_id: this.req.user.id}},
+        {...data,
+          //  updateBy: {_id: this.req.user.id},
+          },
         {new: true},
       )
       .exec(),
