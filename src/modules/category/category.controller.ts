@@ -45,7 +45,7 @@ export class CategoryController {
   updateCategory(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() category: UpdateCategoryDTO,
-    @Res() res: Response,
+    @Res() res: Response, 
   ) :Observable<Response>{
     return this.categoryService.update(id, category).pipe(
       map((category) => {

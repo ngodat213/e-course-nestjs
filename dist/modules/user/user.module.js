@@ -38,7 +38,7 @@ exports.UserModule = UserModule = __decorate([
             })
         ],
         controllers: [user_controller_1.UserController],
-        exports: [user_service_1.UserService],
+        exports: [user_service_1.UserService, passport_1.PassportModule],
         providers: [user_service_1.UserService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy]
     })
 ], UserModule);

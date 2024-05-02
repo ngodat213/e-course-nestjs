@@ -35,8 +35,8 @@ let UserController = class UserController {
     GetAllUsers(keyword, limit, skip) {
         return this.userService.findAll(keyword, skip, limit);
     }
-    GetCurrentUser(currentUser) {
-        console.log(currentUser);
+    GetCurrentUser(user) {
+        return user;
     }
     Login(req, res) {
         return this.userService.login(req.user).pipe((0, rxjs_1.map)(token => {
@@ -89,9 +89,9 @@ __decorate([
     __metadata("design:returntype", rxjs_1.Observable)
 ], UserController.prototype, "GetAllUsers", null);
 __decorate([
-    (0, common_1.Get)('/current-user'),
+    (0, common_1.Post)('/current-user'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __param(0, (0, current_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
@@ -116,7 +116,6 @@ __decorate([
 exports.UserController = UserController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: "/users" }),
-    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map

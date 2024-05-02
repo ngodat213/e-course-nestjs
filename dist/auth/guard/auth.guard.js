@@ -29,7 +29,10 @@ let AuthGuard = class AuthGuard {
                 secret: process.env.JWT_SECRET_KEY,
             });
             const user = await this.userService.findOneByEmail(payload.email);
-            request.currentUser = user;
+            if (!user) {
+                throw new common_1.BadRequestException('User not belong to token, please try again');
+            }
+            request.user = user;
         }
         catch (error) {
             throw new common_1.ForbiddenException('Invalid token or expired');

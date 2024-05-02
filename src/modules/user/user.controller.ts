@@ -7,14 +7,13 @@ import { RegisterDto } from './user.dto';
 import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
-import { CurrentUser } from 'src/decorators/current.user.decorator';
+import { GetUser } from 'src/decorators/current.user.decorator';
 import { ApiBearerAuth, ApiSecurity } from '@nestjs/swagger';
 import { RoleGuard } from 'src/auth/guard/role.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 @ApiBearerAuth()
 @Controller({ path: "/users" })
-@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(private userService: UserService){}
 
@@ -56,10 +55,10 @@ export class UserController {
     return this.userService.findAll(keyword,skip, limit);
   }
 
-  @Get('/current-user')
+  @Post('/current-user')
   @UseGuards(AuthGuard)
-  GetCurrentUser(@CurrentUser() currentUser: User) {
-    console.log(currentUser);
+  GetCurrentUser(@GetUser() user: User) {
+    return user;
   }
 
   @Post('/login')
@@ -100,5 +99,4 @@ export class UserController {
       })
     );
   }
-  
 }
