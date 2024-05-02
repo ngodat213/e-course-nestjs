@@ -17,7 +17,7 @@ export class UserService {
   ){}
 
   findByEmail(email: string): Observable<User | undefined> {
-    return from(this.userModel.findOne({ email: email }).select('-password').exec());
+    return from(this.userModel.findOne({ email: email }).exec());
   }
 
   findOneByEmail(email: string) {

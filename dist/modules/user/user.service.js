@@ -24,7 +24,7 @@ let UserService = class UserService {
         this.jwtService = jwtService;
     }
     findByEmail(email) {
-        return (0, rxjs_1.from)(this.userModel.findOne({ email: email }).select('-password').exec());
+        return (0, rxjs_1.from)(this.userModel.findOne({ email: email }).exec());
     }
     findOneByEmail(email) {
         return this.userModel.findOne({ email });
