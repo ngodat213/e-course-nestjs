@@ -134,13 +134,13 @@ export class UpdateCourseDTO {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsObject()
-  readonly teacherId?: { id: string };
+  @IsString()
+  readonly teacherId?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsObject()
-  readonly category?: { id: string };
+  @IsString()
+  readonly category?: string;
 }
 
 

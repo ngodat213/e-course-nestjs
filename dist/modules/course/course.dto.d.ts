@@ -27,10 +27,6 @@ export declare class UpdateCourseDTO {
     readonly language?: string;
     readonly updateAt?: Date;
     readonly createAt?: Date;
-    readonly teacherId?: {
-        id: string;
-    };
-    readonly category?: {
-        id: string;
-    };
+    readonly teacherId?: string;
+    readonly category?: string;
 }
