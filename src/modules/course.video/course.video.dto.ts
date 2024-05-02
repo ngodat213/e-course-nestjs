@@ -35,8 +35,8 @@ export class CreateCourseVideoDTO {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsObject()
-  readonly lesson?: { id: string }; // Assuming lesson is an object with an id property
+  @IsString()
+  readonly lesson?: string; // Assuming lesson is an object with an id property
 }
 
 export class UpdateCourseVideoDTO {
@@ -72,6 +72,6 @@ export class UpdateCourseVideoDTO {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsObject()
-  readonly lesson?: { id: string }; // Assuming lesson is an object with an id property
+  @IsString()
+  readonly lesson?: string ;
 }

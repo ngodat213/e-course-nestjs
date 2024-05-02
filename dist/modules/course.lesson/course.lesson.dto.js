@@ -30,8 +30,8 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsObject)(),
-    __metadata("design:type", Object)
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
 ], CreateCourseLessonDTO.prototype, "course", void 0);
 class UpdateCourseLessonDTO {
 }
@@ -51,7 +51,7 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsObject)(),
-    __metadata("design:type", Object)
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
 ], UpdateCourseLessonDTO.prototype, "course", void 0);
 //# sourceMappingURL=course.lesson.dto.js.map
