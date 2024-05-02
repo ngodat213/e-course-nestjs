@@ -17,7 +17,7 @@ export class UserService {
   ){}
 
   findByEmail(email: string): Observable<User | undefined> {
-    return from(this.userModel.findOne({ email: email }).exec());
+    return from(this.userModel.findOne({ email: email }).select('-password').exec());
   }
 
   exitsByEmail(email: string): Observable<boolean>{
@@ -72,12 +72,13 @@ export class UserService {
       return from(
         this.userModel
         .find({title: {$regex: '.*' + keyword + '.*'}})
+        .select('-password')
         .skip(skip)
         .limit(limit)
         .exec(),
       );
     }else{
-      return from(this.userModel.find({}).skip(skip).limit(limit).exec());
+      return from(this.userModel.find({}).select('-password').skip(skip).limit(limit).exec());
     }
   }
 
@@ -91,7 +92,7 @@ export class UserService {
     withFvTeacher = false,
     withFvQAs = false,
   ): Observable<User>{
-    const userQuery = this.userModel.findOne({_id: id});
+    const userQuery = this.userModel.findOne({_id: id}).select('-password');
     if(withCourses) userQuery.populate('courses');
     if(withExams) userQuery.populate('finishedExams');
     if(withBlogs) userQuery.populate('blogs');

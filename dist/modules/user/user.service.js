@@ -24,7 +24,7 @@ let UserService = class UserService {
         this.jwtService = jwtService;
     }
     findByEmail(email) {
-        return (0, rxjs_1.from)(this.userModel.findOne({ email: email }).exec());
+        return (0, rxjs_1.from)(this.userModel.findOne({ email: email }).select('-password').exec());
     }
     exitsByEmail(email) {
         return (0, rxjs_1.from)(this.userModel.exists({ email }).exec()).pipe((0, rxjs_1.map)((exits) => exits != null));
@@ -65,16 +65,17 @@ let UserService = class UserService {
         if (keyword) {
             return (0, rxjs_1.from)(this.userModel
                 .find({ title: { $regex: '.*' + keyword + '.*' } })
+                .select('-password')
                 .skip(skip)
                 .limit(limit)
                 .exec());
         }
         else {
-            return (0, rxjs_1.from)(this.userModel.find({}).skip(skip).limit(limit).exec());
+            return (0, rxjs_1.from)(this.userModel.find({}).select('-password').skip(skip).limit(limit).exec());
         }
     }
     findById(id, withCourses = false, withExams = false, withBlogs = false, withQAs = false, withFvCourses = false, withFvExams = false, withFvTeacher = false, withFvQAs = false) {
-        const userQuery = this.userModel.findOne({ _id: id });
+        const userQuery = this.userModel.findOne({ _id: id }).select('-password');
         if (withCourses)
             userQuery.populate('courses');
         if (withExams)

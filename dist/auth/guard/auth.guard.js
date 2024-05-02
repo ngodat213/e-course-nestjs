@@ -28,7 +28,7 @@ let AuthGuard = class AuthGuard {
             const payload = await this.jwtService.verifyAsync(token, {
                 secret: process.env.JWT_SECRET_KEY,
             });
-            const user = await this.userService.findOneByEmail(payload.email);
+            const user = await this.userService.findByEmail(payload.email);
             if (!user) {
                 throw new common_1.BadRequestException('User not belong to token, please try again');
             }
