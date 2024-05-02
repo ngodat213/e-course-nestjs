@@ -1,6 +1,6 @@
 export declare class CreateCategoryDTO {
-    readonly title: string;
+    readonly category: string;
 }
 export declare class UpdateCategoryDTO {
-    readonly title?: string;
+    readonly category?: string;
 }

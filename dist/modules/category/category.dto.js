@@ -18,7 +18,7 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], CreateCategoryDTO.prototype, "title", void 0);
+], CreateCategoryDTO.prototype, "category", void 0);
 class UpdateCategoryDTO {
 }
 exports.UpdateCategoryDTO = UpdateCategoryDTO;
@@ -26,5 +26,5 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], UpdateCategoryDTO.prototype, "title", void 0);
+], UpdateCategoryDTO.prototype, "category", void 0);
 //# sourceMappingURL=category.dto.js.map

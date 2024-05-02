@@ -19,7 +19,10 @@ const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe")
 const rxjs_1 = require("rxjs");
 const user_dto_1 = require("./user.dto");
 const local_auth_guard_1 = require("../../auth/guard/local-auth.guard");
-const admin_only_guard_1 = require("../../auth/guard/admin.only.guard");
+const current_user_decorator_1 = require("../../decorators/current.user.decorator");
+const swagger_1 = require("@nestjs/swagger");
+const role_guard_1 = require("../../auth/guard/role.guard");
+const auth_guard_1 = require("../../auth/guard/auth.guard");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -31,6 +34,9 @@ let UserController = class UserController {
     }
     GetAllUsers(keyword, limit, skip) {
         return this.userService.findAll(keyword, skip, limit);
+    }
+    GetCurrentUser(currentUser) {
+        console.log(currentUser);
     }
     Login(req, res) {
         return this.userService.login(req.user).pipe((0, rxjs_1.map)(token => {
@@ -57,7 +63,7 @@ let UserController = class UserController {
 exports.UserController = UserController;
 __decorate([
     (0, common_1.Get)(':id'),
-    (0, common_1.UseGuards)(admin_only_guard_1.AdminOnlyGuard),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Query)('withCourses', new common_1.DefaultValuePipe(false))),
     __param(2, (0, common_1.Query)('withExams', new common_1.DefaultValuePipe(false))),
@@ -73,7 +79,8 @@ __decorate([
 ], UserController.prototype, "getUser", null);
 __decorate([
     (0, common_1.Get)(),
-    (0, common_1.UseGuards)(admin_only_guard_1.AdminOnlyGuard),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['Admin'])),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
@@ -82,8 +89,16 @@ __decorate([
     __metadata("design:returntype", rxjs_1.Observable)
 ], UserController.prototype, "GetAllUsers", null);
 __decorate([
-    (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
+    (0, common_1.Get)('/current-user'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "GetCurrentUser", null);
+__decorate([
     (0, common_1.Post)('/login'),
+    (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -99,7 +114,9 @@ __decorate([
     __metadata("design:returntype", rxjs_1.Observable)
 ], UserController.prototype, "Register", null);
 exports.UserController = UserController = __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: "/users" }),
+    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map

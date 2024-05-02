@@ -22,4 +22,4 @@ exports.HelperModuleModule = HelperModuleModule = __decorate([
         exports: services
     })
 ], HelperModuleModule);
-//# sourceMappingURL=helper.module.module.js.map
+//# sourceMappingURL=helper.module.js.map

@@ -9,6 +9,7 @@ export declare class UserController {
     constructor(userService: UserService);
     getUser(id: string, withCourses: boolean, withExams: boolean, withBlogs: boolean, withQAs: boolean, withFvCourses: boolean, withFvExams: boolean, withFvTeacher: boolean, withFvQAs: boolean): Observable<Partial<User>>;
     GetAllUsers(keyword?: string, limit?: number, skip?: number): Observable<User[]>;
+    GetCurrentUser(currentUser: User): void;
     Login(req: AuthenticatedRequest, res: Response): Observable<Response>;
     Register(registerDto: RegisterDto, res: Response): Observable<Response>;
 }

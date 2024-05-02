@@ -1,4 +1,4 @@
-import { Body, ConflictException, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, ConflictException, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Query, Req, Request, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { Observable, map, mergeMap } from 'rxjs';
@@ -7,14 +7,19 @@ import { RegisterDto } from './user.dto';
 import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
-import { AdminOnlyGuard  } from 'src/auth/guard/admin.only.guard';
+import { CurrentUser } from 'src/decorators/current.user.decorator';
+import { ApiBearerAuth, ApiSecurity } from '@nestjs/swagger';
+import { RoleGuard } from 'src/auth/guard/role.guard';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
 
+@ApiBearerAuth()
 @Controller({ path: "/users" })
+@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(private userService: UserService){}
 
   @Get(':id')
-  @UseGuards(AdminOnlyGuard)
+  @UseGuards(AuthGuard)
   getUser(
     @Param('id', ParseObjectIdPipe) id: string,
     @Query('withCourses', new DefaultValuePipe(false)) withCourses: boolean,
@@ -41,7 +46,8 @@ export class UserController {
   }
 
   @Get()
-  @UseGuards(AdminOnlyGuard)
+  @UseGuards(AuthGuard)
+  @UseGuards(new RoleGuard(['Admin']))
   GetAllUsers(
     @Query('q') keyword? :string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
@@ -50,8 +56,14 @@ export class UserController {
     return this.userService.findAll(keyword,skip, limit);
   }
 
-  @UseGuards(LocalAuthGuard)
+  @Get('/current-user')
+  @UseGuards(AuthGuard)
+  GetCurrentUser(@CurrentUser() currentUser: User) {
+    console.log(currentUser);
+  }
+
   @Post('/login')
+  @UseGuards(LocalAuthGuard)
   Login(
     @Req() req: AuthenticatedRequest, 
     @Res() res: Response
@@ -88,4 +100,5 @@ export class UserController {
       })
     );
   }
+  
 }

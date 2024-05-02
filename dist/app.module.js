@@ -25,7 +25,7 @@ const feedback_module_1 = require("./modules/feedback/feedback.module");
 const blog_module_1 = require("./modules/blog/blog.module");
 const database_module_1 = require("./database/database.module");
 const cloudinary_module_1 = require("./cloudinary/cloudinary.module");
-const helper_module_module_1 = require("./helper/helper.module.module");
+const helper_module_1 = require("./helper/helper.module");
 const contact_module_1 = require("./modules/contact/contact.module");
 const teacher_service_1 = require("./modules/teacher/teacher.service");
 const teacher_controller_1 = require("./modules/teacher/teacher.controller");
@@ -53,7 +53,7 @@ exports.AppModule = AppModule = __decorate([
             blog_module_1.BlogModule,
             teacher_module_1.TeacherModule,
             cloudinary_module_1.CloudinaryModule,
-            helper_module_module_1.HelperModuleModule,
+            helper_module_1.HelperModuleModule,
         ],
         controllers: [app_controller_1.AppController, teacher_controller_1.TeacherController],
         providers: [
