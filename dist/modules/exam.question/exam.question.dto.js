@@ -10,32 +10,38 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateExamQuestionDTO = exports.CreateExamQuestionDTO = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class CreateExamQuestionDTO {
 }
 exports.CreateExamQuestionDTO = CreateExamQuestionDTO;
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateExamQuestionDTO.prototype, "question", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.IsString)({ each: true }),
     __metadata("design:type", Array)
 ], CreateExamQuestionDTO.prototype, "options", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], CreateExamQuestionDTO.prototype, "answer", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsUrl)(),
     __metadata("design:type", String)
 ], CreateExamQuestionDTO.prototype, "imageUrl", void 0);
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsObject)(),
     __metadata("design:type", Object)
 ], CreateExamQuestionDTO.prototype, "exam", void 0);
@@ -43,27 +49,32 @@ class UpdateExamQuestionDTO {
 }
 exports.UpdateExamQuestionDTO = UpdateExamQuestionDTO;
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateExamQuestionDTO.prototype, "question", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.IsString)({ each: true }),
     __metadata("design:type", Array)
 ], UpdateExamQuestionDTO.prototype, "options", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], UpdateExamQuestionDTO.prototype, "answer", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsUrl)(),
     __metadata("design:type", String)
 ], UpdateExamQuestionDTO.prototype, "imageUrl", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.ValidateNested)(),
     __metadata("design:type", Object)

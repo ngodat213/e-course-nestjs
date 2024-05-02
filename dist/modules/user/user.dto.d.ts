@@ -1,4 +1,4 @@
-import { RoleType } from "src/shared/enum/role.type.enum";
+import { RoleType } from 'src/shared/enum/role.type.enum';
 export declare class RegisterDto {
     readonly username: string;
     readonly email: string;

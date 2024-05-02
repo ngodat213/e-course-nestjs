@@ -4,9 +4,11 @@ export declare class CreateFeedbackDTO {
     readonly title: string;
     readonly rating: number;
 }
-export declare class UpdateFeedbackDTO {
+declare const UpdateFeedbackDTO_base: import("@nestjs/mapped-types").MappedType<Partial<CreateFeedbackDTO>>;
+export declare class UpdateFeedbackDTO extends UpdateFeedbackDTO_base {
     readonly userId?: string;
     readonly courseId?: string;
     readonly title?: string;
     readonly rating?: number;
 }
+export {};

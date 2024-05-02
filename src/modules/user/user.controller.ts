@@ -8,7 +8,7 @@ import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
 import { GetUser } from 'src/decorators/current.user.decorator';
-import { ApiBearerAuth, ApiSecurity } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiProperty, ApiSecurity } from '@nestjs/swagger';
 import { RoleGuard } from 'src/auth/guard/role.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 
@@ -64,6 +64,7 @@ export class UserController {
 
   @Post('/login')
   @UseGuards(LocalAuthGuard)
+  @ApiProperty()
   Login(
     @Req() req: AuthenticatedRequest, 
     @Res() res: Response

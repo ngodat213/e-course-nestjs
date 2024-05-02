@@ -77,6 +77,7 @@ __decorate([
 __decorate([
     (0, common_1.Post)('/login'),
     (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
+    (0, swagger_1.ApiProperty)(),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

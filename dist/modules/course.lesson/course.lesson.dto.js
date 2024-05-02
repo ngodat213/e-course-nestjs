@@ -11,20 +11,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateCourseLessonDTO = exports.CreateCourseLessonDTO = void 0;
 const class_validator_1 = require("class-validator");
+const swagger_1 = require("@nestjs/swagger");
 class CreateCourseLessonDTO {
 }
 exports.CreateCourseLessonDTO = CreateCourseLessonDTO;
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateCourseLessonDTO.prototype, "title", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], CreateCourseLessonDTO.prototype, "selection", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsObject)(),
     __metadata("design:type", Object)
@@ -33,16 +37,19 @@ class UpdateCourseLessonDTO {
 }
 exports.UpdateCourseLessonDTO = UpdateCourseLessonDTO;
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateCourseLessonDTO.prototype, "title", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], UpdateCourseLessonDTO.prototype, "selection", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsObject)(),
     __metadata("design:type", Object)

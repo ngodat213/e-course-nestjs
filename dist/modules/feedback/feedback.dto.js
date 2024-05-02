@@ -10,45 +10,55 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateFeedbackDTO = exports.CreateFeedbackDTO = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
+const mapped_types_1 = require("@nestjs/mapped-types");
 class CreateFeedbackDTO {
 }
 exports.CreateFeedbackDTO = CreateFeedbackDTO;
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateFeedbackDTO.prototype, "userId", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateFeedbackDTO.prototype, "courseId", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateFeedbackDTO.prototype, "title", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], CreateFeedbackDTO.prototype, "rating", void 0);
-class UpdateFeedbackDTO {
+class UpdateFeedbackDTO extends (0, mapped_types_1.PartialType)(CreateFeedbackDTO) {
 }
 exports.UpdateFeedbackDTO = UpdateFeedbackDTO;
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsMongoId)(),
     __metadata("design:type", String)
 ], UpdateFeedbackDTO.prototype, "userId", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsMongoId)(),
     __metadata("design:type", String)
 ], UpdateFeedbackDTO.prototype, "courseId", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateFeedbackDTO.prototype, "title", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)

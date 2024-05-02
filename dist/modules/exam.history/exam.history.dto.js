@@ -10,21 +10,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateExamHistoryDTO = exports.CreateExamHistoryDTO = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class CreateExamHistoryDTO {
 }
 exports.CreateExamHistoryDTO = CreateExamHistoryDTO;
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsMongoId)(),
     __metadata("design:type", String)
 ], CreateExamHistoryDTO.prototype, "userId", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsMongoId)(),
     __metadata("design:type", String)
 ], CreateExamHistoryDTO.prototype, "examId", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
@@ -33,16 +37,19 @@ class UpdateExamHistoryDTO {
 }
 exports.UpdateExamHistoryDTO = UpdateExamHistoryDTO;
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsMongoId)(),
     __metadata("design:type", String)
 ], UpdateExamHistoryDTO.prototype, "userId", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsMongoId)(),
     __metadata("design:type", String)
 ], UpdateExamHistoryDTO.prototype, "examId", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)

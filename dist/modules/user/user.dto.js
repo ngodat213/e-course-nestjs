@@ -10,29 +10,66 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChangePasswordDTO = exports.UserDto = exports.RegisterDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
+const role_type_enum_1 = require("../../shared/enum/role.type.enum");
 class RegisterDto {
 }
 exports.RegisterDto = RegisterDto;
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "username", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "email", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.MinLength)(8, { message: " The min length of password is 8 " }),
-    (0, class_validator_1.MaxLength)(20, { message: " The password can't accept more than 20 characters " }),
+    (0, class_validator_1.MinLength)(8, { message: "The min length of password is 8" }),
+    (0, class_validator_1.MaxLength)(20, { message: "The password can't accept more than 20 characters" }),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "password", void 0);
 class UserDto {
 }
 exports.UserDto = UserDto;
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], UserDto.prototype, "id", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], UserDto.prototype, "username", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], UserDto.prototype, "email", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], UserDto.prototype, "password", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ type: role_type_enum_1.RoleType, isArray: true, required: false }),
+    __metadata("design:type", Array)
+], UserDto.prototype, "roles", void 0);
 class ChangePasswordDTO {
 }
 exports.ChangePasswordDTO = ChangePasswordDTO;
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], ChangePasswordDTO.prototype, "email", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], ChangePasswordDTO.prototype, "oldPw", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], ChangePasswordDTO.prototype, "newPw", void 0);
 //# sourceMappingURL=user.dto.js.map
