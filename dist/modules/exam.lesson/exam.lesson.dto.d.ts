@@ -5,9 +5,7 @@ export declare class CreateExamLessonDTO {
     readonly second: number;
     readonly selection: number;
     readonly point: number;
-    readonly exam?: {
-        id: string;
-    };
+    readonly exam?: string;
 }
 export declare class UpdateExamLessonDTO {
     readonly title?: string;
@@ -16,7 +14,5 @@ export declare class UpdateExamLessonDTO {
     readonly second?: number;
     readonly selection?: number;
     readonly point?: number;
-    readonly exam?: {
-        id: string;
-    };
+    readonly exam?: string;
 }

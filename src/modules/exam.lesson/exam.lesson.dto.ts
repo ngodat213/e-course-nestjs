@@ -34,8 +34,8 @@ export class CreateExamLessonDTO {
 
   @ApiProperty({ required: false }) // For optional properties
   @IsOptional()
-  @IsObject()
-  readonly exam?: { id: string };
+  @IsString()
+  readonly exam?: string;
 }
 
 export class UpdateExamLessonDTO {
@@ -71,6 +71,6 @@ export class UpdateExamLessonDTO {
 
   @ApiProperty({ required: false }) // For optional properties
   @IsOptional()
-  @IsObject()
-  readonly exam?: { id: string };
+  @IsString()
+  readonly exam?: string;
 }
