@@ -21,10 +21,10 @@ export class CategoryService {
         .find({title: {$regex: '.*' + keyword + '.*'}})
         .skip(skip)
         .limit(limit)
-        .exec()
+        .exec(),
       );
     }else{
-      from(this.categoryModel.find({}).skip(skip).limit(limit).exec());
+      return from(this.categoryModel.find({}).skip(skip).limit(limit).exec());
     }
   }
 
