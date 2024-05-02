@@ -30,14 +30,14 @@ const CourseSchema = new Schema<Course>(
     price: {type: SchemaTypes.Number, required: true},
 		description: {type: SchemaTypes.String, required: true},
 		rating: {type: SchemaTypes.Number, default: 5},
-		register: {type: SchemaTypes.Number, required: true},
+		register: {type: SchemaTypes.Number, default: 0},
 		imageIntroduce:{type: SchemaTypes.String, required: true},
 		imagePublicId:{type: SchemaTypes.String, required: true},
     videoIntroduce:{type: SchemaTypes.String, required: true},
 		videoPublicId:{type: SchemaTypes.String, required: true},
 		time: {type: SchemaTypes.Number, required: true},
     language: {type: SchemaTypes.String, required: true},
-    teacher: {type: SchemaTypes.ObjectId, ref: 'Teacher'},
+    teacher: {type: SchemaTypes.ObjectId, ref: 'User'},
 		category: {type: SchemaTypes.ObjectId, ref: 'Category'},
 	},{ timestamps: true }
 );

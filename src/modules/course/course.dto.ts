@@ -47,8 +47,8 @@ export class CreateCourseDTO {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsString()
-  readonly time: string;
+  @IsNumber()
+  readonly time: number;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -57,13 +57,13 @@ export class CreateCourseDTO {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsObject()
-  readonly teacher: { id: string };
+  @IsString()
+  readonly teacher: string ;
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsObject()
-  readonly category: { id: string };
+  @IsString()
+  readonly category: string;
 }
 
 export class UpdateCourseDTO {

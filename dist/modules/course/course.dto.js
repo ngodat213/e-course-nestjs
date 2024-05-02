@@ -74,8 +74,8 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
 ], CreateCourseDTO.prototype, "time", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
@@ -86,14 +86,14 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsObject)(),
-    __metadata("design:type", Object)
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
 ], CreateCourseDTO.prototype, "teacher", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsObject)(),
-    __metadata("design:type", Object)
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
 ], CreateCourseDTO.prototype, "category", void 0);
 class UpdateCourseDTO {
 }

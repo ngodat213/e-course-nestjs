@@ -8,14 +8,10 @@ export declare class CreateCourseDTO {
     readonly imagePublicId: string;
     readonly videoIntroduce: string;
     readonly videoPublicId: string;
-    readonly time: string;
+    readonly time: number;
     readonly language: string;
-    readonly teacher: {
-        id: string;
-    };
-    readonly category: {
-        id: string;
-    };
+    readonly teacher: string;
+    readonly category: string;
 }
 export declare class UpdateCourseDTO {
     readonly title?: string;

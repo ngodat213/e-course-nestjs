@@ -7,14 +7,14 @@ const CourseSchema = new mongoose_1.Schema({
     price: { type: mongoose_1.SchemaTypes.Number, required: true },
     description: { type: mongoose_1.SchemaTypes.String, required: true },
     rating: { type: mongoose_1.SchemaTypes.Number, default: 5 },
-    register: { type: mongoose_1.SchemaTypes.Number, required: true },
+    register: { type: mongoose_1.SchemaTypes.Number, default: 0 },
     imageIntroduce: { type: mongoose_1.SchemaTypes.String, required: true },
     imagePublicId: { type: mongoose_1.SchemaTypes.String, required: true },
     videoIntroduce: { type: mongoose_1.SchemaTypes.String, required: true },
     videoPublicId: { type: mongoose_1.SchemaTypes.String, required: true },
     time: { type: mongoose_1.SchemaTypes.Number, required: true },
     language: { type: mongoose_1.SchemaTypes.String, required: true },
-    teacher: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Teacher' },
+    teacher: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'User' },
     category: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Category' },
 }, { timestamps: true });
 const createCourseModel = (connection) => connection.model('Course', CourseSchema, 'Courses');
