@@ -23,6 +23,7 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
+import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Category } from 'src/modules/category/category.model';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
@@ -34,5 +35,5 @@ export declare class CategoryService {
     findById(id: string): Promise<Category>;
     save(data: CreateCategoryDTO): Promise<Category>;
     updateById(id: string, category: UpdateCategoryDTO): Promise<Category>;
-    deleteById(id: string): Promise<Category>;
+    deleteById(id: string): Observable<Category>;
 }

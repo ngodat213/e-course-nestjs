@@ -61,10 +61,6 @@ export declare const databaseModelsProviders: ({
     inject: string[];
 } | {
     provide: string;
-    useFactory: (connection: Connection) => import("src/modules/blog/blog.model").BlogModel;
-    inject: string[];
-} | {
-    provide: string;
     useFactory: (connection: Connection) => import("src/modules/category/category.model").CategoryModel;
     inject: string[];
 } | {

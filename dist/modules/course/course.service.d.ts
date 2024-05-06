@@ -23,6 +23,7 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
+import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
@@ -39,6 +40,6 @@ export declare class CourseService {
     save(data: CreateCourseDTO): Promise<Course>;
     updateById(id: string, Course: UpdateCourseDTO): Promise<Course>;
     deleteAll(): Promise<any>;
-    deleteById(id: string): Promise<Course>;
+    deleteById(id: string): Observable<Course>;
     lessonsOf(id: string): Promise<CourseLesson[]>;
 }

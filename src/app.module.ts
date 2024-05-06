@@ -13,14 +13,10 @@ import { CategoryModule } from './modules/category/category.module';
 import { CourseOrderModule } from './modules/course.order/course.order.module';
 import { ExamHistoryModule } from './modules/exam.history/exam.history.module';
 import { FeedbackModule } from './modules/feedback/feedback.module';
-import { BlogModule } from './modules/blog/blog.module';
 import { DatabaseModule } from './database/database.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { HelperModuleModule } from './helper/helper.module';
 import { ContactModule } from './modules/contact/contact.module';
-import { TeacherService } from './modules/teacher/teacher.service';
-import { TeacherController } from './modules/teacher/teacher.controller';
-import { TeacherModule } from './modules/teacher/teacher.module';
 
 @Module({
   imports: [
@@ -38,15 +34,12 @@ import { TeacherModule } from './modules/teacher/teacher.module';
     UserModule,
     FeedbackModule,
     CategoryModule,
-    BlogModule,
-    TeacherModule,
     CloudinaryModule,
     HelperModuleModule,
   ],
-  controllers: [AppController, TeacherController],
+  controllers: [AppController],
   providers: [
-    AppService, 
-    TeacherService,],
+    AppService],
   exports: [AppService]
 })
 export class AppModule {}

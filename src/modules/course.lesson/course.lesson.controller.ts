@@ -46,10 +46,15 @@ export class CourseLessonController {
   }
 
   @Delete(':id')
-  deleteCourseLessonById(
+  deleteLessonById(
     @Param('id', ParseObjectIdPipe) id: string,
-  ): Promise<CourseLesson>{
-    return this.lessonService.deleteById(id);
+    @Res() res: Response,
+  ): Observable<Response>{
+    return this.lessonService.deleteById(id).pipe(
+      map((lesson) => {
+        return res.status(204).send();
+      }),
+    );
   }
 
   @Get(':id/videos')

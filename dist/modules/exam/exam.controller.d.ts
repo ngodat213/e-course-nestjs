@@ -1,4 +1,5 @@
 import { Response } from 'express';
+import { Observable } from 'rxjs';
 import { ExamService } from './exam.service';
 import { Exam } from 'src/modules/exam/exam.model';
 import { CreateExamDTO, UpdateExamDTO } from './exam.dto';
@@ -10,6 +11,6 @@ export declare class ExamController {
     getExamById(id: string): Promise<Exam>;
     createExam(exam: CreateExamDTO): Promise<Exam>;
     updateExam(id: string, exam: UpdateExamDTO, res: Response): Promise<Exam>;
-    deleteExamById(id: string): Promise<Exam>;
+    deleteExamById(id: string, res: Response): Observable<Response>;
     getAllLessonsOfExam(id: string): Promise<ExamLesson[]>;
 }

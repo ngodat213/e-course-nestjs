@@ -23,24 +23,17 @@ let FeedbackController = class FeedbackController {
     constructor(feedbackService) {
         this.feedbackService = feedbackService;
     }
-    getAllFeedbacks(keyword, limit, skip) {
-        return this.feedbackService.findAll(keyword, skip, limit);
+    getAllExams(keywordUser, keywordCourse, limit, skip) {
+        return this.feedbackService.findAll(keywordUser, keywordCourse, skip, limit);
     }
-    getFeedbackById(id) {
+    getExamById(id) {
         return this.feedbackService.findById(id);
     }
-    createFeedback(feedback, res) {
-        return this.feedbackService.save(feedback).pipe((0, rxjs_1.map)((feedback) => {
-            return res
-                .location('/feedbacks/' + feedback._id)
-                .status(201)
-                .send();
-        }));
+    createExam(exam) {
+        return this.feedbackService.save(exam);
     }
-    updateFeedback(id, ceedback, res) {
-        return this.feedbackService.update(id, ceedback).pipe((0, rxjs_1.map)((feedback) => {
-            return res.status(204).send();
-        }));
+    updateExam(id, exam, res) {
+        return this.feedbackService.updateById(id, exam);
     }
     deleteFeedbackById(id, res) {
         return this.feedbackService.deleteById(id).pipe((0, rxjs_1.map)((feedback) => {
@@ -51,28 +44,30 @@ let FeedbackController = class FeedbackController {
 exports.FeedbackController = FeedbackController;
 __decorate([
     (0, common_1.Get)(''),
-    __param(0, (0, common_1.Query)('q')),
-    __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
-    __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
+    (0, swagger_1.ApiQuery)({ name: 'qUser', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'qCourse', required: false }),
+    __param(0, (0, common_1.Query)('qUser')),
+    __param(1, (0, common_1.Query)('qCourse')),
+    __param(2, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
+    __param(3, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, Number]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], FeedbackController.prototype, "getAllFeedbacks", null);
+    __metadata("design:paramtypes", [String, String, Number, Number]),
+    __metadata("design:returntype", Promise)
+], FeedbackController.prototype, "getAllExams", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], FeedbackController.prototype, "getFeedbackById", null);
+    __metadata("design:returntype", Promise)
+], FeedbackController.prototype, "getExamById", null);
 __decorate([
     (0, common_1.Post)(''),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [feedback_dto_1.CreateFeedbackDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], FeedbackController.prototype, "createFeedback", null);
+    __metadata("design:paramtypes", [feedback_dto_1.CreateFeedbackDTO]),
+    __metadata("design:returntype", void 0)
+], FeedbackController.prototype, "createExam", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
@@ -80,8 +75,8 @@ __decorate([
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, feedback_dto_1.UpdateFeedbackDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], FeedbackController.prototype, "updateFeedback", null);
+    __metadata("design:returntype", Promise)
+], FeedbackController.prototype, "updateExam", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),

@@ -61,13 +61,10 @@ export class CategoryService {
     });
   }
   
-  async deleteById(id: string): Promise<Category>{
-    const isValidId = mongoose.isValidObjectId(id);
-    if(!isValidId){
-      throw new BadRequestException('Please enter correct id.');
-    }
-
-    const res = await this.categoryModel.findByIdAndDelete(id)
-    return res;
+  deleteById(id: string): Observable<Category>{
+    return from(this.categoryModel.findByIdAndDelete({_id: id}).exec()).pipe(
+      mergeMap((p) => (p ? of(p): EMPTY)),
+      throwIfEmpty(() => new NotFoundException(`category: $id was not found`)),
+    )
   }
 }

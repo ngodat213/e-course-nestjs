@@ -6,6 +6,7 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 import { Exam} from 'src/modules/exam/exam.model';
 import { CreateExamDTO, UpdateExamDTO } from './exam.dto';
+import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 
 @Injectable({ scope: Scope.REQUEST })
 export class ExamService {
@@ -67,13 +68,11 @@ export class ExamService {
     return this.examModel.deleteMany({}).exec();
   }
 
-  async deleteById(id: string): Promise<Exam>{
-    const isValidId = mongoose.isValidObjectId(id);
-    if(!isValidId){
-      throw new BadRequestException('Please enter correct id.');
-    }
-    const res = await this.examModel.findByIdAndDelete(id)
-    return res;
+  deleteById(id: string): Observable<Exam>{
+    return from(this.examModel.findByIdAndDelete({_id: id}).exec()).pipe(
+      mergeMap((p) => (p ? of(p): EMPTY)),
+      throwIfEmpty(() => new NotFoundException(`exam: $id was not found`)),
+    )
   }
 
   lessonsOf(id: string): Promise<ExamLesson[]> {

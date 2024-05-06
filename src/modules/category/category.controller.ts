@@ -6,6 +6,7 @@ import { Category } from 'src/modules/category/category.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
 import { Responser } from 'src/decorators/responser.decorator';
+import { Observable, map } from 'rxjs';
 
 @ApiTags('Category')
 @Controller({path: 'categorys', scope: Scope.REQUEST})
@@ -48,7 +49,11 @@ export class CategoryController {
   deleteCategoryById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,
-  ): Promise<Category>{
-    return this.categoryService.deleteById(id);
+  ): Observable<Response>{
+    return this.categoryService.deleteById(id).pipe(
+      map((category) => {
+        return res.status(204).send();
+      }),
+    );
   }
 }

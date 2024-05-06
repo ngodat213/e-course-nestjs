@@ -23,8 +23,8 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
-import { Teacher } from '../teacher/teacher.model';
 import { CategoryModel } from '../category/category.model';
+import { User } from '../user/user.model';
 interface Course extends Document {
     readonly title: string;
     readonly price: Number;
@@ -39,7 +39,7 @@ interface Course extends Document {
     readonly language: string;
     readonly updateAt: Date;
     readonly createAt: Date;
-    readonly teacher: Partial<Teacher>;
+    readonly teacher: Partial<User>;
     readonly category: Partial<CategoryModel>;
 }
 type CourseModel = Model<Course>;

@@ -19,72 +19,66 @@ const rxjs_1 = require("rxjs");
 const exam_lesson_service_1 = require("./exam.lesson.service");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const exam_lesson_dto_1 = require("./exam.lesson.dto");
+const responser_decorator_1 = require("../../decorators/responser.decorator");
 let ExamLessonController = class ExamLessonController {
     constructor(lessonService) {
         this.lessonService = lessonService;
     }
-    getAllLessons(keyword, limit, skip) {
+    getAllCourseLessons(keyword, limit, skip) {
         return this.lessonService.findAll(keyword, skip, limit);
     }
-    getLessonById(id) {
+    getCourseLessonById(id) {
         return this.lessonService.findById(id);
     }
-    createLesson(lesson, res) {
-        return this.lessonService.save(lesson).pipe((0, rxjs_1.map)((lesson) => {
-            return res
-                .location('/lessons' + lesson._id)
-                .status(201)
-                .send();
-        }));
+    createCourseLesson(lesson) {
+        return this.lessonService.save(lesson);
     }
-    updateLesson(id, lesson, res) {
-        return this.lessonService.update(id, lesson).pipe((0, rxjs_1.map)((lesson) => {
-            return res.status(204).send();
-        }));
+    updateCourseLesson(id, lesson) {
+        return this.lessonService.updateById(id, lesson);
     }
     deleteLessonById(id, res) {
         return this.lessonService.deleteById(id).pipe((0, rxjs_1.map)((lesson) => {
             return res.status(204).send();
         }));
     }
-    getAllLessonsOfLesson(id) {
+    getAllExamOfLesson(id) {
         return this.lessonService.questionsOf(id);
     }
 };
 exports.ExamLessonController = ExamLessonController;
 __decorate([
     (0, common_1.Get)(''),
+    (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Number, Number]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], ExamLessonController.prototype, "getAllLessons", null);
+    __metadata("design:returntype", Promise)
+], ExamLessonController.prototype, "getAllCourseLessons", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], ExamLessonController.prototype, "getLessonById", null);
+    __metadata("design:returntype", Promise)
+], ExamLessonController.prototype, "getCourseLessonById", null);
 __decorate([
     (0, common_1.Post)(''),
+    responser_decorator_1.Responser.handle('Create course lesson'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [exam_lesson_dto_1.CreateExamLessonDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], ExamLessonController.prototype, "createLesson", null);
+    __metadata("design:paramtypes", [exam_lesson_dto_1.CreateExamLessonDTO]),
+    __metadata("design:returntype", void 0)
+], ExamLessonController.prototype, "createCourseLesson", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, exam_lesson_dto_1.UpdateExamLessonDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], ExamLessonController.prototype, "updateLesson", null);
+    __metadata("design:paramtypes", [String, exam_lesson_dto_1.UpdateExamLessonDTO]),
+    __metadata("design:returntype", Promise)
+], ExamLessonController.prototype, "updateCourseLesson", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
@@ -98,8 +92,8 @@ __decorate([
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], ExamLessonController.prototype, "getAllLessonsOfLesson", null);
+    __metadata("design:returntype", Promise)
+], ExamLessonController.prototype, "getAllExamOfLesson", null);
 exports.ExamLessonController = ExamLessonController = __decorate([
     (0, swagger_1.ApiTags)('Exam Lesson'),
     (0, common_1.Controller)({ path: 'exam/lessons', scope: common_1.Scope.REQUEST }),

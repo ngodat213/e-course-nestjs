@@ -23,9 +23,7 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model, Schema } from 'mongoose';
-import { BlogModel } from '../blog/blog.model';
 import { CourseModel } from '../course/course.model';
-import { TeacherModel } from '../teacher/teacher.model';
 import { ExamModel } from '../exam/exam.model';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 import { Observable } from 'rxjs';
@@ -36,15 +34,10 @@ interface User extends Document {
     readonly username: string;
     readonly photoUrl: string;
     readonly roles?: RoleType[];
-    readonly blogs: Partial<BlogModel>;
-    readonly qAs: Partial<BlogModel>;
     readonly courses: Partial<CourseModel>;
     readonly favouritesCourses: Partial<CourseModel>;
     readonly favouritesExams: Partial<ExamModel>;
     readonly finishedExams: Partial<ExamModel>;
-    readonly favouritesTeachers: Partial<TeacherModel>;
-    readonly favouritesBlogs: Partial<BlogModel>;
-    readonly favouritesQAs: Partial<BlogModel>;
 }
 type UserModel = Model<User>;
 declare const UserSchema: Schema<User, Model<User, any, any, any, Document<unknown, any, User> & User & {

@@ -7,10 +7,10 @@ import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 export declare class ExamLessonController {
     private lessonService;
     constructor(lessonService: ExamLessonService);
-    getAllLessons(keyword?: string, limit?: number, skip?: number): Observable<ExamLesson[]>;
-    getLessonById(id: string): Observable<ExamLesson>;
-    createLesson(lesson: CreateExamLessonDTO, res: Response): Observable<Response>;
-    updateLesson(id: string, lesson: UpdateExamLessonDTO, res: Response): Observable<Response>;
+    getAllCourseLessons(keyword?: string, limit?: number, skip?: number): Promise<ExamLesson[]>;
+    getCourseLessonById(id: string): Promise<ExamLesson>;
+    createCourseLesson(lesson: CreateExamLessonDTO): Promise<ExamLesson>;
+    updateCourseLesson(id: string, lesson: UpdateExamLessonDTO): Promise<ExamLesson>;
     deleteLessonById(id: string, res: Response): Observable<Response>;
-    getAllLessonsOfLesson(id: string): Observable<ExamQuestion[]>;
+    getAllExamOfLesson(id: string): Promise<ExamQuestion[]>;
 }

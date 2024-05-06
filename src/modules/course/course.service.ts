@@ -71,13 +71,11 @@ export class CourseService {
     return this.courseModel.deleteMany({}).exec();
   }
 
-  async deleteById(id: string): Promise<Course>{
-    const isValidId = mongoose.isValidObjectId(id);
-    if(!isValidId){
-      throw new BadRequestException('Please enter correct id.');
-    }
-    const res = await this.courseModel.findByIdAndDelete(id)
-    return res;
+  deleteById(id: string) : Observable<Course>{
+    return from(this.courseModel.findOneAndDelete({_id: id}).exec()).pipe(
+      mergeMap((p) => (p? of(p): EMPTY)),
+      throwIfEmpty(() => new NotFoundException(`course: $id was not found`)),
+    );
   }
 
   lessonsOf(id: string): Promise<CourseLesson[]> {

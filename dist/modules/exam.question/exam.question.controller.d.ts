@@ -6,9 +6,9 @@ import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dt
 export declare class ExamQuestionController {
     private questionService;
     constructor(questionService: ExamQuestionService);
-    getAllQuestions(keyword?: string, limit?: number, skip?: number): Observable<ExamQuestion[]>;
-    getQuestionById(id: string): Observable<ExamQuestion>;
-    createQuestion(video: CreateExamQuestionDTO, res: Response): Observable<Response>;
-    updateQuestion(id: string, video: UpdateExamQuestionDTO, res: Response): Observable<Response>;
+    getAllExams(keyword?: string, limit?: number, skip?: number): Promise<ExamQuestion[]>;
+    getExamById(id: string): Promise<ExamQuestion>;
+    createExam(exam: CreateExamQuestionDTO): Promise<ExamQuestion>;
+    updateExam(id: string, exam: UpdateExamQuestionDTO, res: Response): Promise<ExamQuestion>;
     deleteQuestionById(id: string, res: Response): Observable<Response>;
 }

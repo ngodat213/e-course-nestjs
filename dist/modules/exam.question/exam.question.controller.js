@@ -23,24 +23,17 @@ let ExamQuestionController = class ExamQuestionController {
     constructor(questionService) {
         this.questionService = questionService;
     }
-    getAllQuestions(keyword, limit, skip) {
+    getAllExams(keyword, limit, skip) {
         return this.questionService.findAll(keyword, skip, limit);
     }
-    getQuestionById(id) {
+    getExamById(id) {
         return this.questionService.findById(id);
     }
-    createQuestion(video, res) {
-        return this.questionService.save(video).pipe((0, rxjs_1.map)((video) => {
-            return res
-                .location('/videos' + video._id)
-                .status(201)
-                .send();
-        }));
+    createExam(exam) {
+        return this.questionService.save(exam);
     }
-    updateQuestion(id, video, res) {
-        return this.questionService.update(id, video).pipe((0, rxjs_1.map)((video) => {
-            return res.status(204).send();
-        }));
+    updateExam(id, exam, res) {
+        return this.questionService.updateById(id, exam);
     }
     deleteQuestionById(id, res) {
         return this.questionService.deleteById(id).pipe((0, rxjs_1.map)((video) => {
@@ -51,28 +44,28 @@ let ExamQuestionController = class ExamQuestionController {
 exports.ExamQuestionController = ExamQuestionController;
 __decorate([
     (0, common_1.Get)(''),
+    (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Number, Number]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], ExamQuestionController.prototype, "getAllQuestions", null);
+    __metadata("design:returntype", Promise)
+], ExamQuestionController.prototype, "getAllExams", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], ExamQuestionController.prototype, "getQuestionById", null);
+    __metadata("design:returntype", Promise)
+], ExamQuestionController.prototype, "getExamById", null);
 __decorate([
     (0, common_1.Post)(''),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [exam_question_dto_1.CreateExamQuestionDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], ExamQuestionController.prototype, "createQuestion", null);
+    __metadata("design:paramtypes", [exam_question_dto_1.CreateExamQuestionDTO]),
+    __metadata("design:returntype", void 0)
+], ExamQuestionController.prototype, "createExam", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
@@ -80,8 +73,8 @@ __decorate([
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, exam_question_dto_1.UpdateExamQuestionDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], ExamQuestionController.prototype, "updateQuestion", null);
+    __metadata("design:returntype", Promise)
+], ExamQuestionController.prototype, "updateExam", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),

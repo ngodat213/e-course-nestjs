@@ -22,14 +22,10 @@ const category_module_1 = require("./modules/category/category.module");
 const course_order_module_1 = require("./modules/course.order/course.order.module");
 const exam_history_module_1 = require("./modules/exam.history/exam.history.module");
 const feedback_module_1 = require("./modules/feedback/feedback.module");
-const blog_module_1 = require("./modules/blog/blog.module");
 const database_module_1 = require("./database/database.module");
 const cloudinary_module_1 = require("./cloudinary/cloudinary.module");
 const helper_module_1 = require("./helper/helper.module");
 const contact_module_1 = require("./modules/contact/contact.module");
-const teacher_service_1 = require("./modules/teacher/teacher.service");
-const teacher_controller_1 = require("./modules/teacher/teacher.controller");
-const teacher_module_1 = require("./modules/teacher/teacher.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -50,15 +46,12 @@ exports.AppModule = AppModule = __decorate([
             user_module_1.UserModule,
             feedback_module_1.FeedbackModule,
             category_module_1.CategoryModule,
-            blog_module_1.BlogModule,
-            teacher_module_1.TeacherModule,
             cloudinary_module_1.CloudinaryModule,
             helper_module_1.HelperModuleModule,
         ],
-        controllers: [app_controller_1.AppController, teacher_controller_1.TeacherController],
+        controllers: [app_controller_1.AppController],
         providers: [
-            app_service_1.AppService,
-            teacher_service_1.TeacherService,
+            app_service_1.AppService
         ],
         exports: [app_service_1.AppService]
     })

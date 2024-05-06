@@ -1,5 +1,5 @@
 import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { FeedbackService } from './feedback.service';
 import { Observable, map } from 'rxjs';
@@ -13,45 +13,36 @@ export class FeedbackController {
   constructor(private feedbackService: FeedbackService){}
 
   @Get('')
-  getAllFeedbacks(
-    @Query('q') keyword? :string,
+  @ApiQuery({ name: 'qUser', required: false })
+  @ApiQuery({ name: 'qCourse', required: false })
+  getAllExams(
+    @Query('qUser')  keywordUser?: string,
+    @Query('qCourse')  keywordCourse?: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
-  ): Observable<Feedback[]>{
-    return this.feedbackService.findAll(keyword,skip, limit);
+  ): Promise<Feedback[]> {
+    return this.feedbackService.findAll(keywordUser, keywordCourse, skip, limit);
   }
 
   @Get(':id')
-  getFeedbackById(@Param('id', ParseObjectIdPipe)id : string) : Observable<Feedback>{
+  getExamById(@Param('id', ParseObjectIdPipe)id : string) : Promise<Feedback>{
     return this.feedbackService.findById(id);
   }
 
   @Post('')
-  createFeedback(
-    @Body() feedback: CreateFeedbackDTO,
-    @Res() res: Response,
-  ): Observable<Response> {
-    return this.feedbackService.save(feedback).pipe(
-      map((feedback) => {
-        return res
-        .location('/feedbacks/' + feedback._id)
-        .status(201)
-        .send();
-      }),
-    );
+  createExam(
+    @Body() exam: CreateFeedbackDTO,
+  ) {
+    return this.feedbackService.save(exam);
   }
 
   @Put(':id')
-  updateFeedback(
+  updateExam(
     @Param('id', ParseObjectIdPipe)id : string,
-    @Body() ceedback: UpdateFeedbackDTO,
-    @Res() res: Response,
-  ) :Observable<Response>{
-    return this.feedbackService.update(id, ceedback).pipe(
-      map((feedback) => {
-        return res.status(204).send();
-      }),
-    );
+    @Body() exam: UpdateFeedbackDTO,
+    @Res() res: Response, 
+  ) :Promise<Feedback>{
+    return this.feedbackService.updateById(id, exam);
   }
 
   @Delete(':id')

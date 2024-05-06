@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
 const database_constants_1 = require("../../database/database.constants");
+const rxjs_1 = require("rxjs");
 let ExamService = class ExamService {
     constructor(examModel, lessonModel, req) {
         this.examModel = examModel;
@@ -63,13 +64,8 @@ let ExamService = class ExamService {
     deleteAll() {
         return this.examModel.deleteMany({}).exec();
     }
-    async deleteById(id) {
-        const isValidId = mongoose_1.default.isValidObjectId(id);
-        if (!isValidId) {
-            throw new common_1.BadRequestException('Please enter correct id.');
-        }
-        const res = await this.examModel.findByIdAndDelete(id);
-        return res;
+    deleteById(id) {
+        return (0, rxjs_1.from)(this.examModel.findByIdAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`exam: $id was not found`)));
     }
     lessonsOf(id) {
         const lessons = this.lessonModel

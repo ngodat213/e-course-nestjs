@@ -10,15 +10,10 @@ const UserSchema = new mongoose_1.Schema({
     username: { type: mongoose_1.SchemaTypes.String, required: true },
     photoUrl: { type: mongoose_1.SchemaTypes.String, default: "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg" },
     roles: [{ type: mongoose_1.SchemaTypes.String, enum: ['ADMIN', 'TEACHER', 'USER'], required: false },],
-    blogs: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Blog' }] },
-    qAs: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Blog' }] },
     courses: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Course' }] },
     favouritesCourses: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Course' }] },
     favouritesExams: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Exam' }] },
     finishedExams: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Exam' }] },
-    favouritesTeachers: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Teacher' }] },
-    favouritesBlogs: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Blog' }] },
-    favouritesQAs: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Blog' }] },
 }, { timestamps: true });
 exports.UserSchema = UserSchema;
 async function preSaveHook(next) {

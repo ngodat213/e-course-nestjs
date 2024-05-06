@@ -1,8 +1,6 @@
 import { Connection, Document, Model, Schema, SchemaType, SchemaTypes } from 'mongoose';
-import { Teacher } from '../teacher/teacher.model';
-import { CourseLessonModel } from '../course.lesson/course.lesson.model';
-import { FeedbackModel } from '../feedback/feedback.model';
 import { CategoryModel } from '../category/category.model';
+import { User } from '../user/user.model';
 
 interface Course extends Document{
 	readonly title: string;
@@ -18,7 +16,7 @@ interface Course extends Document{
   readonly language: string;
   readonly updateAt: Date;
   readonly createAt: Date;
-	readonly teacher: Partial<Teacher>;
+	readonly teacher: Partial<User>;
 	readonly category: Partial<CategoryModel>;
 }
 

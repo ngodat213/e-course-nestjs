@@ -11,7 +11,6 @@ const exam_lesson_model_1 = require("../modules/exam.lesson/exam.lesson.model");
 const exam_history_model_1 = require("../modules/exam.history/exam.history.model");
 const user_model_1 = require("../modules/user/user.model");
 const feedback_model_1 = require("../modules/feedback/feedback.model");
-const blog_model_1 = require("../modules/blog/blog.model");
 const category_model_1 = require("../modules/category/category.model");
 const contact_model_1 = require("../modules/contact/contact.model");
 exports.databaseModelsProviders = [
@@ -63,11 +62,6 @@ exports.databaseModelsProviders = [
     {
         provide: database_constants_1.FEEDBACK_MODEL,
         useFactory: (connection) => (0, feedback_model_1.createFeedbackModel)(connection),
-        inject: [database_constants_1.DATABASE_CONNECTION]
-    },
-    {
-        provide: database_constants_1.BLOG_MODEL,
-        useFactory: (connection) => (0, blog_model_1.createBlogModel)(connection),
         inject: [database_constants_1.DATABASE_CONNECTION]
     },
     {

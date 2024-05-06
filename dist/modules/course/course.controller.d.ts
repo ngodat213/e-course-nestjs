@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import { CourseService } from './course.service';
+import { Observable } from 'rxjs';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { CourseLesson } from '../course.lesson/course.lesson.model';
@@ -10,6 +11,6 @@ export declare class CourseController {
     getCourseById(id: string): Promise<Course>;
     createCourse(course: CreateCourseDTO): Promise<Course>;
     updateCourse(id: string, course: UpdateCourseDTO, res: Response): Promise<Course>;
-    deleteCourseById(id: string): Promise<Course>;
+    deleteCourseById(id: string, res: Response): Observable<Response>;
     getAllLessonsOfCourse(id: string): Promise<CourseLesson[]>;
 }

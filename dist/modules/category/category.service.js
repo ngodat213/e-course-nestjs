@@ -16,6 +16,7 @@ exports.CategoryService = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
+const rxjs_1 = require("rxjs");
 const database_constants_1 = require("../../database/database.constants");
 let CategoryService = class CategoryService {
     constructor(categoryModel, req) {
@@ -59,13 +60,8 @@ let CategoryService = class CategoryService {
             runValidators: true
         });
     }
-    async deleteById(id) {
-        const isValidId = mongoose_1.default.isValidObjectId(id);
-        if (!isValidId) {
-            throw new common_1.BadRequestException('Please enter correct id.');
-        }
-        const res = await this.categoryModel.findByIdAndDelete(id);
-        return res;
+    deleteById(id) {
+        return (0, rxjs_1.from)(this.categoryModel.findByIdAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`category: $id was not found`)));
     }
 };
 exports.CategoryService = CategoryService;

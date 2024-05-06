@@ -16,9 +16,9 @@ exports.ContactController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const contact_service_1 = require("./contact.service");
-const rxjs_1 = require("rxjs");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const contact_dto_1 = require("./contact.dto");
+const rxjs_1 = require("rxjs");
 let ContactController = class ContactController {
     constructor(contactSerivce) {
         this.contactSerivce = contactSerivce;
@@ -29,18 +29,11 @@ let ContactController = class ContactController {
     getContactById(id) {
         return this.contactSerivce.findById(id);
     }
-    createContact(contact, res) {
-        return this.contactSerivce.save(contact).pipe((0, rxjs_1.map)((contact) => {
-            return res
-                .location('/contacts/' + contact._id)
-                .status(201)
-                .send();
-        }));
+    createContact(contact) {
+        return this.contactSerivce.save(contact);
     }
     updateContact(id, contact, res) {
-        return this.contactSerivce.update(id, contact).pipe((0, rxjs_1.map)((contact) => {
-            return res.status(204).send();
-        }));
+        return this.contactSerivce.updateById(id, contact);
     }
     deleteContactById(id, res) {
         return this.contactSerivce.deleteById(id).pipe((0, rxjs_1.map)((contact) => {
@@ -51,27 +44,27 @@ let ContactController = class ContactController {
 exports.ContactController = ContactController;
 __decorate([
     (0, common_1.Get)(''),
+    (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Number, Number]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], ContactController.prototype, "getAllContacts", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], ContactController.prototype, "getContactById", null);
 __decorate([
     (0, common_1.Post)(''),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [contact_dto_1.CreateContactDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:paramtypes", [contact_dto_1.CreateContactDTO]),
+    __metadata("design:returntype", void 0)
 ], ContactController.prototype, "createContact", null);
 __decorate([
     (0, common_1.Put)(':id'),
@@ -80,7 +73,7 @@ __decorate([
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, contact_dto_1.UpdateContactDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], ContactController.prototype, "updateContact", null);
 __decorate([
     (0, common_1.Delete)(':id'),

@@ -19,6 +19,7 @@ const category_service_1 = require("./category.service");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const category_dto_1 = require("./category.dto");
 const responser_decorator_1 = require("../../decorators/responser.decorator");
+const rxjs_1 = require("rxjs");
 let CategoryController = class CategoryController {
     constructor(categoryService) {
         this.categoryService = categoryService;
@@ -36,7 +37,9 @@ let CategoryController = class CategoryController {
         return this.categoryService.updateById(id, category);
     }
     deleteCategoryById(id, res) {
-        return this.categoryService.deleteById(id);
+        return this.categoryService.deleteById(id).pipe((0, rxjs_1.map)((category) => {
+            return res.status(204).send();
+        }));
     }
 };
 exports.CategoryController = CategoryController;
@@ -80,7 +83,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", rxjs_1.Observable)
 ], CategoryController.prototype, "deleteCategoryById", null);
 exports.CategoryController = CategoryController = __decorate([
     (0, swagger_1.ApiTags)('Category'),

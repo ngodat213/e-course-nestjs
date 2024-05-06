@@ -27,6 +27,7 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 import { Exam } from 'src/modules/exam/exam.model';
 import { CreateExamDTO, UpdateExamDTO } from './exam.dto';
+import { Observable } from 'rxjs';
 export declare class ExamService {
     private examModel;
     private lessonModel;
@@ -37,6 +38,6 @@ export declare class ExamService {
     save(data: CreateExamDTO): Promise<Exam>;
     updateById(id: string, exam: UpdateExamDTO): Promise<Exam>;
     deleteAll(): Promise<any>;
-    deleteById(id: string): Promise<Exam>;
+    deleteById(id: string): Observable<Exam>;
     lessonsOf(id: string): Promise<ExamLesson[]>;
 }

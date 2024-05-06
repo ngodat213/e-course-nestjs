@@ -6,6 +6,7 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import { CreateCourseLessonDTO, UpdateCourseLessonDTO } from './course.lesson.dto';
+import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CourseLessonService {
@@ -61,14 +62,11 @@ export class CourseLessonService {
     });
   }
 
-  async deleteById(id: string): Promise<CourseLesson>{
-    const isValidId = mongoose.isValidObjectId(id);
-    if(!isValidId){
-      throw new BadRequestException('Please enter correct id.');
-    }
-
-    const res = await this.lessonModel.findByIdAndDelete(id)
-    return res;
+  deleteById(id: string): Observable<CourseLesson>{
+    return from(this.lessonModel.findByIdAndDelete({_id: id}).exec()).pipe(
+      mergeMap((p) => (p ? of(p): EMPTY)),
+      throwIfEmpty(() => new NotFoundException(`lesson: $id was not found`)),
+    )
   }
 
   lessonsOf(id: string): Promise<CourseVideo[]> {

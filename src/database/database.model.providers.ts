@@ -9,7 +9,6 @@ import { createExamLessonModel } from 'src/modules/exam.lesson/exam.lesson.model
 import { createExamHistoryModel } from 'src/modules/exam.history/exam.history.model';
 import { createUserModel } from 'src/modules/user/user.model';
 import { createFeedbackModel } from 'src/modules/feedback/feedback.model';
-import { createBlogModel } from 'src/modules/blog/blog.model';
 import { createCategoryModel } from 'src/modules/category/category.model';
 import { createContactModel } from 'src/modules/contact/contact.model';
 
@@ -65,11 +64,6 @@ import { createContactModel } from 'src/modules/contact/contact.model';
     {
       provide: FEEDBACK_MODEL,
       useFactory: (connection: Connection) => createFeedbackModel(connection),
-      inject: [DATABASE_CONNECTION]
-    },
-    {
-      provide: BLOG_MODEL,
-      useFactory: (connection: Connection) => createBlogModel(connection),
       inject: [DATABASE_CONNECTION]
     },
     {

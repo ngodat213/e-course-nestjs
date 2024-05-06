@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { CategoryService } from './category.service';
 import { Category } from 'src/modules/category/category.model';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
+import { Observable } from 'rxjs';
 export declare class CategoryController {
     private categoryService;
     constructor(categoryService: CategoryService);
@@ -9,5 +10,5 @@ export declare class CategoryController {
     getCategoryById(id: string): Promise<Category>;
     createCategory(category: CreateCategoryDTO): Promise<Category>;
     updateCategory(id: string, category: UpdateCategoryDTO, res: Response): Promise<Category>;
-    deleteCategoryById(id: string, res: Response): Promise<Category>;
+    deleteCategoryById(id: string, res: Response): Observable<Response>;
 }

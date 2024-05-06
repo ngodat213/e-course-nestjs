@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExamController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
+const rxjs_1 = require("rxjs");
 const exam_service_1 = require("./exam.service");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const exam_dto_1 = require("./exam.dto");
@@ -34,8 +35,10 @@ let ExamController = class ExamController {
     updateExam(id, exam, res) {
         return this.examService.updateById(id, exam);
     }
-    deleteExamById(id) {
-        return this.examService.deleteById(id);
+    deleteExamById(id, res) {
+        return this.examService.deleteById(id).pipe((0, rxjs_1.map)((exam) => {
+            return res.status(204).send();
+        }));
     }
     getAllLessonsOfExam(id) {
         return this.examService.lessonsOf(id);
@@ -78,9 +81,10 @@ __decorate([
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", rxjs_1.Observable)
 ], ExamController.prototype, "deleteExamById", null);
 __decorate([
     (0, common_1.Get)(':id/lessons'),

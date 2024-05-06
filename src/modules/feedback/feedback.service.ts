@@ -5,6 +5,7 @@ import { FEEDBACK_MODEL } from 'src/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Feedback } from 'src/modules/feedback/feedback.model';
 import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';
+import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 
 @Injectable({ scope: Scope.REQUEST })
 export class FeedbackService {
@@ -63,13 +64,10 @@ export class FeedbackService {
     });
   }
   
-  async deleteById(id: string): Promise<Feedback>{
-    const isValidId = mongoose.isValidObjectId(id);
-    if(!isValidId){
-      throw new BadRequestException('Please enter correct id.');
-    }
-
-    const res = await this.feedbackModel.findByIdAndDelete(id)
-    return res;
+  deleteById(id: string) : Observable<Feedback>{
+    return from(this.feedbackModel.findOneAndDelete({_id: id}).exec()).pipe(
+      mergeMap((p) => (p? of(p): EMPTY)),
+      throwIfEmpty(() => new NotFoundException(`feedback: $id was not found`)),
+    );
   }
 }

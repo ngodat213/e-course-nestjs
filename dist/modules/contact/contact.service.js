@@ -23,37 +23,41 @@ let ContactService = class ContactService {
         this.contactModel = contactModel;
         this.req = req;
     }
-    findAll(keyword, skip = 0, limit = 10) {
-        if (keyword) {
-            return (0, rxjs_1.from)(this.contactModel
-                .find({ title: { $regex: '.*' + keyword + '.*' } })
-                .skip(skip)
-                .limit(limit)
-                .exec());
+    async findAll(keyword, skip = 0, limit = 10) {
+        if (keyword && keyword.trim() === '') {
+            throw new common_1.BadRequestException('Do not enter spaces.');
         }
-        else {
-            return (0, rxjs_1.from)(this.contactModel.find({}).skip(skip).limit(limit).exec());
+        const query = keyword ?
+            { topic: { $regex: keyword, $options: 'i' } } : {};
+        return this.contactModel.find({ ...query }).select('-__v').skip(skip).limit(limit).exec();
+    }
+    async findById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
         }
+        const res = this.contactModel.findById(id);
+        if (!res) {
+            throw new common_1.NotFoundException('Contact not found.');
+        }
+        return res;
     }
-    findById(id) {
-        return (0, rxjs_1.from)(this.contactModel.findOne({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`contact: $id was not found`)));
+    async save(data) {
+        const res = await this.contactModel.create({ ...data });
+        return res;
     }
-    save(data) {
-        const createContact = this.contactModel.create({
-            ...data
+    async updateById(id, category) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        return await this.contactModel.findByIdAndUpdate(id, category, {
+            new: true,
+            runValidators: true
         });
-        return (0, rxjs_1.from)(createContact);
-    }
-    update(id, data) {
-        return (0, rxjs_1.from)(this.contactModel
-            .findOneAndUpdate({ _id: id }, { ...data, updateBy: { _id: this.req.user.id } }, { new: true })
-            .exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`contact: $id was not found`)));
-    }
-    deleteAll() {
-        return (0, rxjs_1.from)(this.contactModel.deleteMany({}).exec());
     }
     deleteById(id) {
-        return (0, rxjs_1.from)(this.contactModel.findByIdAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`contact: $id was not found`)));
+        return (0, rxjs_1.from)(this.contactModel.findOneAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`contact :$id was not found`)));
     }
 };
 exports.ContactService = ContactService;
