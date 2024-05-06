@@ -8,7 +8,7 @@ import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
 import { GetUser } from 'src/decorators/current.user.decorator';
-import { ApiBearerAuth, ApiProperty, ApiSecurity } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiProperty, ApiQuery, ApiSecurity } from '@nestjs/swagger';
 import { RoleGuard } from 'src/auth/guard/role.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { required } from '@hapi/joi';
@@ -47,6 +47,7 @@ export class UserController {
   // }
 
   @Get()
+  @ApiQuery({ name: 'q', required: false })
   @UseGuards(new RoleGuard(['USER']))
   @UseGuards(AuthGuard)
   GetAllUsers(

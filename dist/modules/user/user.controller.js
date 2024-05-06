@@ -57,6 +57,7 @@ let UserController = class UserController {
 exports.UserController = UserController;
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
     (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER'])),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Query)('q')),

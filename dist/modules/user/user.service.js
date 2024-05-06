@@ -65,16 +65,19 @@ let UserService = class UserService {
         }));
     }
     findAll(keyword, skip = 0, limit = 10) {
+        if (keyword && keyword.trim() === '') {
+            throw new common_1.BadRequestException('Do not enter spaces.');
+        }
         if (keyword) {
             return (0, rxjs_1.from)(this.userModel
-                .find({ title: { $regex: '.*' + keyword + '.*' } })
+                .find({ username: { $regex: keyword, $options: 'i' } })
                 .select('-password')
                 .skip(skip)
                 .limit(limit)
                 .exec());
         }
         else {
-            return (0, rxjs_1.from)(this.userModel.find({}).select('-password').skip(skip).limit(limit).exec());
+            return (0, rxjs_1.from)(this.userModel.find({}).select('-password -__v').skip(skip).limit(limit).exec());
         }
     }
     findById(id, withCourses = false, withExams = false, withBlogs = false, withQAs = false, withFvCourses = false, withFvExams = false, withFvTeacher = false, withFvQAs = false) {

@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { EMPTY, Observable, from, map, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { USER_MODEL } from '../../database/database.constants';
 import { User, UserModel } from 'src/modules/user/user.model';
@@ -72,17 +72,20 @@ export class UserService {
   }
 
   findAll(keyword?: string, skip = 0, limit = 10): Observable<User[]>{
+    if (keyword && keyword.trim() === '') {
+      throw new BadRequestException('Do not enter spaces.');
+    }
     if(keyword){
       return from(
         this.userModel
-        .find({title: {$regex: '.*' + keyword + '.*'}})
+        .find({ username: { $regex: keyword, $options: 'i' } })
         .select('-password')
         .skip(skip)
         .limit(limit)
         .exec(),
       );
     }else{
-      return from(this.userModel.find({}).select('-password').skip(skip).limit(limit).exec());
+      return from(this.userModel.find({}).select('-password -__v',).skip(skip).limit(limit).exec());
     }
   }
 
