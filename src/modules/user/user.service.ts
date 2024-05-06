@@ -2,12 +2,13 @@ import { BadRequestException, Inject, Injectable, NotFoundException, Unauthorize
 import { EMPTY, Observable, from, map, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { USER_MODEL } from '../../database/database.constants';
 import { User, UserModel } from 'src/modules/user/user.model';
-import { RegisterDto } from './user.dto';
+import { RegisterDto, UpdateUserDTO } from './user.dto';
 import { RoleType } from '../../shared/enum/role.type.enum';
 import { UserPrincipal } from 'src/interfaces/user-principal.interface';
 import { TokenResult } from 'src/interfaces/auth.interface';
 import { JwtPayload } from 'src/interfaces/jwt.interface';
 import { JwtService } from '@nestjs/jwt';
+import { Permission } from 'src/helper/checkPermission.helper';
 
 @Injectable()
 export class UserService {
@@ -112,6 +113,36 @@ export class UserService {
       mergeMap((p) => (p? of(p): EMPTY)),
       throwIfEmpty(() => new NotFoundException(`user: $id was not found`)),
     );
+  }
+
+  async updateById(id: string, requestBody: UpdateUserDTO, currentUser: User){
+    // if(requestBody.roles){
+    //   throw new BadRequestException('You cannot change role');
+    // }
+
+    let user = await this.userModel.findById(id);
+    if(!user){
+      throw new NotFoundException('User does not exist');
+    }
+
+    if(user.email != requestBody.email && requestBody.email != null){
+      const userByEmail = this.findByEmail(requestBody.email);
+      if(userByEmail){
+        throw new BadRequestException('Email already exist');
+      }
+    }
+
+    Permission.check(id, currentUser);
+
+    user.set(requestBody);
+
+    const updatedUser = await this.userModel.findByIdAndUpdate(id, user);
+
+    return {
+      username: updatedUser.username,
+      photoUrl: updatedUser.photoUrl,
+      email: updatedUser.email,
+    }
   }
 
   // Code

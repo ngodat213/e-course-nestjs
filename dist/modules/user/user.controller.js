@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
+const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const rxjs_1 = require("rxjs");
 const user_dto_1 = require("./user.dto");
 const local_auth_guard_1 = require("../../auth/guard/local-auth.guard");
@@ -52,6 +53,9 @@ let UserController = class UserController {
                     .send()));
             }
         }));
+    }
+    updateUser(id, requestBody, currentUser) {
+        return this.userService.updateById(id, requestBody, currentUser);
     }
 };
 exports.UserController = UserController;
@@ -93,6 +97,17 @@ __decorate([
     __metadata("design:paramtypes", [user_dto_1.RegisterDto, Object]),
     __metadata("design:returntype", rxjs_1.Observable)
 ], UserController.prototype, "Register", null);
+__decorate([
+    (0, common_1.Put)('/:id'),
+    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER', 'ADMIN', 'TEACHER'])),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, current_user_decorator_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, user_dto_1.UpdateUserDTO, Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "updateUser", null);
 exports.UserController = UserController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: "/users" }),

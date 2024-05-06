@@ -11,6 +11,17 @@ export declare class UserDto {
     readonly password: string;
     readonly roles?: RoleType[];
 }
+export declare class UpdateUserDTO {
+    readonly username?: string;
+    readonly email?: string;
+    readonly password?: string;
+    readonly photoUrl?: string;
+    readonly roles?: RoleType[];
+    readonly courses?: string;
+    readonly favouritesCourses?: string;
+    readonly favouritesExams?: string;
+    readonly finishedExams?: string;
+}
 export declare class ChangePasswordDTO {
     readonly email: string;
     readonly oldPw: string;

@@ -18,6 +18,7 @@ const rxjs_1 = require("rxjs");
 const database_constants_1 = require("../../database/database.constants");
 const role_type_enum_1 = require("../../shared/enum/role.type.enum");
 const jwt_1 = require("@nestjs/jwt");
+const checkPermission_helper_1 = require("../../helper/checkPermission.helper");
 let UserService = class UserService {
     constructor(userModel, jwtService) {
         this.userModel = userModel;
@@ -97,6 +98,26 @@ let UserService = class UserService {
         if (withFvQAs)
             userQuery.populate('favouritesQAs');
         return (0, rxjs_1.from)(userQuery.exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`user: $id was not found`)));
+    }
+    async updateById(id, requestBody, currentUser) {
+        let user = await this.userModel.findById(id);
+        if (!user) {
+            throw new common_1.NotFoundException('User does not exist');
+        }
+        if (user.email != requestBody.email && requestBody.email != null) {
+            const userByEmail = this.findByEmail(requestBody.email);
+            if (userByEmail) {
+                throw new common_1.BadRequestException('Email already exist');
+            }
+        }
+        checkPermission_helper_1.Permission.check(id, currentUser);
+        user.set(requestBody);
+        const updatedUser = await this.userModel.findByIdAndUpdate(id, user);
+        return {
+            username: updatedUser.username,
+            photoUrl: updatedUser.photoUrl,
+            email: updatedUser.email,
+        };
     }
     lock(id) {
         return (0, rxjs_1.from)(this.userModel.findById(id));

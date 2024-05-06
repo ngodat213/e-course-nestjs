@@ -1,9 +1,9 @@
-import { Body, ClassSerializerInterceptor, ConflictException, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Query, Req, Request, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, ConflictException, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Put, Query, Req, Request, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { Observable, map, mergeMap } from 'rxjs';
 import { User } from 'src/modules/user/user.model';
-import { RegisterDto } from './user.dto';
+import { RegisterDto, UpdateUserDTO } from './user.dto';
 import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
@@ -102,5 +102,16 @@ export class UserController {
         }
       })
     );
+  }
+
+  @Put('/:id')
+  @UseGuards(new RoleGuard(['USER', 'ADMIN', 'TEACHER']))
+  @UseGuards(AuthGuard)
+  updateUser(
+    @Param('id', ParseObjectIdPipe) id: string,
+    @Body() requestBody: UpdateUserDTO,
+    @GetUser() currentUser: User,
+  ) {
+    return this.userService.updateById(id, requestBody, currentUser);
   }
 }

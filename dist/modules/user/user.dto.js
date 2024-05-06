@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChangePasswordDTO = exports.UserDto = exports.RegisterDto = void 0;
+exports.ChangePasswordDTO = exports.UpdateUserDTO = exports.UserDto = exports.RegisterDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const role_type_enum_1 = require("../../shared/enum/role.type.enum");
@@ -57,6 +57,58 @@ __decorate([
     (0, swagger_1.ApiProperty)({ type: role_type_enum_1.RoleType, isArray: true, required: false }),
     __metadata("design:type", Array)
 ], UserDto.prototype, "roles", void 0);
+class UpdateUserDTO {
+}
+exports.UpdateUserDTO = UpdateUserDTO;
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateUserDTO.prototype, "username", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEmail)(),
+    __metadata("design:type", String)
+], UpdateUserDTO.prototype, "email", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.MinLength)(8, { message: "The min length of password is 8" }),
+    (0, class_validator_1.MaxLength)(20, { message: "The password can't accept more than 20 characters" }),
+    __metadata("design:type", String)
+], UpdateUserDTO.prototype, "password", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsUrl)(),
+    __metadata("design:type", String)
+], UpdateUserDTO.prototype, "photoUrl", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Array)
+], UpdateUserDTO.prototype, "roles", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateUserDTO.prototype, "courses", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateUserDTO.prototype, "favouritesCourses", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateUserDTO.prototype, "favouritesExams", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateUserDTO.prototype, "finishedExams", void 0);
 class ChangePasswordDTO {
 }
 exports.ChangePasswordDTO = ChangePasswordDTO;
