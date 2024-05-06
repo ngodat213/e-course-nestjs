@@ -19,10 +19,14 @@ const mongoose_1 = require("mongoose");
 const rxjs_1 = require("rxjs");
 const database_constants_1 = require("../../database/database.constants");
 let CourseService = class CourseService {
-    constructor(courseModel, courseLessonModel, req) {
+    constructor(courseModel, teacherModel, courseLessonModel, req) {
         this.courseModel = courseModel;
+        this.teacherModel = teacherModel;
         this.courseLessonModel = courseLessonModel;
         this.req = req;
+    }
+    exitsTeacher(userId) {
+        return (0, rxjs_1.from)(this.teacherModel.exists({ _id: userId, roles: ['USER', 'TEACHER'] }).exec()).pipe((0, rxjs_1.map)((exits) => !exits));
     }
     findAll(keyword, skip = 0, limit = 10) {
         if (keyword) {
@@ -71,9 +75,11 @@ exports.CourseService = CourseService;
 exports.CourseService = CourseService = __decorate([
     (0, common_1.Injectable)({ scope: common_1.Scope.REQUEST }),
     __param(0, (0, common_1.Inject)(database_constants_1.COURSE_MODEL)),
-    __param(1, (0, common_1.Inject)(database_constants_1.COURSE_LESSON_MODEL)),
-    __param(2, (0, common_1.Inject)(core_1.REQUEST)),
+    __param(1, (0, common_1.Inject)(database_constants_1.USER_MODEL)),
+    __param(2, (0, common_1.Inject)(database_constants_1.COURSE_LESSON_MODEL)),
+    __param(3, (0, common_1.Inject)(core_1.REQUEST)),
     __metadata("design:paramtypes", [mongoose_1.Model,
+        mongoose_1.Model,
         mongoose_1.Model, Object])
 ], CourseService);
 //# sourceMappingURL=course.service.js.map

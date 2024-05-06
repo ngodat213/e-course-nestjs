@@ -1,20 +1,28 @@
 import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Model } from 'mongoose';
-import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
-import { COURSE_LESSON_MODEL, COURSE_MODEL } from 'src/database/database.constants';
+import { EMPTY, Observable, from, map, mergeMap, of, throwError, throwIfEmpty } from 'rxjs';
+import { COURSE_LESSON_MODEL, COURSE_MODEL, USER_MODEL } from 'src/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
+import { User } from '../user/user.model';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CourseService {
   constructor(
     @Inject(COURSE_MODEL) private courseModel: Model<Course>,
+    @Inject(USER_MODEL) private teacherModel: Model<User>,
     @Inject(COURSE_LESSON_MODEL) private courseLessonModel: Model<CourseLesson>,
     @Inject(REQUEST) private req: AuthenticatedRequest,
   ){}
+
+  exitsTeacher(userId: User): Observable<boolean>{
+    return from(this.teacherModel.exists({_id: userId, roles: ['USER', 'TEACHER']}).exec()).pipe(
+      map((exits) => !exits),
+    );
+  }
 
   findAll(keyword?: string, skip = 0, limit = 10) : Observable<Course[]>{
     if(keyword){

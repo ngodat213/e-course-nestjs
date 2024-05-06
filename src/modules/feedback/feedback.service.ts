@@ -38,8 +38,8 @@ export class FeedbackService {
   save(data: CreateFeedbackDTO): Observable<Feedback>{
     const createQuestion: Promise<Feedback> = this.feedbackModel.create({
       ...data,
-      // createBy: {_id: this.req.user.id},
     });
+    console.log(createQuestion);
     return from(createQuestion);
   }
 

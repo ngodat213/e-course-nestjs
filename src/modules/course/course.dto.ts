@@ -5,16 +5,19 @@ export class CreateCourseDTO {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   readonly title: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
+  @IsOptional()
   readonly price: number;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   readonly description: string;
 
   @IsOptional()
@@ -28,41 +31,49 @@ export class CreateCourseDTO {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   readonly imageIntroduce: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   readonly imagePublicId: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   readonly videoIntroduce: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   readonly videoPublicId: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
+  @IsOptional()
   readonly time: number;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   readonly language: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   readonly teacher: string ;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   readonly category: string;
 }
 

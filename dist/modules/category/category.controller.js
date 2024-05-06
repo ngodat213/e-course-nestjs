@@ -19,6 +19,7 @@ const category_service_1 = require("./category.service");
 const rxjs_1 = require("rxjs");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const category_dto_1 = require("./category.dto");
+const responser_decorator_1 = require("../../decorators/responser.decorator");
 let CategoryController = class CategoryController {
     constructor(categoryService) {
         this.categoryService = categoryService;
@@ -29,13 +30,8 @@ let CategoryController = class CategoryController {
     getCategoryById(id) {
         return this.categoryService.findById(id);
     }
-    createCategory(category, res) {
-        return this.categoryService.save(category).pipe((0, rxjs_1.map)((category) => {
-            return res
-                .location('/categorys/' + category._id)
-                .status(201)
-                .send();
-        }));
+    createCategory(category) {
+        return this.categoryService.save(category);
     }
     updateCategory(id, category, res) {
         return this.categoryService.update(id, category).pipe((0, rxjs_1.map)((category) => {
@@ -67,11 +63,11 @@ __decorate([
 ], CategoryController.prototype, "getCategoryById", null);
 __decorate([
     (0, common_1.Post)(''),
+    responser_decorator_1.Responser.handle('Create category'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [category_dto_1.CreateCategoryDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:paramtypes", [category_dto_1.CreateCategoryDTO]),
+    __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "createCategory", null);
 __decorate([
     (0, common_1.Put)(':id'),

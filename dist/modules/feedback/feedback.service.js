@@ -42,6 +42,7 @@ let FeedbackService = class FeedbackService {
         const createQuestion = this.feedbackModel.create({
             ...data,
         });
+        console.log(createQuestion);
         return (0, rxjs_1.from)(createQuestion);
     }
     update(id, data) {

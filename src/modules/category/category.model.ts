@@ -8,7 +8,7 @@ type CategoryModel = Model<Category>;
 
 const CategorySchema = new Schema<Category>(
 	{
-		category:{type: SchemaTypes.String, required: true},
+		category:{type: SchemaTypes.String, required: true, unique: true},
 	}
 );
 

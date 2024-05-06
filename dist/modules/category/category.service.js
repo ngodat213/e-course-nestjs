@@ -23,6 +23,9 @@ let CategoryService = class CategoryService {
         this.categoryModel = categoryModel;
         this.req = req;
     }
+    existByName(category) {
+        return this.categoryModel.exists({ category: category }).exec();
+    }
     findAll(keyword, skip = 0, limit = 10) {
         if (keyword) {
             return (0, rxjs_1.from)(this.categoryModel
@@ -39,10 +42,15 @@ let CategoryService = class CategoryService {
         return (0, rxjs_1.from)(this.categoryModel.findOne({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`category: $id was not found`)));
     }
     save(data) {
-        const createExam = this.categoryModel.create({
-            ...data
-        });
-        return (0, rxjs_1.from)(createExam);
+        if (this.existByName(data.category)) {
+            throw `Category: ${data.category} was existed`;
+        }
+        else {
+            const createExam = this.categoryModel.create({
+                ...data
+            });
+            return createExam;
+        }
     }
     update(id, data) {
         return (0, rxjs_1.from)(this.categoryModel

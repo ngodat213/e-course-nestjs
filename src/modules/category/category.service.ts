@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Model } from 'mongoose';
-import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
+import { EMPTY, Observable, from, map, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { CATEGORY_MODEL } from 'src/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Category } from 'src/modules/category/category.model';
@@ -13,6 +13,10 @@ export class CategoryService {
     @Inject(CATEGORY_MODEL) private categoryModel: Model<Category>,
     @Inject(REQUEST) private req: AuthenticatedRequest,
   ){}
+
+  existByName(category: string){
+    return this.categoryModel.exists({category: category}).exec();
+  }
 
   findAll(keyword?: string, skip = 0, limit = 10) : Observable<Category[]>{
     if(keyword){
@@ -35,11 +39,15 @@ export class CategoryService {
     );
   }
 
-  save(data: CreateCategoryDTO): Observable<Category>{
-    const createExam: Promise<Category> = this.categoryModel.create({
-      ...data
-    });
-    return from(createExam);
+  save(data: CreateCategoryDTO){
+    if(this.existByName(data.category)){
+      throw `Category: ${data.category} was existed`
+    }else{
+      const createExam = this.categoryModel.create({
+        ...data
+      });
+      return createExam;
+    }
   }
 
   update(id: string, data: UpdateCategoryDTO): Observable<Category>{

@@ -28,11 +28,14 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
+import { User } from '../user/user.model';
 export declare class CourseService {
     private courseModel;
+    private teacherModel;
     private courseLessonModel;
     private req;
-    constructor(courseModel: Model<Course>, courseLessonModel: Model<CourseLesson>, req: AuthenticatedRequest);
+    constructor(courseModel: Model<Course>, teacherModel: Model<User>, courseLessonModel: Model<CourseLesson>, req: AuthenticatedRequest);
+    exitsTeacher(userId: User): Observable<boolean>;
     findAll(keyword?: string, skip?: number, limit?: number): Observable<Course[]>;
     findById(id: string): Observable<Course>;
     save(data: CreateCourseDTO): Observable<Course>;

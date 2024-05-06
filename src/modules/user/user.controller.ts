@@ -11,6 +11,7 @@ import { GetUser } from 'src/decorators/current.user.decorator';
 import { ApiBearerAuth, ApiProperty, ApiSecurity } from '@nestjs/swagger';
 import { RoleGuard } from 'src/auth/guard/role.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { required } from '@hapi/joi';
 
 @ApiBearerAuth()
 @Controller({ path: "/users" })

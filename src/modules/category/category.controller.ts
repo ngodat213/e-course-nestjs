@@ -2,10 +2,12 @@ import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, P
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CategoryService } from './category.service';
-import { Observable, map } from 'rxjs';
+import { Observable, map, merge, mergeMap } from 'rxjs';
 import { Category } from 'src/modules/category/category.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
+import { HttpBadRequestError } from 'src/errors/bad-request.error';
+import { Responser } from 'src/decorators/responser.decorator';
 
 @ApiTags('Category')
 @Controller({path: 'categorys', scope: Scope.REQUEST})
@@ -27,18 +29,11 @@ export class CategoryController {
   }
 
   @Post('')
+  @Responser.handle('Create category')
   createCategory(
     @Body() category: CreateCategoryDTO,
-    @Res() res: Response,
-  ): Observable<Response> {
-    return this.categoryService.save(category).pipe(
-      map((category) => {
-        return res
-        .location('/categorys/' + category._id)
-        .status(201)
-        .send();
-      }),
-    );
+  ) {
+    return this.categoryService.save(category);
   }
 
   @Put(':id')

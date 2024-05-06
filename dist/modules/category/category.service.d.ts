@@ -31,9 +31,14 @@ export declare class CategoryService {
     private categoryModel;
     private req;
     constructor(categoryModel: Model<Category>, req: AuthenticatedRequest);
+    existByName(category: string): Promise<{
+        _id: any;
+    }>;
     findAll(keyword?: string, skip?: number, limit?: number): Observable<Category[]>;
     findById(id: string): Observable<Category>;
-    save(data: CreateCategoryDTO): Observable<Category>;
+    save(data: CreateCategoryDTO): Promise<import("mongoose").Document<unknown, {}, Category> & Category & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
     update(id: string, data: UpdateCategoryDTO): Observable<Category>;
     deleteAll(): Observable<any>;
     deleteById(id: string): Observable<Category>;
