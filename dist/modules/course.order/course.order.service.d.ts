@@ -25,16 +25,14 @@
 import { CourseOrder } from './course.order.model';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Model } from 'mongoose';
-import { Observable } from 'rxjs';
 import { CreateCourseOrderDTO, UpdateCourseOrderDTO } from './course.order.dto';
 export declare class CourseOrderService {
     private orderModel;
     private req;
     constructor(orderModel: Model<CourseOrder>, req: AuthenticatedRequest);
-    findAll(keyword?: string, skip?: number, limit?: number): Observable<CourseOrder[]>;
-    findById(id: string): Observable<CourseOrder>;
-    save(data: CreateCourseOrderDTO): Observable<CourseOrder>;
-    update(id: string, data: UpdateCourseOrderDTO): Observable<CourseOrder>;
-    deleteAll(): Observable<any>;
-    deleteById(id: string): Observable<CourseOrder>;
+    findAll(keywordUser?: string, keywordCourse?: string, skip?: number, limit?: number): Promise<CourseOrder[]>;
+    findById(id: string): Promise<CourseOrder>;
+    save(data: CreateCourseOrderDTO): Promise<CourseOrder>;
+    updateById(id: string, courseOrder: UpdateCourseOrderDTO): Promise<CourseOrder>;
+    deleteById(id: string): Promise<CourseOrder>;
 }

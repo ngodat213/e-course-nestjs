@@ -17,43 +17,59 @@ const common_1 = require("@nestjs/common");
 const database_constants_1 = require("../../database/database.constants");
 const mongoose_1 = require("mongoose");
 const core_1 = require("@nestjs/core");
-const rxjs_1 = require("rxjs");
 let CourseOrderService = class CourseOrderService {
     constructor(orderModel, req) {
         this.orderModel = orderModel;
         this.req = req;
     }
-    findAll(keyword, skip = 0, limit = 10) {
-        if (keyword) {
-            return (0, rxjs_1.from)(this.orderModel
-                .find({ title: { $regex: '.*' + keyword + '.*' } })
-                .skip(skip)
-                .limit(limit)
-                .exec());
+    async findAll(keywordUser, keywordCourse, skip = 0, limit = 10) {
+        if (keywordUser && keywordUser.trim() === '') {
+            throw new common_1.BadRequestException('Do not enter spaces.');
         }
-        else {
-            return (0, rxjs_1.from)(this.orderModel.find({}).skip(skip).limit(limit).exec());
+        if (keywordCourse && keywordCourse.trim() === '') {
+            throw new common_1.BadRequestException('Do not enter spaces.');
         }
+        const query = {};
+        if (keywordUser) {
+            query.user = { $regex: keywordUser, $options: 'i' };
+        }
+        if (keywordCourse) {
+            query.course = { $regex: keywordCourse, $options: 'i' };
+        }
+        return this.orderModel.find({ ...query }).select('-__v').skip(skip).limit(limit).exec();
     }
-    findById(id) {
-        return (0, rxjs_1.from)(this.orderModel.findOne({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`video: $id was not found`)));
+    async findById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const res = this.orderModel.findById(id);
+        if (!res) {
+            throw new common_1.NotFoundException('CourseOrder not found.');
+        }
+        return res;
     }
-    save(data) {
-        const createQuestion = this.orderModel.create({
-            ...data,
+    async save(data) {
+        const res = await this.orderModel.create({ ...data });
+        return res;
+    }
+    async updateById(id, courseOrder) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        return await this.orderModel.findByIdAndUpdate(id, courseOrder, {
+            new: true,
+            runValidators: true
         });
-        return (0, rxjs_1.from)(createQuestion);
     }
-    update(id, data) {
-        return (0, rxjs_1.from)(this.orderModel
-            .findOneAndUpdate({ _id: id }, { ...data, updateBy: { _id: this.req.user.id } }, { new: true })
-            .exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`course order: $id was not found`)));
-    }
-    deleteAll() {
-        return (0, rxjs_1.from)(this.orderModel.deleteMany({}).exec());
-    }
-    deleteById(id) {
-        return (0, rxjs_1.from)(this.orderModel.findOneAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`course order: $id was not found`)));
+    async deleteById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const res = await this.orderModel.findByIdAndDelete(id);
+        return res;
     }
 };
 exports.CourseOrderService = CourseOrderService;

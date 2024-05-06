@@ -15,63 +15,57 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseOrderController = void 0;
 const common_1 = require("@nestjs/common");
 const course_order_service_1 = require("./course.order.service");
-const rxjs_1 = require("rxjs");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const course_order_dto_1 = require("./course.order.dto");
 const swagger_1 = require("@nestjs/swagger");
+const responser_decorator_1 = require("../../decorators/responser.decorator");
 let CourseOrderController = class CourseOrderController {
     constructor(orderService) {
         this.orderService = orderService;
     }
-    getAllCourseOrders(keyword, limit, skip) {
-        return this.orderService.findAll(keyword, skip, limit);
+    getAllCourseOrders(keywordUser, keywordCourse, limit, skip) {
+        return this.orderService.findAll(keywordUser, keywordCourse, skip, limit);
     }
     getCourseOrderById(id) {
         return this.orderService.findById(id);
     }
-    createCourseOrder(courseOrder, res) {
-        return this.orderService.save(courseOrder).pipe((0, rxjs_1.map)((feedback) => {
-            return res
-                .location('/courseOrders/' + feedback._id)
-                .status(201)
-                .send();
-        }));
+    createCourseOrder(courseOrder) {
+        return this.orderService.save(courseOrder);
     }
     updateCourseOrder(id, courseOrder, res) {
-        return this.orderService.update(id, courseOrder).pipe((0, rxjs_1.map)((courseOrder) => {
-            return res.status(204).send();
-        }));
+        return this.orderService.updateById(id, courseOrder);
     }
     deleteCourseOrderById(id, res) {
-        return this.orderService.deleteById(id).pipe((0, rxjs_1.map)((courseOrder) => {
-            return res.status(204).send();
-        }));
+        return this.orderService.deleteById(id);
     }
 };
 exports.CourseOrderController = CourseOrderController;
 __decorate([
     (0, common_1.Get)(''),
-    __param(0, (0, common_1.Query)('q')),
-    __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
-    __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
+    (0, swagger_1.ApiQuery)({ name: 'qUser', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'qCourse', required: false }),
+    __param(0, (0, common_1.Query)('qUser')),
+    __param(1, (0, common_1.Query)('qCourse')),
+    __param(2, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
+    __param(3, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, Number]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:paramtypes", [String, String, Number, Number]),
+    __metadata("design:returntype", Promise)
 ], CourseOrderController.prototype, "getAllCourseOrders", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], CourseOrderController.prototype, "getCourseOrderById", null);
 __decorate([
     (0, common_1.Post)(''),
+    responser_decorator_1.Responser.handle('Create course order'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [course_order_dto_1.CreateCourseOrderDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:paramtypes", [course_order_dto_1.CreateCourseOrderDTO]),
+    __metadata("design:returntype", void 0)
 ], CourseOrderController.prototype, "createCourseOrder", null);
 __decorate([
     (0, common_1.Put)(':id'),
@@ -80,7 +74,7 @@ __decorate([
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, course_order_dto_1.UpdateCourseOrderDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], CourseOrderController.prototype, "updateCourseOrder", null);
 __decorate([
     (0, common_1.Delete)(':id'),
@@ -88,7 +82,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], CourseOrderController.prototype, "deleteCourseOrderById", null);
 exports.CourseOrderController = CourseOrderController = __decorate([
     (0, swagger_1.ApiTags)('Course order'),

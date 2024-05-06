@@ -1,6 +1,6 @@
-import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { EXAM_QUESTION_MODEL } from 'src/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
@@ -14,58 +14,59 @@ export class ExamQuestionService {
     @Inject(REQUEST) private req: AuthenticatedRequest,
   ){}
 
-  findAll(keyword?: string, skip = 0, limit = 10) : Observable<ExamQuestion[]>{
-    if(keyword){
-      return from(
-        this.questionModel
-        .find({title: {$regex: '.*' + keyword + '.*'}})
-        .skip(skip)
-        .limit(limit)
-        .exec(),
-      );
-    }else{
-      return from(this.questionModel.find({}).skip(skip).limit(limit).exec());
+  async findAll(keyword?: string, skip: number = 0, limit: number = 10): Promise<ExamQuestion[]> {
+    if (keyword && keyword.trim() === '') {
+      throw new BadRequestException('Do not enter spaces.');
+  }
+    const query = keyword? 
+        { question: { $regex: keyword, $options: 'i' } } : {};
+
+    return this.questionModel.find({...query}).select('-__v').skip(skip).limit(limit).exec();
+  }
+
+  async findById(id: string): Promise<ExamQuestion>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
     }
+
+    const res = this.questionModel.findById(id);
+
+    if(!res){
+      throw new NotFoundException('Question not found.');
+    }
+    
+    return res;
   }
 
-  findById(id: string): Observable<ExamQuestion>{
-    return from(this.questionModel.findOne({_id: id}).exec()).pipe(
-      mergeMap((p)=> (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`video: $id was not found`)),
-    );
+  async save(data: CreateExamQuestionDTO): Promise<ExamQuestion> {
+    const existing = await this.questionModel.findOne({ question: data.question });
+
+    if (existing) {
+        throw new BadRequestException('Question already exists');
+    }
+
+    const res = await this.questionModel.create({...data});
+    return res;
   }
 
-  save(data: CreateExamQuestionDTO): Observable<ExamQuestion>{
-    const createQuestion: Promise<ExamQuestion> = this.questionModel.create({
-      ...data,
-      // createBy: {_id: this.req.user.id},
+  async updateById(id: string, question: UpdateExamQuestionDTO): Promise<ExamQuestion>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+    return await this.questionModel.findByIdAndUpdate(id, question,{
+      new: true,
+      runValidators: true
     });
-    return from(createQuestion);
   }
 
-  update(id: string, data: UpdateExamQuestionDTO): Observable<ExamQuestion>{
-    return from(
-      this.questionModel
-      .findOneAndUpdate(
-        {_id: id},
-        {...data, updateBy: {_id: this.req.user.id}},
-        {new: true},
-      )
-      .exec(),
-    ).pipe(
-      mergeMap((p) => (p? of(p) : EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`question: $id was not found`)),
-    );
-  }
-
-  deleteAll() : Observable<any>{
-    return from(this.questionModel.deleteMany({}).exec());
-  }
-
-  deleteById(id: string) : Observable<ExamQuestion>{
-    return from(this.questionModel.findOneAndDelete({_id: id}).exec()).pipe(
-      mergeMap((p) => (p? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`question: $id was not found`)),
-    );
+  async deleteById(id: string): Promise<ExamQuestion>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+    const res = await this.questionModel.findByIdAndDelete(id)
+    return res;
   }
 }

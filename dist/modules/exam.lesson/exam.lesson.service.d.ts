@@ -23,7 +23,6 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
-import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
@@ -33,11 +32,10 @@ export declare class ExamLessonService {
     private questionModel;
     private req;
     constructor(lessonModel: Model<ExamLesson>, questionModel: Model<ExamQuestion>, req: AuthenticatedRequest);
-    findAll(keyword?: string, skip?: number, limit?: number): Observable<ExamLesson[]>;
-    findById(id: string): Observable<ExamLesson>;
-    save(data: CreateExamLessonDTO): Observable<ExamLesson>;
-    update(id: string, data: UpdateExamLessonDTO): Observable<ExamLesson>;
-    deleteAll(): Observable<any>;
-    deleteById(id: string): Observable<ExamLesson>;
-    questionsOf(id: string): Observable<ExamQuestion[]>;
+    findAll(keyword?: string, skip?: number, limit?: number): Promise<ExamLesson[]>;
+    findById(id: string): Promise<ExamLesson>;
+    save(data: CreateExamLessonDTO): Promise<ExamLesson>;
+    updateById(id: string, examLesson: UpdateExamLessonDTO): Promise<ExamLesson>;
+    deleteById(id: string): Promise<ExamLesson>;
+    lessonsOf(id: string): Promise<ExamQuestion[]>;
 }

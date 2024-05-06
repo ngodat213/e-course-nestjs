@@ -23,7 +23,6 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
-import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Feedback } from 'src/modules/feedback/feedback.model';
 import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';
@@ -31,10 +30,9 @@ export declare class FeedbackService {
     private feedbackModel;
     private req;
     constructor(feedbackModel: Model<Feedback>, req: AuthenticatedRequest);
-    findAll(keyword?: string, skip?: number, limit?: number): Observable<Feedback[]>;
-    findById(id: string): Observable<Feedback>;
-    save(data: CreateFeedbackDTO): Observable<Feedback>;
-    update(id: string, data: UpdateFeedbackDTO): Observable<Feedback>;
-    deleteAll(): Observable<any>;
-    deleteById(id: string): Observable<Feedback>;
+    findAll(keywordUser?: string, keywordCourse?: string, skip?: number, limit?: number): Promise<Feedback[]>;
+    findById(id: string): Promise<Feedback>;
+    save(data: CreateFeedbackDTO): Promise<Feedback>;
+    updateById(id: string, category: UpdateFeedbackDTO): Promise<Feedback>;
+    deleteById(id: string): Promise<Feedback>;
 }

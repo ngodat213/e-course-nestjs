@@ -23,7 +23,6 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
-import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
@@ -31,10 +30,9 @@ export declare class ExamQuestionService {
     private questionModel;
     private req;
     constructor(questionModel: Model<ExamQuestion>, req: AuthenticatedRequest);
-    findAll(keyword?: string, skip?: number, limit?: number): Observable<ExamQuestion[]>;
-    findById(id: string): Observable<ExamQuestion>;
-    save(data: CreateExamQuestionDTO): Observable<ExamQuestion>;
-    update(id: string, data: UpdateExamQuestionDTO): Observable<ExamQuestion>;
-    deleteAll(): Observable<any>;
-    deleteById(id: string): Observable<ExamQuestion>;
+    findAll(keyword?: string, skip?: number, limit?: number): Promise<ExamQuestion[]>;
+    findById(id: string): Promise<ExamQuestion>;
+    save(data: CreateExamQuestionDTO): Promise<ExamQuestion>;
+    updateById(id: string, question: UpdateExamQuestionDTO): Promise<ExamQuestion>;
+    deleteById(id: string): Promise<ExamQuestion>;
 }

@@ -22,7 +22,6 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import { Model } from 'mongoose';
@@ -31,10 +30,9 @@ export declare class CourseVideoService {
     private videoModel;
     private req;
     constructor(videoModel: Model<CourseVideo>, req: AuthenticatedRequest);
-    findAll(keyword?: string, skip?: number, limit?: number): Observable<CourseVideo[]>;
-    findById(id: string): Observable<CourseVideo>;
-    save(data: CreateCourseVideoDTO): Observable<CourseVideo>;
-    update(id: string, data: UpdateCourseVideoDTO): Observable<CourseVideo>;
-    deleteAll(): Observable<any>;
-    deleteById(id: string): Observable<CourseVideo>;
+    findAll(keyword?: string, skip?: number, limit?: number): Promise<CourseVideo[]>;
+    findById(id: string): Promise<CourseVideo>;
+    save(data: CreateCourseVideoDTO): Promise<CourseVideo>;
+    updateById(id: string, Course: UpdateCourseVideoDTO): Promise<CourseVideo>;
+    deleteById(id: string): Promise<CourseVideo>;
 }

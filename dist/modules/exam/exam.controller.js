@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExamController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const rxjs_1 = require("rxjs");
 const exam_service_1 = require("./exam.service");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const exam_dto_1 = require("./exam.dto");
@@ -29,23 +28,14 @@ let ExamController = class ExamController {
     getExamById(id) {
         return this.examService.findById(id);
     }
-    createExam(exam, res) {
-        return this.examService.save(exam).pipe((0, rxjs_1.map)((exam) => {
-            return res
-                .location('/exams/' + exam._id)
-                .status(201)
-                .send();
-        }));
+    createExam(exam) {
+        return this.examService.save(exam);
     }
     updateExam(id, exam, res) {
-        return this.examService.update(id, exam).pipe((0, rxjs_1.map)((exam) => {
-            return res.status(204).send();
-        }));
+        return this.examService.updateById(id, exam);
     }
-    deleteExamById(id, res) {
-        return this.examService.deleteById(id).pipe((0, rxjs_1.map)((exam) => {
-            return res.status(204).send();
-        }));
+    deleteExamById(id) {
+        return this.examService.deleteById(id);
     }
     getAllLessonsOfExam(id) {
         return this.examService.lessonsOf(id);
@@ -54,27 +44,27 @@ let ExamController = class ExamController {
 exports.ExamController = ExamController;
 __decorate([
     (0, common_1.Get)(''),
+    (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Number, Number]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], ExamController.prototype, "getAllExams", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], ExamController.prototype, "getExamById", null);
 __decorate([
     (0, common_1.Post)(''),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [exam_dto_1.CreateExamDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:paramtypes", [exam_dto_1.CreateExamDTO]),
+    __metadata("design:returntype", void 0)
 ], ExamController.prototype, "createExam", null);
 __decorate([
     (0, common_1.Put)(':id'),
@@ -83,22 +73,21 @@ __decorate([
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, exam_dto_1.UpdateExamDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], ExamController.prototype, "updateExam", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
 ], ExamController.prototype, "deleteExamById", null);
 __decorate([
     (0, common_1.Get)(':id/lessons'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], ExamController.prototype, "getAllLessonsOfExam", null);
 exports.ExamController = ExamController = __decorate([
     (0, swagger_1.ApiTags)('Exam'),

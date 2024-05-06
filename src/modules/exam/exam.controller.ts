@@ -1,5 +1,5 @@
 import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Observable, map } from 'rxjs';
 import { ExamService } from './exam.service';
@@ -14,63 +14,47 @@ export class ExamController {
   constructor(private examService: ExamService){}
 
   @Get('')
+  @ApiQuery({ name: 'q', required: false })
   getAllExams(
-    @Query('q') keyword? :string,
+    @Query('q')  keyword?: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
-  ): Observable<Exam[]>{
+  ): Promise<Exam[]> {
     return this.examService.findAll(keyword, skip, limit);
   }
 
   @Get(':id')
-  getExamById(@Param('id', ParseObjectIdPipe)id : string) : Observable<Exam>{
+  getExamById(@Param('id', ParseObjectIdPipe)id : string) : Promise<Exam>{
     return this.examService.findById(id);
   }
 
   @Post('')
   createExam(
     @Body() exam: CreateExamDTO,
-    @Res() res: Response,
-  ): Observable<Response> {
-    return this.examService.save(exam).pipe(
-      map((exam) => {
-        return res
-        .location('/exams/' + exam._id)
-        .status(201)
-        .send();
-      }),
-    );
+  ) {
+    return this.examService.save(exam);
   }
 
   @Put(':id')
   updateExam(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() exam: UpdateExamDTO,
-    @Res() res: Response,
-  ) :Observable<Response>{
-    return this.examService.update(id, exam).pipe(
-      map((exam) => {
-        return res.status(204).send();
-      }),
-    );
+    @Res() res: Response, 
+  ) :Promise<Exam>{
+    return this.examService.updateById(id, exam);
   }
 
   @Delete(':id')
   deleteExamById(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Res() res: Response,
-  ): Observable<Response>{
-    return this.examService.deleteById(id).pipe(
-      map((exam) => {
-        return res.status(204).send();
-      }),
-    );
+  ): Promise<Exam>{
+    return this.examService.deleteById(id);
   }
 
   @Get(':id/lessons')
   getAllLessonsOfExam(
     @Param('id', ParseObjectIdPipe) id: string,
-  ): Observable<ExamLesson[]>{
+  ): Promise<ExamLesson[]>{
     return this.examService.lessonsOf(id);
   }
 }

@@ -1,7 +1,6 @@
-import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { Model } from 'mongoose';
-import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
+import mongoose, { Model } from 'mongoose';
 import { EXAM_LESSON_MODEL, EXAM_MODEL } from 'src/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
@@ -16,67 +15,74 @@ export class ExamService {
     @Inject(REQUEST) private req: AuthenticatedRequest,
   ){}
 
-  findAll(keyword?: string, skip = 0, limit = 10) : Observable<Exam[]>{
-    if(keyword){
-      return from(
-        this.examModel
-        .find({title: {$regex: '.*' + keyword + '.*'}})
-        .skip(skip)
-        .limit(limit)
-        .exec()
-      );
-    }else{
-      return from(this.examModel.find({}).skip(skip).limit(limit).exec());
+  async findAll(keyword?: string, skip: number = 0, limit: number = 10): Promise<Exam[]> {
+    if (keyword && keyword.trim() === '') {
+      throw new BadRequestException('Do not enter spaces.');
+  }
+    const query = keyword? 
+        { title: { $regex: keyword, $options: 'i' } } : {};
+
+    return this.examModel.find({...query}).select('-__v').skip(skip).limit(limit).exec();
+  }
+
+  async findById(id: string): Promise<Exam>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
     }
+
+    const res = this.examModel.findById(id);
+
+    if(!res){
+      throw new NotFoundException('Exam not found.');
+    }
+    
+    return res;
   }
 
-  findById(id: string): Observable<Exam>{
-    return from(this.examModel.findOne({_id: id}).exec()).pipe(
-      mergeMap((p) => (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`lesson: $id was not found`)),
-    );
-  }
+  async save(data: CreateExamDTO): Promise<Exam> {
+    const existing = await this.examModel.findOne({ title: data.title });
 
-  save(data: CreateExamDTO): Observable<Exam>{
-    const createExam: Promise<Exam> = this.examModel.create({
-      ...data
+    if (existing) {
+        throw new BadRequestException('Exam already exists');
+    }
+
+    const res = await this.examModel.create({...data});
+    return res;
+}
+
+
+  async updateById(id: string, exam: UpdateExamDTO): Promise<Exam>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+    return await this.examModel.findByIdAndUpdate(id, exam,{
+      new: true,
+      runValidators: true
     });
-    return from(createExam);
   }
 
-  update(id: string, data: UpdateExamDTO): Observable<Exam>{
-    return from(
-      this.examModel
-      .findOneAndUpdate(
-        {_id: id},
-        {...data, updateBy: {_id: this.req.user.id}},
-        {new: true}
-      )
-      .exec(),
-    ).pipe(
-      mergeMap((p) => (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`exam: $id was not found`)),
-    );
+  deleteAll(): Promise<any>{
+    return this.examModel.deleteMany({}).exec();
   }
 
-  deleteAll(): Observable<any>{
-    return from(this.examModel.deleteMany({}).exec());
+  async deleteById(id: string): Promise<Exam>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+    const res = await this.examModel.findByIdAndDelete(id)
+    return res;
   }
 
-  deleteById(id: string): Observable<Exam>{
-    return from(this.examModel.findByIdAndDelete({_id: id}).exec()).pipe(
-      mergeMap((p) => (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`exam: $id was not found`)),
-    )
-  }
-
-  lessonsOf(id: string): Observable<ExamLesson[]>{
+  lessonsOf(id: string): Promise<ExamLesson[]> {
     const lessons = this.lessonModel
     .find({
-      exam: {_id: id}
+      Exam: {_id: id},
     })
     .select('-exam')
     .exec();
-    return from(lessons)
+    return lessons;
   }
 }

@@ -1,7 +1,6 @@
-import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { Model } from 'mongoose';
-import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
+import mongoose, { Model } from 'mongoose';
 import { FEEDBACK_MODEL } from 'src/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Feedback } from 'src/modules/feedback/feedback.model';
@@ -14,57 +13,63 @@ export class FeedbackService {
     @Inject(REQUEST) private req: AuthenticatedRequest,
   ){}
 
-  findAll(keyword?: string, skip = 0, limit = 10) : Observable<Feedback[]>{
-    if(keyword){
-      return from(
-        this.feedbackModel
-        .find({title: {$regex: '.*' + keyword + '.*'}})
-        .skip(skip)
-        .limit(limit)
-        .exec(),
-      );
-    }else{
-      return from(this.feedbackModel.find({}).skip(skip).limit(limit).exec());
+  async findAll(keywordUser?: string, keywordCourse?: string, skip: number = 0, limit: number = 10): Promise<Feedback[]> {
+    if (keywordUser && keywordUser.trim() === '') {
+      throw new BadRequestException('Do not enter spaces.');
     }
+    if (keywordCourse && keywordCourse.trim() === '') {
+      throw new BadRequestException('Do not enter spaces.');
+    }
+
+    const query: any = {};
+    if (keywordUser) {
+        query.user = { $regex: keywordUser, $options: 'i' };
+    }
+    if (keywordCourse) {
+        query.course = { $regex: keywordCourse, $options: 'i' };
+    }
+    
+    return this.feedbackModel.find({...query}).select('-__v').skip(skip).limit(limit).exec();
   }
 
-  findById(id: string): Observable<Feedback>{
-    return from(this.feedbackModel.findOne({_id: id}).exec()).pipe(
-      mergeMap((p)=> (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`video: $id was not found`)),
-    );
+  async findById(id: string): Promise<Feedback>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+
+    const res = this.feedbackModel.findById(id);
+    if(!res){
+      throw new NotFoundException('Category not found.');
+    }
+    return res;
   }
 
-  save(data: CreateFeedbackDTO): Observable<Feedback>{
-    const createQuestion: Promise<Feedback> = this.feedbackModel.create({
-      ...data,
+  async save(data: CreateFeedbackDTO): Promise<Feedback> {
+    const res = await this.feedbackModel.create({...data});
+    return res;
+}
+
+
+  async updateById(id: string, category: UpdateFeedbackDTO): Promise<Feedback>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+
+    return await this.feedbackModel.findByIdAndUpdate(id, category,{
+      new: true,
+      runValidators: true
     });
-    return from(createQuestion);
   }
+  
+  async deleteById(id: string): Promise<Feedback>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
 
-  update(id: string, data: UpdateFeedbackDTO): Observable<Feedback>{
-    return from(
-      this.feedbackModel
-      .findOneAndUpdate(
-        {_id: id},
-        {...data, updateBy: {_id: this.req.user.id}},
-        {new: true},
-      )
-      .exec(),
-    ).pipe(
-      mergeMap((p) => (p? of(p) : EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`feedback: $id was not found`)),
-    );
-  }
-
-  deleteAll() : Observable<any>{
-    return from(this.feedbackModel.deleteMany({}).exec());
-  }
-
-  deleteById(id: string) : Observable<Feedback>{
-    return from(this.feedbackModel.findOneAndDelete({_id: id}).exec()).pipe(
-      mergeMap((p) => (p? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`feedback: $id was not found`)),
-    );
+    const res = await this.feedbackModel.findByIdAndDelete(id)
+    return res;
   }
 }

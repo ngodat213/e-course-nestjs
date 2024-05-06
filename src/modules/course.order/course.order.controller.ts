@@ -5,7 +5,8 @@ import { Response } from 'express';
 import { Observable, map } from 'rxjs';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseOrderDTO, UpdateCourseOrderDTO } from './course.order.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Responser } from 'src/decorators/responser.decorator';
 
 @ApiTags('Course order')
 @Controller('order')
@@ -13,56 +14,44 @@ export class CourseOrderController {
   constructor(private orderService: CourseOrderService){}
 
   @Get('')
+  @ApiQuery({ name: 'qUser', required: false })
+  @ApiQuery({ name: 'qCourse', required: false })
   getAllCourseOrders(
-    @Query('q') keyword? :string,
+    @Query('qUser')  keywordUser?: string,
+    @Query('qCourse')  keywordCourse?: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
-  ): Observable<CourseOrder[]>{
-    return this.orderService.findAll(keyword, skip, limit);
+  ): Promise<CourseOrder[]> {
+    return this.orderService.findAll(keywordUser, keywordCourse, skip, limit);
   }
 
   @Get(':id')
-  getCourseOrderById(@Param('id', ParseObjectIdPipe)id : string) : Observable<CourseOrder>{
+  getCourseOrderById(@Param('id', ParseObjectIdPipe)id : string) : Promise<CourseOrder>{
     return this.orderService.findById(id);
   }
 
   @Post('')
+  @Responser.handle('Create course order')
   createCourseOrder(
     @Body() courseOrder: CreateCourseOrderDTO,
-    @Res() res: Response,
-  ): Observable<Response> {
-    return this.orderService.save(courseOrder).pipe(
-      map((feedback) => {
-        return res
-        .location('/courseOrders/' + feedback._id)
-        .status(201)
-        .send();
-      }),
-    );
+  ) {
+    return this.orderService.save(courseOrder);
   }
 
   @Put(':id')
   updateCourseOrder(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() courseOrder: UpdateCourseOrderDTO,
-    @Res() res: Response,
-  ) :Observable<Response>{
-    return this.orderService.update(id, courseOrder).pipe(
-      map((courseOrder) => {
-        return res.status(204).send();
-      }),
-    );
+    @Res() res: Response, 
+  ) :Promise<CourseOrder>{
+    return this.orderService.updateById(id, courseOrder);
   }
 
   @Delete(':id')
   deleteCourseOrderById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,
-  ): Observable<Response>{
-    return this.orderService.deleteById(id).pipe(
-      map((courseOrder) => {
-        return res.status(204).send();
-      }),
-    );
+  ): Promise<CourseOrder>{
+    return this.orderService.deleteById(id);
   }
 }

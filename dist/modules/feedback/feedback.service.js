@@ -16,44 +16,60 @@ exports.FeedbackService = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
-const rxjs_1 = require("rxjs");
 const database_constants_1 = require("../../database/database.constants");
 let FeedbackService = class FeedbackService {
     constructor(feedbackModel, req) {
         this.feedbackModel = feedbackModel;
         this.req = req;
     }
-    findAll(keyword, skip = 0, limit = 10) {
-        if (keyword) {
-            return (0, rxjs_1.from)(this.feedbackModel
-                .find({ title: { $regex: '.*' + keyword + '.*' } })
-                .skip(skip)
-                .limit(limit)
-                .exec());
+    async findAll(keywordUser, keywordCourse, skip = 0, limit = 10) {
+        if (keywordUser && keywordUser.trim() === '') {
+            throw new common_1.BadRequestException('Do not enter spaces.');
         }
-        else {
-            return (0, rxjs_1.from)(this.feedbackModel.find({}).skip(skip).limit(limit).exec());
+        if (keywordCourse && keywordCourse.trim() === '') {
+            throw new common_1.BadRequestException('Do not enter spaces.');
         }
+        const query = {};
+        if (keywordUser) {
+            query.user = { $regex: keywordUser, $options: 'i' };
+        }
+        if (keywordCourse) {
+            query.course = { $regex: keywordCourse, $options: 'i' };
+        }
+        return this.feedbackModel.find({ ...query }).select('-__v').skip(skip).limit(limit).exec();
     }
-    findById(id) {
-        return (0, rxjs_1.from)(this.feedbackModel.findOne({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`video: $id was not found`)));
+    async findById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const res = this.feedbackModel.findById(id);
+        if (!res) {
+            throw new common_1.NotFoundException('Category not found.');
+        }
+        return res;
     }
-    save(data) {
-        const createQuestion = this.feedbackModel.create({
-            ...data,
+    async save(data) {
+        const res = await this.feedbackModel.create({ ...data });
+        return res;
+    }
+    async updateById(id, category) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        return await this.feedbackModel.findByIdAndUpdate(id, category, {
+            new: true,
+            runValidators: true
         });
-        return (0, rxjs_1.from)(createQuestion);
     }
-    update(id, data) {
-        return (0, rxjs_1.from)(this.feedbackModel
-            .findOneAndUpdate({ _id: id }, { ...data, updateBy: { _id: this.req.user.id } }, { new: true })
-            .exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`feedback: $id was not found`)));
-    }
-    deleteAll() {
-        return (0, rxjs_1.from)(this.feedbackModel.deleteMany({}).exec());
-    }
-    deleteById(id) {
-        return (0, rxjs_1.from)(this.feedbackModel.findOneAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`feedback: $id was not found`)));
+    async deleteById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const res = await this.feedbackModel.findByIdAndDelete(id);
+        return res;
     }
 };
 exports.FeedbackService = FeedbackService;

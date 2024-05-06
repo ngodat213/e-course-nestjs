@@ -1,10 +1,10 @@
-import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { COURSE_VIDEO_MODEL } from 'src/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
 
 @Injectable({ scope: Scope.REQUEST })
@@ -14,58 +14,59 @@ export class CourseVideoService {
     @Inject(REQUEST) private req: AuthenticatedRequest,
   ){}
 
-  findAll(keyword?: string, skip = 0, limit = 10) : Observable<CourseVideo[]>{
-    if(keyword){
-      return from(
-        this.videoModel
-        .find({title: {$regex: '.*' + keyword + '.*'}})
-        .skip(skip)
-        .limit(limit)
-        .exec(),
-      );
-    }else{
-      return from(this.videoModel.find({}).skip(skip).limit(limit).exec());
+  async findAll(keyword?: string, skip: number = 0, limit: number = 10): Promise<CourseVideo[]> {
+    if (keyword && keyword.trim() === '') {
+      throw new BadRequestException('Do not enter spaces.');
+  }
+    const query = keyword? 
+        { title: { $regex: keyword, $options: 'i' } } : {};
+
+    return this.videoModel.find({...query}).select('-__v').skip(skip).limit(limit).exec();
+  }
+
+  async findById(id: string): Promise<CourseVideo>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
     }
+
+    const res = this.videoModel.findById(id);
+
+    if(!res){
+      throw new NotFoundException('Course not found.');
+    }
+    
+    return res;
   }
 
-  findById(id: string): Observable<CourseVideo>{
-    return from(this.videoModel.findOne({_id: id}).exec()).pipe(
-      mergeMap((p)=> (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`video: $id was not found`)),
-    );
+  async save(data: CreateCourseVideoDTO): Promise<CourseVideo> {
+    const existing = await this.videoModel.findOne({ title: data.title });
+
+    if (existing) {
+        throw new BadRequestException('Course already exists');
+    }
+
+    const res = await this.videoModel.create({...data});
+    return res;
   }
 
-  save(data: CreateCourseVideoDTO): Observable<CourseVideo>{
-    const createCourse: Promise<CourseVideo> = this.videoModel.create({
-      ...data,
-      // createBy: {_id: this.req.user.id},
+  async updateById(id: string, Course: UpdateCourseVideoDTO): Promise<CourseVideo>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+    return await this.videoModel.findByIdAndUpdate(id, Course,{
+      new: true,
+      runValidators: true
     });
-    return from(createCourse);
   }
 
-  update(id: string, data: UpdateCourseVideoDTO): Observable<CourseVideo>{
-    return from(
-      this.videoModel
-      .findOneAndUpdate(
-        {_id: id},
-        {...data, updateBy: {_id: this.req.user.id}},
-        {new: true},
-      )
-      .exec(),
-    ).pipe(
-      mergeMap((p) => (p? of(p) : EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`video: $id was not found`)),
-    );
-  }
-
-  deleteAll() : Observable<any>{
-    return from(this.videoModel.deleteMany({}).exec());
-  }
-
-  deleteById(id: string) : Observable<CourseVideo>{
-    return from(this.videoModel.findOneAndDelete({_id: id}).exec()).pipe(
-      mergeMap((p) => (p? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`video: $id was not found`)),
-    );
+  async deleteById(id: string): Promise<CourseVideo>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+    const res = await this.videoModel.findByIdAndDelete(id)
+    return res;
   }
 }

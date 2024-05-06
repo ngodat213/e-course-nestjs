@@ -5,7 +5,8 @@ import { Response } from 'express';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Responser } from 'src/decorators/responser.decorator';
 
 @ApiTags('Course Video')
 @Controller({path: 'course/videos', scope: Scope.REQUEST})
@@ -13,56 +14,39 @@ export class CourseVideoController {
   constructor(private videoService: CourseVideoService){}
 
   @Get('')
-  getAllVideos(
-    @Query('q') keyword? :string,
+  @ApiQuery({ name: 'q', required: false })
+  getAllCourseVideos(
+    @Query('q')  keyword?: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
-  ): Observable<CourseVideo[]>{
+  ): Promise<CourseVideo[]> {
     return this.videoService.findAll(keyword, skip, limit);
   }
 
   @Get(':id')
-  getCourseById(@Param('id', ParseObjectIdPipe)id : string) : Observable<CourseVideo>{
+  getCourseVideoById(@Param('id', ParseObjectIdPipe)id : string) : Promise<CourseVideo>{
     return this.videoService.findById(id);
   }
 
   @Post('')
-  createCourse(
+  createCourseVideo(
     @Body() video: CreateCourseVideoDTO,
-    @Res() res: Response,
-  ): Observable<Response> {
-    return this.videoService.save(video).pipe(
-      map((video) => {
-        return res
-        .location('/videos' + video._id)
-        .status(201)
-        .send();
-      }),
-    );
+  ) {
+    return this.videoService.save(video);
   }
 
   @Put(':id')
-  updateCourse(
+  updateCourseVideo(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() video: UpdateCourseVideoDTO,
-    @Res() res: Response,
-  ) :Observable<Response>{
-    return this.videoService.update(id, video).pipe(
-      map((video) => {
-        return res.status(204).send();
-      }),
-    );
+  ) :Promise<CourseVideo>{
+    return this.videoService.updateById(id, video);
   }
 
   @Delete(':id')
-  deleteCourseById(
+  deleteCourseVideoById(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Res() res: Response,
-  ): Observable<Response>{
-    return this.videoService.deleteById(id).pipe(
-      map((video) => {
-        return res.status(204).send();
-      }),
-    );
+  ): Promise<CourseVideo>{
+    return this.videoService.deleteById(id);
   }
 }
