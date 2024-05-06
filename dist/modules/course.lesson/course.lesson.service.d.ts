@@ -23,7 +23,6 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
-import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
@@ -33,11 +32,10 @@ export declare class CourseLessonService {
     private videoModel;
     private req;
     constructor(lessonModel: Model<CourseLesson>, videoModel: Model<CourseVideo>, req: AuthenticatedRequest);
-    findAll(keyword?: string, skip?: number, limit?: number): Observable<CourseLesson[]>;
-    findById(id: string): Observable<CourseLesson>;
-    save(data: CreateCourseLessonDTO): Observable<CourseLesson>;
-    update(id: string, data: UpdateCourseLessonDTO): Observable<CourseLesson>;
-    deleteAll(): Observable<any>;
-    deleteById(id: string): Observable<CourseLesson>;
-    videosOf(id: string): Observable<CourseVideo[]>;
+    findAll(keyword?: string, skip?: number, limit?: number): Promise<CourseLesson[]>;
+    findById(id: string): Promise<CourseLesson>;
+    save(data: CreateCourseLessonDTO): Promise<CourseLesson>;
+    updateById(id: string, courseLesson: UpdateCourseLessonDTO): Promise<CourseLesson>;
+    deleteById(id: string): Promise<CourseLesson>;
+    lessonsOf(id: string): Promise<CourseVideo[]>;
 }

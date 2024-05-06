@@ -16,7 +16,6 @@ exports.CourseService = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
-const rxjs_1 = require("rxjs");
 const database_constants_1 = require("../../database/database.constants");
 let CourseService = class CourseService {
     constructor(courseModel, teacherModel, courseLessonModel, req) {
@@ -25,41 +24,53 @@ let CourseService = class CourseService {
         this.courseLessonModel = courseLessonModel;
         this.req = req;
     }
-    exitsTeacher(userId) {
-        return (0, rxjs_1.from)(this.teacherModel.exists({ _id: userId, roles: ['USER', 'TEACHER'] }).exec()).pipe((0, rxjs_1.map)((exits) => !exits));
-    }
-    findAll(keyword, skip = 0, limit = 10) {
-        if (keyword) {
-            return (0, rxjs_1.from)(this.courseModel
-                .find({ title: { $regex: '.*' + keyword + '.*' } })
-                .skip(skip)
-                .limit(limit)
-                .exec());
+    async findAll(keyword, skip = 0, limit = 10) {
+        if (keyword && keyword.trim() === '') {
+            throw new common_1.BadRequestException('Do not enter spaces.');
         }
-        else {
-            return (0, rxjs_1.from)(this.courseModel.find({}).skip(skip).limit(limit).exec());
+        const query = keyword ?
+            { title: { $regex: keyword, $options: 'i' } } : {};
+        return this.courseModel.find({ ...query }).select('-__v').skip(skip).limit(limit).exec();
+    }
+    async findById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
         }
+        const res = this.courseModel.findById(id);
+        if (!res) {
+            throw new common_1.NotFoundException('Course not found.');
+        }
+        return res;
     }
-    findById(id) {
-        return (0, rxjs_1.from)(this.courseModel.findOne({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`video: $id was not found`)));
+    async save(data) {
+        const existing = await this.courseModel.findOne({ title: data.title });
+        if (existing) {
+            throw new common_1.BadRequestException('Course already exists');
+        }
+        const res = await this.courseModel.create({ ...data });
+        return res;
     }
-    save(data) {
-        const createCourse = this.courseModel.create({
-            ...data,
+    async updateById(id, Course) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        return await this.courseModel.findByIdAndUpdate(id, Course, {
+            new: true,
+            runValidators: true
         });
-        return (0, rxjs_1.from)(createCourse);
-    }
-    update(id, data) {
-        return (0, rxjs_1.from)(this.courseModel
-            .findOneAndUpdate({ _id: id }, { ...data,
-        }, { new: true })
-            .exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`course: $id was not found`)));
     }
     deleteAll() {
-        return (0, rxjs_1.from)(this.courseModel.deleteMany({}).exec());
+        return this.courseModel.deleteMany({}).exec();
     }
-    deleteById(id) {
-        return (0, rxjs_1.from)(this.courseModel.findOneAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`course: $id was not found`)));
+    async deleteById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const res = await this.courseModel.findByIdAndDelete(id);
+        return res;
     }
     lessonsOf(id) {
         const lessons = this.courseLessonModel
@@ -68,7 +79,7 @@ let CourseService = class CourseService {
         })
             .select('-course')
             .exec();
-        return (0, rxjs_1.from)(lessons);
+        return lessons;
     }
 };
 exports.CourseService = CourseService;

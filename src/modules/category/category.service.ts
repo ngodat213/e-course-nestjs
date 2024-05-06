@@ -1,11 +1,12 @@
-import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { EMPTY, Observable, from, map, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { CATEGORY_MODEL } from 'src/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Category } from 'src/modules/category/category.model';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
+import { query } from 'express';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CategoryService {
@@ -14,65 +15,59 @@ export class CategoryService {
     @Inject(REQUEST) private req: AuthenticatedRequest,
   ){}
 
-  existByName(category: string){
-    return this.categoryModel.exists({category: category}).exec();
+  async findAll(keyword?: string, skip: number = 0, limit: number = 10): Promise<Category[]> {
+    if (keyword && keyword.trim() === '') {
+      throw new BadRequestException('Do not enter spaces.');
+  }
+    const query = keyword? 
+        { category: { $regex: keyword, $options: 'i' } } : {};
+
+    return this.categoryModel.find({...query}).select('-__v').skip(skip).limit(limit).exec();
   }
 
-  findAll(keyword?: string, skip = 0, limit = 10) : Observable<Category[]>{
-    if(keyword){
-      return from(
-        this.categoryModel
-        .find({title: {$regex: '.*' + keyword + '.*'}})
-        .skip(skip)
-        .limit(limit)
-        .exec(),
-      );
-    }else{
-      return from(this.categoryModel.find({}).skip(skip).limit(limit).exec());
+  async findById(id: string): Promise<Category>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
     }
-  }
 
-  findById(id: string): Observable<Category>{
-    return from(this.categoryModel.findOne({_id: id}).exec()).pipe(
-      mergeMap((p) => (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`category: $id was not found`)),
-    );
-  }
-
-  save(data: CreateCategoryDTO){
-    if(this.existByName(data.category)){
-      throw `Category: ${data.category} was existed`
-    }else{
-      const createExam = this.categoryModel.create({
-        ...data
-      });
-      return createExam;
+    const res = this.categoryModel.findById(id);
+    if(!res){
+      throw new NotFoundException('Category not found.');
     }
+    return res;
   }
 
-  update(id: string, data: UpdateCategoryDTO): Observable<Category>{
-    return from(
-      this.categoryModel
-      .findOneAndUpdate(
-        {_id: id},
-        {...data, updateBy: {_id: this.req.user.id}},
-        {new: true}
-      )
-      .exec(),
-    ).pipe(
-      mergeMap((p) => (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`category: $id was not found`)),
-    );
-  }
+  async save(data: CreateCategoryDTO): Promise<Category> {
+    const existingCategory = await this.categoryModel.findOne({ category: data.category });
+    if (existingCategory) {
+        throw new BadRequestException('Category already exists');
+    }
 
-  deleteAll(): Observable<any>{
-    return from(this.categoryModel.deleteMany({}).exec());
-  }
+    const res = await this.categoryModel.create({...data});
+    return res;
+}
 
-  deleteById(id: string): Observable<Category>{
-    return from(this.categoryModel.findByIdAndDelete({_id: id}).exec()).pipe(
-      mergeMap((p) => (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`category: $id was not found`)),
-    )
+
+  async updateById(id: string, category: UpdateCategoryDTO): Promise<Category>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+
+    return await this.categoryModel.findByIdAndUpdate(id, category,{
+      new: true,
+      runValidators: true
+    });
+  }
+  
+  async deleteById(id: string): Promise<Category>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+
+    const res = await this.categoryModel.findByIdAndDelete(id)
+    return res;
   }
 }

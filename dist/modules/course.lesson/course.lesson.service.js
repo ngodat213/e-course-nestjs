@@ -16,7 +16,6 @@ exports.CourseLessonService = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
-const rxjs_1 = require("rxjs");
 const database_constants_1 = require("../../database/database.constants");
 let CourseLessonService = class CourseLessonService {
     constructor(lessonModel, videoModel, req) {
@@ -24,46 +23,59 @@ let CourseLessonService = class CourseLessonService {
         this.videoModel = videoModel;
         this.req = req;
     }
-    findAll(keyword, skip = 0, limit = 10) {
-        if (keyword) {
-            return (0, rxjs_1.from)(this.lessonModel
-                .find({ title: { $regex: '.*' + keyword + '.*' } })
-                .skip(skip)
-                .limit(limit)
-                .exec());
+    async findAll(keyword, skip = 0, limit = 10) {
+        if (keyword && keyword.trim() === '') {
+            throw new common_1.BadRequestException('Do not enter spaces.');
         }
-        else {
-            return (0, rxjs_1.from)(this.lessonModel.find({}).skip(skip).limit(limit).exec());
+        const query = keyword ?
+            { title: { $regex: keyword, $options: 'i' } } : {};
+        return this.lessonModel.find({ ...query }).select('-__v').skip(skip).limit(limit).exec();
+    }
+    async findById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
         }
+        const res = this.lessonModel.findById(id);
+        if (!res) {
+            throw new common_1.NotFoundException('CourseLesson not found.');
+        }
+        return res;
     }
-    findById(id) {
-        return (0, rxjs_1.from)(this.lessonModel.findOne({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`lesson: $id was not found`)));
+    async save(data) {
+        const existing = await this.lessonModel.findOne({ title: data.title });
+        if (existing) {
+            throw new common_1.BadRequestException('CourseLesson already exists');
+        }
+        const res = await this.lessonModel.create({ ...data });
+        return res;
     }
-    save(data) {
-        const createCourseLesson = this.lessonModel.create({
-            ...data
+    async updateById(id, courseLesson) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        return await this.lessonModel.findByIdAndUpdate(id, courseLesson, {
+            new: true,
+            runValidators: true
         });
-        return (0, rxjs_1.from)(createCourseLesson);
     }
-    update(id, data) {
-        return (0, rxjs_1.from)(this.lessonModel
-            .findOneAndUpdate({ _id: id }, { ...data, updateBy: { _id: this.req.user.id } }, { new: true })
-            .exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`lesson: $id was not found`)));
+    async deleteById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const res = await this.lessonModel.findByIdAndDelete(id);
+        return res;
     }
-    deleteAll() {
-        return (0, rxjs_1.from)(this.lessonModel.deleteMany({}).exec());
-    }
-    deleteById(id) {
-        return (0, rxjs_1.from)(this.lessonModel.findByIdAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`lesson: $id was not found`)));
-    }
-    videosOf(id) {
-        const videos = this.videoModel
+    lessonsOf(id) {
+        const lessons = this.videoModel
             .find({
-            lesson: { _id: id }
+            lesson: { _id: id },
         })
-            .select('-lesson')
+            .select('-course')
             .exec();
-        return (0, rxjs_1.from)(videos);
+        return lessons;
     }
 };
 exports.CourseLessonService = CourseLessonService;

@@ -1,7 +1,6 @@
-import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { Model } from 'mongoose';
-import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
+import mongoose, { Model } from 'mongoose';
 import { COURSE_LESSON_MODEL, COURSE_VIDEO_MODEL } from 'src/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
@@ -16,67 +15,69 @@ export class CourseLessonService {
     @Inject(REQUEST) private req: AuthenticatedRequest,
   ){}
 
-  findAll(keyword?: string, skip = 0, limit = 10) : Observable<CourseLesson[]>{
-    if(keyword){
-      return from(
-        this.lessonModel
-        .find({title: {$regex: '.*' + keyword + '.*'}})
-        .skip(skip)
-        .limit(limit)
-        .exec()
-      );
-    }else{
-      return from(this.lessonModel.find({}).skip(skip).limit(limit).exec());
+  async findAll(keyword?: string, skip: number = 0, limit: number = 10): Promise<CourseLesson[]> {
+    if (keyword && keyword.trim() === '') {
+      throw new BadRequestException('Do not enter spaces.');
+  }
+    const query = keyword? 
+        { title: { $regex: keyword, $options: 'i' } } : {};
+
+    return this.lessonModel.find({...query}).select('-__v').skip(skip).limit(limit).exec();
+  }
+
+  async findById(id: string): Promise<CourseLesson>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
     }
+
+    const res = this.lessonModel.findById(id);
+    if(!res){
+      throw new NotFoundException('CourseLesson not found.');
+    }
+    return res;
   }
 
-  findById(id: string): Observable<CourseLesson>{
-    return from(this.lessonModel.findOne({_id: id}).exec()).pipe(
-      mergeMap((p) => (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`lesson: $id was not found`)),
-    );
-  }
+  async save(data: CreateCourseLessonDTO): Promise<CourseLesson> {
+    const existing = await this.lessonModel.findOne({ title: data.title });
 
-  save(data: CreateCourseLessonDTO): Observable<CourseLesson>{
-    const createCourseLesson: Promise<CourseLesson> = this.lessonModel.create({
-      ...data
+    if (existing) {
+        throw new BadRequestException('CourseLesson already exists');
+    }
+
+    const res = await this.lessonModel.create({...data});
+    return res;
+}
+
+
+  async updateById(id: string, courseLesson: UpdateCourseLessonDTO): Promise<CourseLesson>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+    return await this.lessonModel.findByIdAndUpdate(id, courseLesson,{
+      new: true,
+      runValidators: true
     });
-    return from(createCourseLesson);
   }
 
-  update(id: string, data: UpdateCourseLessonDTO): Observable<CourseLesson>{
-    return from(
-      this.lessonModel
-      .findOneAndUpdate(
-        {_id: id},
-        {...data, updateBy: {_id: this.req.user.id}},
-        {new: true}
-      )
-      .exec(),
-    ).pipe(
-      mergeMap((p) => (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`lesson: $id was not found`)),
-    );
+  async deleteById(id: string): Promise<CourseLesson>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+
+    const res = await this.lessonModel.findByIdAndDelete(id)
+    return res;
   }
 
-  deleteAll(): Observable<any>{
-    return from(this.lessonModel.deleteMany({}).exec());
-  }
-
-  deleteById(id: string): Observable<CourseLesson>{
-    return from(this.lessonModel.findByIdAndDelete({_id: id}).exec()).pipe(
-      mergeMap((p) => (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`lesson: $id was not found`)),
-    )
-  }
-
-  videosOf(id: string): Observable<CourseVideo[]>{
-    const videos = this.videoModel
+  lessonsOf(id: string): Promise<CourseVideo[]> {
+    const lessons = this.videoModel
     .find({
-      lesson: {_id: id}
+      lesson: {_id: id},
     })
-    .select('-lesson')
+    .select('-course')
     .exec();
-    return from(videos)
+    return lessons;
   }
 }

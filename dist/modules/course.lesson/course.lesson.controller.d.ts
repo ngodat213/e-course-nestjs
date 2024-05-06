@@ -1,16 +1,14 @@
 import { CourseLessonService } from './course.lesson.service';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
-import { Observable } from 'rxjs';
 import { CreateCourseLessonDTO, UpdateCourseLessonDTO } from './course.lesson.dto';
-import { Response } from 'express';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 export declare class CourseLessonController {
     private lessonService;
     constructor(lessonService: CourseLessonService);
-    getAllLessons(keyword?: string, limit?: number, skip?: number): Observable<CourseLesson[]>;
-    getLessonById(id: string): Observable<CourseLesson>;
-    createLesson(lesson: CreateCourseLessonDTO, res: Response): Observable<Response>;
-    updateLesson(id: string, lesson: UpdateCourseLessonDTO, res: Response): Observable<Response>;
-    deleteLessonById(id: string, res: Response): Observable<Response>;
-    getAllLessonsOfLesson(id: string): Observable<CourseVideo[]>;
+    getAllCourseLessons(keyword?: string, limit?: number, skip?: number): Promise<CourseLesson[]>;
+    getCourseLessonById(id: string): Promise<CourseLesson>;
+    createCourseLesson(lesson: CreateCourseLessonDTO): Promise<CourseLesson>;
+    updateCourseLesson(id: string, lesson: UpdateCourseLessonDTO): Promise<CourseLesson>;
+    deleteCourseLessonById(id: string): Promise<CourseLesson>;
+    getAllLessonsOfCourse(id: string): Promise<CourseVideo[]>;
 }

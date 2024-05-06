@@ -23,7 +23,6 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Model } from 'mongoose';
-import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
@@ -35,12 +34,11 @@ export declare class CourseService {
     private courseLessonModel;
     private req;
     constructor(courseModel: Model<Course>, teacherModel: Model<User>, courseLessonModel: Model<CourseLesson>, req: AuthenticatedRequest);
-    exitsTeacher(userId: User): Observable<boolean>;
-    findAll(keyword?: string, skip?: number, limit?: number): Observable<Course[]>;
-    findById(id: string): Observable<Course>;
-    save(data: CreateCourseDTO): Observable<Course>;
-    update(id: string, data: UpdateCourseDTO): Observable<Course>;
-    deleteAll(): Observable<any>;
-    deleteById(id: string): Observable<Course>;
-    lessonsOf(id: string): Observable<CourseLesson[]>;
+    findAll(keyword?: string, skip?: number, limit?: number): Promise<Course[]>;
+    findById(id: string): Promise<Course>;
+    save(data: CreateCourseDTO): Promise<Course>;
+    updateById(id: string, Course: UpdateCourseDTO): Promise<Course>;
+    deleteAll(): Promise<any>;
+    deleteById(id: string): Promise<Course>;
+    lessonsOf(id: string): Promise<CourseLesson[]>;
 }

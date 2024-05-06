@@ -15,91 +15,81 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseLessonController = void 0;
 const common_1 = require("@nestjs/common");
 const course_lesson_service_1 = require("./course.lesson.service");
-const rxjs_1 = require("rxjs");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const course_lesson_dto_1 = require("./course.lesson.dto");
 const swagger_1 = require("@nestjs/swagger");
+const responser_decorator_1 = require("../../decorators/responser.decorator");
 let CourseLessonController = class CourseLessonController {
     constructor(lessonService) {
         this.lessonService = lessonService;
     }
-    getAllLessons(keyword, limit, skip) {
+    getAllCourseLessons(keyword, limit, skip) {
         return this.lessonService.findAll(keyword, skip, limit);
     }
-    getLessonById(id) {
+    getCourseLessonById(id) {
         return this.lessonService.findById(id);
     }
-    createLesson(lesson, res) {
-        return this.lessonService.save(lesson).pipe((0, rxjs_1.map)((lesson) => {
-            return res
-                .location('/lessons' + lesson._id)
-                .status(201)
-                .send();
-        }));
+    createCourseLesson(lesson) {
+        return this.lessonService.save(lesson);
     }
-    updateLesson(id, lesson, res) {
-        return this.lessonService.update(id, lesson).pipe((0, rxjs_1.map)((lesson) => {
-            return res.status(204).send();
-        }));
+    updateCourseLesson(id, lesson) {
+        return this.lessonService.updateById(id, lesson);
     }
-    deleteLessonById(id, res) {
-        return this.lessonService.deleteById(id).pipe((0, rxjs_1.map)((lesson) => {
-            return res.status(204).send();
-        }));
+    deleteCourseLessonById(id) {
+        return this.lessonService.deleteById(id);
     }
-    getAllLessonsOfLesson(id) {
-        return this.lessonService.videosOf(id);
+    getAllLessonsOfCourse(id) {
+        return this.lessonService.lessonsOf(id);
     }
 };
 exports.CourseLessonController = CourseLessonController;
 __decorate([
     (0, common_1.Get)(''),
+    (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Number, Number]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], CourseLessonController.prototype, "getAllLessons", null);
+    __metadata("design:returntype", Promise)
+], CourseLessonController.prototype, "getAllCourseLessons", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], CourseLessonController.prototype, "getLessonById", null);
+    __metadata("design:returntype", Promise)
+], CourseLessonController.prototype, "getCourseLessonById", null);
 __decorate([
     (0, common_1.Post)(''),
+    responser_decorator_1.Responser.handle('Create course lesson'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [course_lesson_dto_1.CreateCourseLessonDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], CourseLessonController.prototype, "createLesson", null);
+    __metadata("design:paramtypes", [course_lesson_dto_1.CreateCourseLessonDTO]),
+    __metadata("design:returntype", void 0)
+], CourseLessonController.prototype, "createCourseLesson", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, course_lesson_dto_1.UpdateCourseLessonDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], CourseLessonController.prototype, "updateLesson", null);
+    __metadata("design:paramtypes", [String, course_lesson_dto_1.UpdateCourseLessonDTO]),
+    __metadata("design:returntype", Promise)
+], CourseLessonController.prototype, "updateCourseLesson", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], CourseLessonController.prototype, "deleteLessonById", null);
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], CourseLessonController.prototype, "deleteCourseLessonById", null);
 __decorate([
     (0, common_1.Get)(':id/videos'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", rxjs_1.Observable)
-], CourseLessonController.prototype, "getAllLessonsOfLesson", null);
+    __metadata("design:returntype", Promise)
+], CourseLessonController.prototype, "getAllLessonsOfCourse", null);
 exports.CourseLessonController = CourseLessonController = __decorate([
     (0, swagger_1.ApiTags)('Course Lesson'),
     (0, common_1.Controller)({ path: 'course/lessons', scope: common_1.Scope.REQUEST }),

@@ -5,8 +5,9 @@ import { Observable, map } from 'rxjs';
 import { Course } from 'src/modules/course/course.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
-import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Responser } from 'src/decorators/responser.decorator';
+import { CourseLesson } from '../course.lesson/course.lesson.model';
 
 @ApiTags('Course')
 @Controller({path: 'courses', scope: Scope.REQUEST})
@@ -14,63 +15,48 @@ export class CourseController {
   constructor(private courseService: CourseService){}
 
   @Get('')
+  @ApiQuery({ name: 'q', required: false })
   getAllCourses(
-    @Query('q') keyword? :string,
+    @Query('q')  keyword?: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
-  ): Observable<Course[]>{
+  ): Promise<Course[]> {
     return this.courseService.findAll(keyword, skip, limit);
   }
 
   @Get(':id')
-  getCourseById(@Param('id', ParseObjectIdPipe)id : string) : Observable<Course>{
+  getCourseById(@Param('id', ParseObjectIdPipe)id : string) : Promise<Course>{
     return this.courseService.findById(id);
   }
 
   @Post('')
+  @Responser.handle('Create Course')
   createCourse(
     @Body() course: CreateCourseDTO,
-    @Res() res: Response,
-  ): Observable<Response> {
-    return this.courseService.save(course).pipe(
-      map((course) => {
-        return res
-        .location('/courses' + course._id)
-        .status(201)
-        .send();
-      }),
-    );
+  ) {
+    return this.courseService.save(course);
   }
 
   @Put(':id')
   updateCourse(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() course: UpdateCourseDTO,
-    @Res() res: Response,
-  ) :Observable<Response>{
-    return this.courseService.update(id, course).pipe(
-      map((course) => {
-        return res.status(204).send();
-      }),
-    );
+    @Res() res: Response, 
+  ) :Promise<Course>{
+    return this.courseService.updateById(id, course);
   }
 
   @Delete(':id')
   deleteCourseById(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Res() res: Response,
-  ): Observable<Response>{
-    return this.courseService.deleteById(id).pipe(
-      map((course) => {
-        return res.status(204).send();
-      }),
-    );
+  ): Promise<Course>{
+    return this.courseService.deleteById(id);
   }
 
   @Get(':id/lessons')
   getAllLessonsOfCourse(
     @Param('id', ParseObjectIdPipe) id: string,
-  ): Observable<CourseLesson[]>{
+  ): Promise<CourseLesson[]>{
     return this.courseService.lessonsOf(id);
   }
 }

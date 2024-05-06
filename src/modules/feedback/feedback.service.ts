@@ -39,7 +39,6 @@ export class FeedbackService {
     const createQuestion: Promise<Feedback> = this.feedbackModel.create({
       ...data,
     });
-    console.log(createQuestion);
     return from(createQuestion);
   }
 
