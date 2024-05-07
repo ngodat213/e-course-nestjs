@@ -1,4 +1,4 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { CourseService } from './course.service';
 import { Observable, map } from 'rxjs';
@@ -6,8 +6,11 @@ import { Course } from 'src/modules/course/course.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
-import { Responser } from 'src/decorators/responser.decorator';
 import { CourseLesson } from '../course.lesson/course.lesson.model';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { RoleType } from 'src/shared/enum/role.type.enum';
+import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Course')
 @Controller({path: 'courses', scope: Scope.REQUEST})
@@ -30,7 +33,8 @@ export class CourseController {
   }
 
   @Post('')
-  @Responser.handle('Create Course')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   createCourse(
     @Body() course: CreateCourseDTO,
   ) {
@@ -38,6 +42,8 @@ export class CourseController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   updateCourse(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() course: UpdateCourseDTO,
@@ -47,6 +53,8 @@ export class CourseController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteCourseById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,

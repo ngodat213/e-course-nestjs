@@ -19,7 +19,10 @@ const feedback_service_1 = require("./feedback.service");
 const rxjs_1 = require("rxjs");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const feedback_dto_1 = require("./feedback.dto");
-const role_guard_1 = require("../../auth/guard/role.guard");
+const roles_guard_1 = require("../../auth/guard/roles.guard");
+const auth_guard_1 = require("../../auth/guard/auth.guard");
+const role_type_enum_1 = require("../../shared/enum/role.type.enum");
+const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
 let FeedbackController = class FeedbackController {
     constructor(feedbackService) {
         this.feedbackService = feedbackService;
@@ -47,7 +50,6 @@ __decorate([
     (0, common_1.Get)(''),
     (0, swagger_1.ApiQuery)({ name: 'qUser', required: false }),
     (0, swagger_1.ApiQuery)({ name: 'qCourse', required: false }),
-    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['ADMIN', 'TEACHER'])),
     __param(0, (0, common_1.Query)('qUser')),
     __param(1, (0, common_1.Query)('qCourse')),
     __param(2, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
@@ -58,7 +60,6 @@ __decorate([
 ], FeedbackController.prototype, "getAllFeedbacks", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['ADMIN', 'TEACHER'])),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -66,7 +67,8 @@ __decorate([
 ], FeedbackController.prototype, "getFeedbackById", null);
 __decorate([
     (0, common_1.Post)(''),
-    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER', 'ADMIN', 'TEACHER'])),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.USER, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [feedback_dto_1.CreateFeedbackDTO]),
@@ -74,7 +76,9 @@ __decorate([
 ], FeedbackController.prototype, "createFeedback", null);
 __decorate([
     (0, common_1.Put)(':id'),
-    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['ADMIN', 'TEACHER'])),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Res)()),
@@ -84,7 +88,8 @@ __decorate([
 ], FeedbackController.prototype, "updateFeedback", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER', 'ADMIN', 'TEACHER'])),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.USER, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

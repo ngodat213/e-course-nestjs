@@ -6,7 +6,10 @@ import { Observable, map } from 'rxjs';
 import { Feedback } from 'src/modules/feedback/feedback.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';
-import { RoleGuard } from 'src/auth/guard/role.guard';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { RoleType } from 'src/shared/enum/role.type.enum';
+import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Feedback')
 @Controller({path: 'feedbacks', scope: Scope.REQUEST})
@@ -16,7 +19,6 @@ export class FeedbackController {
   @Get('')
   @ApiQuery({ name: 'qUser', required: false })
   @ApiQuery({ name: 'qCourse', required: false })
-  @UseGuards(new RoleGuard(['ADMIN', 'TEACHER']))
   getAllFeedbacks(
     @Query('qUser')  keywordUser?: string,
     @Query('qCourse')  keywordCourse?: string,
@@ -28,13 +30,13 @@ export class FeedbackController {
 
   
   @Get(':id')
-  @UseGuards(new RoleGuard(['ADMIN', 'TEACHER']))
   getFeedbackById(@Param('id', ParseObjectIdPipe)id : string) : Promise<Feedback>{
     return this.feedbackService.findById(id);
   }
 
   @Post('')
-  @UseGuards(new RoleGuard(['USER', 'ADMIN', 'TEACHER']))
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.USER, RoleType.TEACHER)
   createFeedback(
     @Body() value: CreateFeedbackDTO,
   ) {
@@ -42,7 +44,9 @@ export class FeedbackController {
   }
 
   @Put(':id')
-  @UseGuards(new RoleGuard(['ADMIN', 'TEACHER']))
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
+  @UseGuards(AuthGuard)
   updateFeedback(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() value: UpdateFeedbackDTO,
@@ -52,7 +56,8 @@ export class FeedbackController {
   }
 
   @Delete(':id')
-  @UseGuards(new RoleGuard(['USER', 'ADMIN', 'TEACHER']))
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.USER, RoleType.TEACHER)
   deleteFeedbackById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,

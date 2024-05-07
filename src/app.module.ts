@@ -38,8 +38,7 @@ import { ContactModule } from './modules/contact/contact.module';
     HelperModuleModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService],
+  providers: [AppService],
   exports: [AppService]
 })
 export class AppModule {}

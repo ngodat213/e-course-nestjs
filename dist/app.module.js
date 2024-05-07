@@ -50,9 +50,7 @@ exports.AppModule = AppModule = __decorate([
             helper_module_1.HelperModuleModule,
         ],
         controllers: [app_controller_1.AppController],
-        providers: [
-            app_service_1.AppService
-        ],
+        providers: [app_service_1.AppService],
         exports: [app_service_1.AppService]
     })
 ], AppModule);

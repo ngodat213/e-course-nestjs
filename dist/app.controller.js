@@ -16,17 +16,8 @@ let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
     }
-    getHello() {
-        return this.appService.getHello();
-    }
 };
 exports.AppController = AppController;
-__decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
-], AppController.prototype, "getHello", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])

@@ -19,7 +19,10 @@ const rxjs_1 = require("rxjs");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const course_dto_1 = require("./course.dto");
 const swagger_1 = require("@nestjs/swagger");
-const responser_decorator_1 = require("../../decorators/responser.decorator");
+const roles_guard_1 = require("../../auth/guard/roles.guard");
+const auth_guard_1 = require("../../auth/guard/auth.guard");
+const role_type_enum_1 = require("../../shared/enum/role.type.enum");
+const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
 let CourseController = class CourseController {
     constructor(courseService) {
         this.courseService = courseService;
@@ -65,7 +68,8 @@ __decorate([
 ], CourseController.prototype, "getCourseById", null);
 __decorate([
     (0, common_1.Post)(''),
-    responser_decorator_1.Responser.handle('Create Course'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [course_dto_1.CreateCourseDTO]),
@@ -73,6 +77,8 @@ __decorate([
 ], CourseController.prototype, "createCourse", null);
 __decorate([
     (0, common_1.Put)(':id'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Res)()),
@@ -82,6 +88,8 @@ __decorate([
 ], CourseController.prototype, "updateCourse", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

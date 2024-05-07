@@ -4,9 +4,11 @@ import { User } from 'src/modules/user/user.model';
 import { RegisterDto, UpdateUserDTO } from './user.dto';
 import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
+import { AuthService } from './auth.service';
 export declare class UserController {
     private userService;
-    constructor(userService: UserService);
+    private authService;
+    constructor(userService: UserService, authService: AuthService);
     GetAllUsers(keyword?: string, limit?: number, skip?: number): Observable<User[]>;
     GetCurrentUser(user: User): User;
     Login(req: AuthenticatedRequest, res: Response): Observable<Response>;

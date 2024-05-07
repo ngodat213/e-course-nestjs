@@ -1,4 +1,4 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
 import { CourseVideoService } from './course.video.service';
 import { Observable, map } from 'rxjs';
 import { Response } from 'express';
@@ -7,6 +7,10 @@ import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Responser } from 'src/decorators/responser.decorator';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { RoleType } from 'src/shared/enum/role.type.enum';
+import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Course Video')
 @Controller({path: 'course/videos', scope: Scope.REQUEST})
@@ -29,6 +33,8 @@ export class CourseVideoController {
   }
 
   @Post('')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   createCourseVideo(
     @Body() video: CreateCourseVideoDTO,
   ) {
@@ -36,6 +42,8 @@ export class CourseVideoController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   updateCourseVideo(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() video: UpdateCourseVideoDTO,
@@ -44,6 +52,8 @@ export class CourseVideoController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteCourseVideoById(
     @Param('id', ParseObjectIdPipe) id: string,
   ): Promise<CourseVideo>{

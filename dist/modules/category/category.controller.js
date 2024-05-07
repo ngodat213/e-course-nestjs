@@ -18,8 +18,11 @@ const swagger_1 = require("@nestjs/swagger");
 const category_service_1 = require("./category.service");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const category_dto_1 = require("./category.dto");
-const responser_decorator_1 = require("../../decorators/responser.decorator");
 const rxjs_1 = require("rxjs");
+const roles_guard_1 = require("../../auth/guard/roles.guard");
+const auth_guard_1 = require("../../auth/guard/auth.guard");
+const role_type_enum_1 = require("../../shared/enum/role.type.enum");
+const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
 let CategoryController = class CategoryController {
     constructor(categoryService) {
         this.categoryService = categoryService;
@@ -62,7 +65,8 @@ __decorate([
 ], CategoryController.prototype, "getCategoryById", null);
 __decorate([
     (0, common_1.Post)(''),
-    responser_decorator_1.Responser.handle('Create category'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [category_dto_1.CreateCategoryDTO]),
@@ -70,6 +74,8 @@ __decorate([
 ], CategoryController.prototype, "createCategory", null);
 __decorate([
     (0, common_1.Put)(':id'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -78,6 +84,8 @@ __decorate([
 ], CategoryController.prototype, "updateCategory", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const exam_question_controller_1 = require("./exam.question.controller");
 const exam_question_service_1 = require("./exam.question.service");
 const database_module_1 = require("../../database/database.module");
+const user_service_1 = require("../user/user.service");
 let ExamQuestionModule = class ExamQuestionModule {
 };
 exports.ExamQuestionModule = ExamQuestionModule;
@@ -18,7 +19,7 @@ exports.ExamQuestionModule = ExamQuestionModule = __decorate([
     (0, common_1.Module)({
         imports: [database_module_1.DatabaseModule],
         controllers: [exam_question_controller_1.ExamQuestionController],
-        providers: [exam_question_service_1.ExamQuestionService]
+        providers: [exam_question_service_1.ExamQuestionService, user_service_1.UserService]
     })
 ], ExamQuestionModule);
 //# sourceMappingURL=exam.question.module.js.map

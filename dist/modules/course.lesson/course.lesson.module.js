@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const course_lesson_controller_1 = require("./course.lesson.controller");
 const course_lesson_service_1 = require("./course.lesson.service");
 const database_module_1 = require("../../database/database.module");
+const user_service_1 = require("../user/user.service");
 let CourseLessonModule = class CourseLessonModule {
 };
 exports.CourseLessonModule = CourseLessonModule;
@@ -18,7 +19,7 @@ exports.CourseLessonModule = CourseLessonModule = __decorate([
     (0, common_1.Module)({
         imports: [database_module_1.DatabaseModule],
         controllers: [course_lesson_controller_1.CourseLessonController],
-        providers: [course_lesson_service_1.CourseLessonService]
+        providers: [course_lesson_service_1.CourseLessonService, user_service_1.UserService]
     })
 ], CourseLessonModule);
 //# sourceMappingURL=course.lesson.module.js.map

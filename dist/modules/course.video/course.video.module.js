@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const course_video_controller_1 = require("./course.video.controller");
 const course_video_service_1 = require("./course.video.service");
 const database_module_1 = require("../../database/database.module");
+const user_service_1 = require("../user/user.service");
 let CourseVideoModule = class CourseVideoModule {
 };
 exports.CourseVideoModule = CourseVideoModule;
@@ -18,7 +19,7 @@ exports.CourseVideoModule = CourseVideoModule = __decorate([
     (0, common_1.Module)({
         imports: [database_module_1.DatabaseModule],
         controllers: [course_video_controller_1.CourseVideoController],
-        providers: [course_video_service_1.CourseVideoService]
+        providers: [course_video_service_1.CourseVideoService, user_service_1.UserService]
     })
 ], CourseVideoModule);
 //# sourceMappingURL=course.video.module.js.map

@@ -5,16 +5,12 @@ import { User, UserModel } from 'src/modules/user/user.model';
 import { RegisterDto, UpdateUserDTO } from './user.dto';
 import { RoleType } from '../../shared/enum/role.type.enum';
 import { UserPrincipal } from 'src/interfaces/user-principal.interface';
-import { TokenResult } from 'src/interfaces/auth.interface';
-import { JwtPayload } from 'src/interfaces/jwt.interface';
-import { JwtService } from '@nestjs/jwt';
 import { Permission } from 'src/helper/checkPermission.helper';
-
+``
 @Injectable()
 export class UserService {
   constructor(
     @Inject(USER_MODEL) private userModel: UserModel,
-    private jwtService: JwtService,
   ){}
 
   findByEmail(email: string): Observable<User | undefined> {
@@ -31,7 +27,7 @@ export class UserService {
     );
   }
 
-  register(data: RegisterDto): Observable<User>{
+  create(data: RegisterDto): Observable<User>{
     const created = this.userModel.create({
       ...data,
       roles: [RoleType.USER],
@@ -57,21 +53,6 @@ export class UserService {
     );
   } 
 
-  login(user: UserPrincipal): Observable<TokenResult>{
-    const payload: JwtPayload = {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      photoUrl: user.photoUrl,
-      roles: user.roles,
-    };
-    return from(this.jwtService.signAsync(payload)).pipe(
-      map((access_token) => {
-        return {access_token};
-      }),
-    );
-  }
-
   findAll(keyword?: string, skip = 0, limit = 10): Observable<User[]>{
     if (keyword && keyword.trim() === '') {
       throw new BadRequestException('Do not enter spaces.');
@@ -88,31 +69,6 @@ export class UserService {
     }else{
       return from(this.userModel.find({}).select('-password -__v',).skip(skip).limit(limit).exec());
     }
-  }
-
-  findById(id: string, 
-    withCourses = false, 
-    withExams = false, 
-    withBlogs = false, 
-    withQAs = false,
-    withFvCourses = false,
-    withFvExams = false,
-    withFvTeacher = false,
-    withFvQAs = false,
-  ): Observable<User>{
-    const userQuery = this.userModel.findOne({_id: id}).select('-password');
-    if(withCourses) userQuery.populate('courses');
-    if(withExams) userQuery.populate('finishedExams');
-    if(withBlogs) userQuery.populate('blogs');
-    if(withQAs) userQuery.populate('qAs');
-    if(withFvCourses) userQuery.populate('favouritesCourses');
-    if(withFvExams) userQuery.populate('favouritesExams');
-    // if(withFvTeacher) userQuery.populate('favouritesTeachers');
-    if(withFvQAs) userQuery.populate('favouritesQAs');
-    return from(userQuery.exec()).pipe(
-      mergeMap((p) => (p? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`user: $id was not found`)),
-    );
   }
 
   async updateById(id: string, requestBody: UpdateUserDTO, currentUser: User){
@@ -144,22 +100,4 @@ export class UserService {
       email: updatedUser.email,
     }
   }
-
-  // Code
-  lock(id: string) :Observable<User>{
-    return from(this.userModel.findById(id))
-  }
-
-  // Changed password
-  // changePassword(data: ChangePasswordDTO): Observable<UserPrincipal>{
-  //   return this.findByEmail(data.email).pipe(
-  //     mergeMap((p) => (p ? of(p) : EMPTY)),
-  //     throwIfEmpty(() => new UnauthorizedException(`email: ${data.email} was not found`)),
-
-  //     mergeMap((user) => {
-  //       user.password = data.newPw;
-  //       return user as UserPrincipal;
-  //     })
-  //   )
-  // }
 }

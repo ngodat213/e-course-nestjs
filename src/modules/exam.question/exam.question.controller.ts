@@ -6,7 +6,10 @@ import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { Observable, map } from 'rxjs';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
-import { RoleGuard } from 'src/auth/guard/role.guard';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
+import { RoleType } from 'src/shared/enum/role.type.enum';
+import { HasRoles } from 'src/auth/guard/has-roles.decorator';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 @ApiTags('Exam question')
 @Controller({path: 'exam/questions', scope: Scope.REQUEST})
@@ -15,7 +18,6 @@ export class ExamQuestionController {
 
   @Get('')
   @ApiQuery({ name: 'q', required: false })
-  @UseGuards(new RoleGuard(['USER', 'ADMIN', 'TEACHER']))
   getAllExams(
     @Query('q')  keyword?: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
@@ -25,12 +27,13 @@ export class ExamQuestionController {
   }
 
   @Get(':id')
-  @UseGuards(new RoleGuard(['USER', 'ADMIN', 'TEACHER']))
   getExamById(@Param('id', ParseObjectIdPipe)id : string) : Promise<ExamQuestion>{
     return this.questionService.findById(id);
   }
 
   @Post('')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   createExam(
     @Body() exam: CreateExamQuestionDTO,
   ) {
@@ -38,6 +41,8 @@ export class ExamQuestionController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   updateExam(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() exam: UpdateExamQuestionDTO,
@@ -47,6 +52,8 @@ export class ExamQuestionController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteQuestionById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,

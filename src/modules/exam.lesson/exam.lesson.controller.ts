@@ -1,4 +1,4 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Observable, map } from 'rxjs';
 import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
@@ -8,6 +8,10 @@ import { CreateExamLessonDTO, UpdateExamLessonDTO } from './exam.lesson.dto';
 import { Response } from 'express';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { Responser } from 'src/decorators/responser.decorator';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { RoleType } from 'src/shared/enum/role.type.enum';
+import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Exam Lesson')
 @Controller({path: 'exam/lessons', scope: Scope.REQUEST})
@@ -30,7 +34,8 @@ export class ExamLessonController {
   }
 
   @Post('')
-  @Responser.handle('Create course lesson')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   createCourseLesson(
     @Body() lesson: CreateExamLessonDTO,
   ) {
@@ -38,6 +43,8 @@ export class ExamLessonController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   updateCourseLesson(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() lesson: UpdateExamLessonDTO,
@@ -46,6 +53,8 @@ export class ExamLessonController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteLessonById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,

@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const contact_controller_1 = require("./contact.controller");
 const contact_service_1 = require("./contact.service");
 const database_module_1 = require("../../database/database.module");
+const user_service_1 = require("../user/user.service");
 let ContactModule = class ContactModule {
 };
 exports.ContactModule = ContactModule;
@@ -18,7 +19,7 @@ exports.ContactModule = ContactModule = __decorate([
     (0, common_1.Module)({
         imports: [database_module_1.DatabaseModule],
         controllers: [contact_controller_1.ContactController],
-        providers: [contact_service_1.ContactService]
+        providers: [contact_service_1.ContactService, user_service_1.UserService]
     })
 ], ContactModule);
 //# sourceMappingURL=contact.module.js.map

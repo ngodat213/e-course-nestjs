@@ -21,11 +21,15 @@ const user_dto_1 = require("./user.dto");
 const local_auth_guard_1 = require("../../auth/guard/local-auth.guard");
 const current_user_decorator_1 = require("../../decorators/current.user.decorator");
 const swagger_1 = require("@nestjs/swagger");
-const role_guard_1 = require("../../auth/guard/role.guard");
+const roles_guard_1 = require("../../auth/guard/roles.guard");
 const auth_guard_1 = require("../../auth/guard/auth.guard");
+const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
+const role_type_enum_1 = require("../../shared/enum/role.type.enum");
+const auth_service_1 = require("./auth.service");
 let UserController = class UserController {
-    constructor(userService) {
+    constructor(userService, authService) {
         this.userService = userService;
+        this.authService = authService;
     }
     GetAllUsers(keyword, limit, skip) {
         return this.userService.findAll(keyword, skip, limit);
@@ -34,7 +38,7 @@ let UserController = class UserController {
         return user;
     }
     Login(req, res) {
-        return this.userService.login(req.user).pipe((0, rxjs_1.map)(token => {
+        return this.authService.login(req.user).pipe((0, rxjs_1.map)(token => {
             return res
                 .header('Authorization', 'Bearer ' + token.access_token)
                 .json(token)
@@ -48,7 +52,7 @@ let UserController = class UserController {
                 throw new common_1.ConflictException(`email: ${email} is existed`);
             }
             else {
-                return this.userService.register(registerDto).pipe((0, rxjs_1.map)(user => res.location('/users/' + user.id)
+                return this.authService.register(registerDto).pipe((0, rxjs_1.map)(user => res.location('/users/' + user.id)
                     .status(201)
                     .send()));
             }
@@ -62,8 +66,8 @@ exports.UserController = UserController;
 __decorate([
     (0, common_1.Get)(),
     (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
-    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER'])),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
@@ -73,7 +77,8 @@ __decorate([
 ], UserController.prototype, "GetAllUsers", null);
 __decorate([
     (0, common_1.Get)('/current'),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.USER, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, current_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -99,8 +104,8 @@ __decorate([
 ], UserController.prototype, "Register", null);
 __decorate([
     (0, common_1.Put)('/:id'),
-    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER', 'ADMIN', 'TEACHER'])),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.USER, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, current_user_decorator_1.GetUser)()),
@@ -111,6 +116,7 @@ __decorate([
 exports.UserController = UserController = __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: "/users" }),
-    __metadata("design:paramtypes", [user_service_1.UserService])
+    __metadata("design:paramtypes", [user_service_1.UserService,
+        auth_service_1.AuthService])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map

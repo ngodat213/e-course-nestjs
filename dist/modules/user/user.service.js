@@ -17,12 +17,11 @@ const common_1 = require("@nestjs/common");
 const rxjs_1 = require("rxjs");
 const database_constants_1 = require("../../database/database.constants");
 const role_type_enum_1 = require("../../shared/enum/role.type.enum");
-const jwt_1 = require("@nestjs/jwt");
 const checkPermission_helper_1 = require("../../helper/checkPermission.helper");
+``;
 let UserService = class UserService {
-    constructor(userModel, jwtService) {
+    constructor(userModel) {
         this.userModel = userModel;
-        this.jwtService = jwtService;
     }
     findByEmail(email) {
         return (0, rxjs_1.from)(this.userModel.findOne({ email: email }).exec());
@@ -33,7 +32,7 @@ let UserService = class UserService {
     exitsByEmail(email) {
         return (0, rxjs_1.from)(this.userModel.exists({ email }).exec()).pipe((0, rxjs_1.map)((exits) => exits != null));
     }
-    register(data) {
+    create(data) {
         const created = this.userModel.create({
             ...data,
             roles: [role_type_enum_1.RoleType.USER],
@@ -53,18 +52,6 @@ let UserService = class UserService {
             }));
         }));
     }
-    login(user) {
-        const payload = {
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            photoUrl: user.photoUrl,
-            roles: user.roles,
-        };
-        return (0, rxjs_1.from)(this.jwtService.signAsync(payload)).pipe((0, rxjs_1.map)((access_token) => {
-            return { access_token };
-        }));
-    }
     findAll(keyword, skip = 0, limit = 10) {
         if (keyword && keyword.trim() === '') {
             throw new common_1.BadRequestException('Do not enter spaces.');
@@ -80,24 +67,6 @@ let UserService = class UserService {
         else {
             return (0, rxjs_1.from)(this.userModel.find({}).select('-password -__v').skip(skip).limit(limit).exec());
         }
-    }
-    findById(id, withCourses = false, withExams = false, withBlogs = false, withQAs = false, withFvCourses = false, withFvExams = false, withFvTeacher = false, withFvQAs = false) {
-        const userQuery = this.userModel.findOne({ _id: id }).select('-password');
-        if (withCourses)
-            userQuery.populate('courses');
-        if (withExams)
-            userQuery.populate('finishedExams');
-        if (withBlogs)
-            userQuery.populate('blogs');
-        if (withQAs)
-            userQuery.populate('qAs');
-        if (withFvCourses)
-            userQuery.populate('favouritesCourses');
-        if (withFvExams)
-            userQuery.populate('favouritesExams');
-        if (withFvQAs)
-            userQuery.populate('favouritesQAs');
-        return (0, rxjs_1.from)(userQuery.exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`user: $id was not found`)));
     }
     async updateById(id, requestBody, currentUser) {
         let user = await this.userModel.findById(id);
@@ -119,14 +88,11 @@ let UserService = class UserService {
             email: updatedUser.email,
         };
     }
-    lock(id) {
-        return (0, rxjs_1.from)(this.userModel.findById(id));
-    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)(database_constants_1.USER_MODEL)),
-    __metadata("design:paramtypes", [Object, jwt_1.JwtService])
+    __metadata("design:paramtypes", [Object])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

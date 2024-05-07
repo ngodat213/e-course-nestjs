@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, ConflictException, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Put, Query, Req, Request, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ConflictException, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Put, Query, Req, Request, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { Observable, map, mergeMap } from 'rxjs';
@@ -8,48 +8,25 @@ import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
 import { GetUser } from 'src/decorators/current.user.decorator';
-import { ApiBearerAuth, ApiProperty, ApiQuery, ApiSecurity } from '@nestjs/swagger';
-import { RoleGuard } from 'src/auth/guard/role.guard';
+import { ApiBearerAuth, ApiProperty, ApiQuery } from '@nestjs/swagger';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
-import { required } from '@hapi/joi';
+import { HasRoles } from 'src/auth/guard/has-roles.decorator';
+import { RoleType } from 'src/shared/enum/role.type.enum';
+import { AuthService } from './auth.service';
 
 @ApiBearerAuth()
 @Controller({ path: "/users" })
 export class UserController {
-  constructor(private userService: UserService){}
-
-  // @Get(':id')
-  // @UseGuards(new RoleGuard(['user']))
-  // @UseGuards(AuthGuard)
-  // getUser(
-  //   @Param('id', ParseObjectIdPipe) id: string,
-  //   @Query('withCourses', new DefaultValuePipe(false)) withCourses: boolean,
-  //   @Query('withExams', new DefaultValuePipe(false)) withExams: boolean,
-  //   @Query('withBlogs', new DefaultValuePipe(false)) withBlogs: boolean,
-  //   @Query('withQAs', new DefaultValuePipe(false)) withQAs: boolean,
-  //   @Query('withFvCourses', new DefaultValuePipe(false)) withFvCourses: boolean,
-  //   @Query('withFvExams', new DefaultValuePipe(false)) withFvExams: boolean,
-  //   @Query('withFvTeacher', new DefaultValuePipe(false)) withFvTeacher: boolean,
-  //   @Query('withFvQAs', new DefaultValuePipe(false)) withFvQAs: boolean,
-  // ): Observable<Partial<User>>{
-  //   return this
-  //   .userService
-  //   .findById(id, 
-  //     withCourses, 
-  //     withExams, 
-  //     withBlogs, 
-  //     withQAs, 
-  //     withFvCourses, 
-  //     withFvExams, 
-  //     withFvTeacher, 
-  //     withFvQAs
-  //   );
-  // }
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+  ){}
 
   @Get()
   @ApiQuery({ name: 'q', required: false })
-  @UseGuards(new RoleGuard(['USER']))
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN)
   GetAllUsers(
     @Query('q') keyword? :string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
@@ -59,7 +36,8 @@ export class UserController {
   }
 
   @Get('/current')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.USER, RoleType.TEACHER)
   GetCurrentUser(@GetUser() user: User) {
     return user;
   }
@@ -71,7 +49,7 @@ export class UserController {
     @Req() req: AuthenticatedRequest, 
     @Res() res: Response
   ) : Observable<Response>{
-    return this.userService.login(req.user).pipe(
+    return this.authService.login(req.user).pipe(
         map(token => {
           return res
             .header('Authorization', 'Bearer ' + token.access_token)
@@ -92,7 +70,7 @@ export class UserController {
         if(exits){
           throw new ConflictException(`email: ${email} is existed`);
         }else{
-          return this.userService.register(registerDto).pipe(
+          return this.authService.register(registerDto).pipe(
             map(user => 
               res.location('/users/' + user.id)
               .status(201)
@@ -105,8 +83,8 @@ export class UserController {
   }
 
   @Put('/:id')
-  @UseGuards(new RoleGuard(['USER', 'ADMIN', 'TEACHER']))
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.USER, RoleType.TEACHER)
   updateUser(
     @Param('id', ParseObjectIdPipe) id: string,
     @Body() requestBody: UpdateUserDTO,

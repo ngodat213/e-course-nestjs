@@ -1,12 +1,15 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CategoryService } from './category.service';
 import { Category } from 'src/modules/category/category.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
-import { Responser } from 'src/decorators/responser.decorator';
 import { Observable, map } from 'rxjs';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { RoleType } from 'src/shared/enum/role.type.enum';
+import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Category')
 @Controller({path: 'categorys', scope: Scope.REQUEST})
@@ -29,7 +32,8 @@ export class CategoryController {
   }
 
   @Post('')
-  @Responser.handle('Create category')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   createCategory(
     @Body() category: CreateCategoryDTO,
   ) {
@@ -37,6 +41,8 @@ export class CategoryController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   updateCategory(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() category: UpdateCategoryDTO,
@@ -45,6 +51,8 @@ export class CategoryController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteCategoryById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,

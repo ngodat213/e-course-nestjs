@@ -19,7 +19,10 @@ const exam_question_service_1 = require("./exam.question.service");
 const rxjs_1 = require("rxjs");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const exam_question_dto_1 = require("./exam.question.dto");
-const role_guard_1 = require("../../auth/guard/role.guard");
+const roles_guard_1 = require("../../auth/guard/roles.guard");
+const role_type_enum_1 = require("../../shared/enum/role.type.enum");
+const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
+const auth_guard_1 = require("../../auth/guard/auth.guard");
 let ExamQuestionController = class ExamQuestionController {
     constructor(questionService) {
         this.questionService = questionService;
@@ -46,7 +49,6 @@ exports.ExamQuestionController = ExamQuestionController;
 __decorate([
     (0, common_1.Get)(''),
     (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
-    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER', 'ADMIN', 'TEACHER'])),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
@@ -56,7 +58,6 @@ __decorate([
 ], ExamQuestionController.prototype, "getAllExams", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER', 'ADMIN', 'TEACHER'])),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -64,6 +65,8 @@ __decorate([
 ], ExamQuestionController.prototype, "getExamById", null);
 __decorate([
     (0, common_1.Post)(''),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [exam_question_dto_1.CreateExamQuestionDTO]),
@@ -71,6 +74,8 @@ __decorate([
 ], ExamQuestionController.prototype, "createExam", null);
 __decorate([
     (0, common_1.Put)(':id'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Res)()),
@@ -80,6 +85,8 @@ __decorate([
 ], ExamQuestionController.prototype, "updateExam", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
