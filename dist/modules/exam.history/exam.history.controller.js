@@ -14,64 +14,58 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExamHistoryController = void 0;
 const common_1 = require("@nestjs/common");
-const rxjs_1 = require("rxjs");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const swagger_1 = require("@nestjs/swagger");
 const exam_history_service_1 = require("./exam.history.service");
 const exam_history_dto_1 = require("./exam.history.dto");
+const responser_decorator_1 = require("../../decorators/responser.decorator");
 let ExamHistoryController = class ExamHistoryController {
     constructor(historyService) {
         this.historyService = historyService;
     }
-    getAllExamHistorys(keyword, limit, skip) {
-        return this.historyService.findAll(keyword, skip, limit);
+    getAllExamHistorys(keywordUser, keywordExam, limit, skip) {
+        return this.historyService.findAll(keywordUser, keywordExam, skip, limit);
     }
     getExamHistoryById(id) {
         return this.historyService.findById(id);
     }
-    createExamHistory(history, res) {
-        return this.historyService.save(history).pipe((0, rxjs_1.map)((history) => {
-            return res
-                .location('/examhistory/' + history._id)
-                .status(201)
-                .send();
-        }));
+    createExamHistory(courseOrder) {
+        return this.historyService.save(courseOrder);
     }
-    updateExamHistory(id, history, res) {
-        return this.historyService.update(id, history).pipe((0, rxjs_1.map)((history) => {
-            return res.status(204).send();
-        }));
+    updateExamHistory(id, courseOrder, res) {
+        return this.historyService.updateById(id, courseOrder);
     }
     deleteExamHistoryById(id, res) {
-        return this.historyService.deleteById(id).pipe((0, rxjs_1.map)((history) => {
-            return res.status(204).send();
-        }));
+        return this.historyService.deleteById(id);
     }
 };
 exports.ExamHistoryController = ExamHistoryController;
 __decorate([
     (0, common_1.Get)(''),
-    __param(0, (0, common_1.Query)('q')),
-    __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
-    __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
+    (0, swagger_1.ApiQuery)({ name: 'qUser', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'qExam', required: false }),
+    __param(0, (0, common_1.Query)('qUser')),
+    __param(1, (0, common_1.Query)('qExam')),
+    __param(2, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
+    __param(3, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, Number]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:paramtypes", [String, String, Number, Number]),
+    __metadata("design:returntype", Promise)
 ], ExamHistoryController.prototype, "getAllExamHistorys", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], ExamHistoryController.prototype, "getExamHistoryById", null);
 __decorate([
     (0, common_1.Post)(''),
+    responser_decorator_1.Responser.handle('Create course order'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [exam_history_dto_1.CreateExamHistoryDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:paramtypes", [exam_history_dto_1.CreateExamHistoryDTO]),
+    __metadata("design:returntype", void 0)
 ], ExamHistoryController.prototype, "createExamHistory", null);
 __decorate([
     (0, common_1.Put)(':id'),
@@ -80,7 +74,7 @@ __decorate([
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, exam_history_dto_1.UpdateExamHistoryDTO, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], ExamHistoryController.prototype, "updateExamHistory", null);
 __decorate([
     (0, common_1.Delete)(':id'),
@@ -88,7 +82,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", Promise)
 ], ExamHistoryController.prototype, "deleteExamHistoryById", null);
 exports.ExamHistoryController = ExamHistoryController = __decorate([
     (0, swagger_1.ApiTags)('Exam History'),

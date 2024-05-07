@@ -19,6 +19,7 @@ const exam_question_service_1 = require("./exam.question.service");
 const rxjs_1 = require("rxjs");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const exam_question_dto_1 = require("./exam.question.dto");
+const role_guard_1 = require("../../auth/guard/role.guard");
 let ExamQuestionController = class ExamQuestionController {
     constructor(questionService) {
         this.questionService = questionService;
@@ -45,6 +46,7 @@ exports.ExamQuestionController = ExamQuestionController;
 __decorate([
     (0, common_1.Get)(''),
     (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
+    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER', 'ADMIN', 'TEACHER'])),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
@@ -54,6 +56,7 @@ __decorate([
 ], ExamQuestionController.prototype, "getAllExams", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER', 'ADMIN', 'TEACHER'])),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

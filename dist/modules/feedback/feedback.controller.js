@@ -19,21 +19,22 @@ const feedback_service_1 = require("./feedback.service");
 const rxjs_1 = require("rxjs");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const feedback_dto_1 = require("./feedback.dto");
+const role_guard_1 = require("../../auth/guard/role.guard");
 let FeedbackController = class FeedbackController {
     constructor(feedbackService) {
         this.feedbackService = feedbackService;
     }
-    getAllExams(keywordUser, keywordCourse, limit, skip) {
+    getAllFeedbacks(keywordUser, keywordCourse, limit, skip) {
         return this.feedbackService.findAll(keywordUser, keywordCourse, skip, limit);
     }
-    getExamById(id) {
+    getFeedbackById(id) {
         return this.feedbackService.findById(id);
     }
-    createExam(exam) {
-        return this.feedbackService.save(exam);
+    createFeedback(value) {
+        return this.feedbackService.save(value);
     }
-    updateExam(id, exam, res) {
-        return this.feedbackService.updateById(id, exam);
+    updateFeedback(id, value, res) {
+        return this.feedbackService.updateById(id, value);
     }
     deleteFeedbackById(id, res) {
         return this.feedbackService.deleteById(id).pipe((0, rxjs_1.map)((feedback) => {
@@ -46,6 +47,7 @@ __decorate([
     (0, common_1.Get)(''),
     (0, swagger_1.ApiQuery)({ name: 'qUser', required: false }),
     (0, swagger_1.ApiQuery)({ name: 'qCourse', required: false }),
+    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['ADMIN', 'TEACHER'])),
     __param(0, (0, common_1.Query)('qUser')),
     __param(1, (0, common_1.Query)('qCourse')),
     __param(2, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
@@ -53,32 +55,36 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, Number, Number]),
     __metadata("design:returntype", Promise)
-], FeedbackController.prototype, "getAllExams", null);
+], FeedbackController.prototype, "getAllFeedbacks", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['ADMIN', 'TEACHER'])),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], FeedbackController.prototype, "getExamById", null);
+], FeedbackController.prototype, "getFeedbackById", null);
 __decorate([
     (0, common_1.Post)(''),
+    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER', 'ADMIN', 'TEACHER'])),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [feedback_dto_1.CreateFeedbackDTO]),
     __metadata("design:returntype", void 0)
-], FeedbackController.prototype, "createExam", null);
+], FeedbackController.prototype, "createFeedback", null);
 __decorate([
     (0, common_1.Put)(':id'),
+    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['ADMIN', 'TEACHER'])),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, feedback_dto_1.UpdateFeedbackDTO, Object]),
     __metadata("design:returntype", Promise)
-], FeedbackController.prototype, "updateExam", null);
+], FeedbackController.prototype, "updateFeedback", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, common_1.UseGuards)(new role_guard_1.RoleGuard(['USER', 'ADMIN', 'TEACHER'])),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

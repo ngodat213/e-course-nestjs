@@ -1,4 +1,4 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { FeedbackService } from './feedback.service';
@@ -6,6 +6,7 @@ import { Observable, map } from 'rxjs';
 import { Feedback } from 'src/modules/feedback/feedback.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';
+import { RoleGuard } from 'src/auth/guard/role.guard';
 
 @ApiTags('Feedback')
 @Controller({path: 'feedbacks', scope: Scope.REQUEST})
@@ -15,7 +16,8 @@ export class FeedbackController {
   @Get('')
   @ApiQuery({ name: 'qUser', required: false })
   @ApiQuery({ name: 'qCourse', required: false })
-  getAllExams(
+  @UseGuards(new RoleGuard(['ADMIN', 'TEACHER']))
+  getAllFeedbacks(
     @Query('qUser')  keywordUser?: string,
     @Query('qCourse')  keywordCourse?: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
@@ -24,28 +26,33 @@ export class FeedbackController {
     return this.feedbackService.findAll(keywordUser, keywordCourse, skip, limit);
   }
 
+  
   @Get(':id')
-  getExamById(@Param('id', ParseObjectIdPipe)id : string) : Promise<Feedback>{
+  @UseGuards(new RoleGuard(['ADMIN', 'TEACHER']))
+  getFeedbackById(@Param('id', ParseObjectIdPipe)id : string) : Promise<Feedback>{
     return this.feedbackService.findById(id);
   }
 
   @Post('')
-  createExam(
-    @Body() exam: CreateFeedbackDTO,
+  @UseGuards(new RoleGuard(['USER', 'ADMIN', 'TEACHER']))
+  createFeedback(
+    @Body() value: CreateFeedbackDTO,
   ) {
-    return this.feedbackService.save(exam);
+    return this.feedbackService.save(value);
   }
 
   @Put(':id')
-  updateExam(
+  @UseGuards(new RoleGuard(['ADMIN', 'TEACHER']))
+  updateFeedback(
     @Param('id', ParseObjectIdPipe)id : string,
-    @Body() exam: UpdateFeedbackDTO,
+    @Body() value: UpdateFeedbackDTO,
     @Res() res: Response, 
   ) :Promise<Feedback>{
-    return this.feedbackService.updateById(id, exam);
+    return this.feedbackService.updateById(id, value);
   }
 
   @Delete(':id')
+  @UseGuards(new RoleGuard(['USER', 'ADMIN', 'TEACHER']))
   deleteFeedbackById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,
