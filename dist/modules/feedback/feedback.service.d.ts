@@ -22,7 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Feedback } from 'src/modules/feedback/feedback.model';
 import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';
@@ -34,6 +34,8 @@ export declare class FeedbackService {
     findAll(keywordUser?: string, keywordCourse?: string, skip?: number, limit?: number): Promise<Feedback[]>;
     findById(id: string): Promise<Feedback>;
     save(data: CreateFeedbackDTO): Promise<Feedback>;
-    updateById(id: string, category: UpdateFeedbackDTO): Promise<Feedback>;
+    updateById(id: string, data: UpdateFeedbackDTO): Promise<mongoose.Document<unknown, {}, Feedback> & Feedback & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     deleteById(id: string): Observable<Feedback>;
 }

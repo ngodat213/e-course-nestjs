@@ -55,7 +55,7 @@ export class UserService {
         }))
       })
     );
-  }
+  } 
 
   login(user: UserPrincipal): Observable<TokenResult>{
     const payload: JwtPayload = {

@@ -22,7 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Contact } from 'src/modules/contact/contact.model';
@@ -34,6 +34,8 @@ export declare class ContactService {
     findAll(keyword?: string, skip?: number, limit?: number): Promise<Contact[]>;
     findById(id: string): Promise<Contact>;
     save(data: CreateContactDTO): Promise<Contact>;
-    updateById(id: string, category: UpdateContactDTO): Promise<Contact>;
+    updateById(id: string, data: UpdateContactDTO): Promise<mongoose.Document<unknown, {}, Contact> & Contact & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     deleteById(id: string): Observable<Contact>;
 }

@@ -50,15 +50,24 @@ export class CourseVideoService {
     return res;
   }
 
-  async updateById(id: string, Course: UpdateCourseVideoDTO): Promise<CourseVideo>{
+  async updateById(id: string, data: UpdateCourseVideoDTO) {
     const isValidId = mongoose.isValidObjectId(id);
     if(!isValidId){
       throw new BadRequestException('Please enter correct id.');
     }
-    return await this.videoModel.findByIdAndUpdate(id, Course,{
-      new: true,
-      runValidators: true
-    });
+    
+    const existingCategory = await this.videoModel.findOne({ title: data.title });
+    if (existingCategory) {
+        throw new BadRequestException('Category already exists');
+    }
+
+    const video = await this.videoModel
+      .findByIdAndUpdate(id, data)
+      .setOptions({ overwrite: true, new: true })
+    if (!video) {
+      throw new NotFoundException();
+    }
+    return video;
   }
 
   async deleteById(id: string): Promise<CourseVideo>{

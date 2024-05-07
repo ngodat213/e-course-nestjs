@@ -22,7 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Course } from 'src/modules/course/course.model';
@@ -38,7 +38,9 @@ export declare class CourseService {
     findAll(keyword?: string, skip?: number, limit?: number): Promise<Course[]>;
     findById(id: string): Promise<Course>;
     save(data: CreateCourseDTO): Promise<Course>;
-    updateById(id: string, Course: UpdateCourseDTO): Promise<Course>;
+    updateById(id: string, data: UpdateCourseDTO): Promise<mongoose.Document<unknown, {}, Course> & Course & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     deleteAll(): Promise<any>;
     deleteById(id: string): Observable<Course>;
     lessonsOf(id: string): Promise<CourseLesson[]>;

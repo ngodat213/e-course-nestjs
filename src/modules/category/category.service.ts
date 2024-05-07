@@ -7,6 +7,7 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { Category } from 'src/modules/category/category.model';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
 import { query } from 'express';
+import { Permission } from 'src/helper/checkPermission.helper';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CategoryService {
@@ -46,22 +47,34 @@ export class CategoryService {
 
     const res = await this.categoryModel.create({...data});
     return res;
-}
+  }
 
-
-  async updateById(id: string, category: UpdateCategoryDTO): Promise<Category>{
+  async updateById(id: string, data: UpdateCategoryDTO) {
     const isValidId = mongoose.isValidObjectId(id);
     if(!isValidId){
       throw new BadRequestException('Please enter correct id.');
     }
+    
+    const existingCategory = await this.categoryModel.findOne({ category: data.category });
+    if (existingCategory) {
+        throw new BadRequestException('Category already exists');
+    }
 
-    return await this.categoryModel.findByIdAndUpdate(id, category,{
-      new: true,
-      runValidators: true
-    });
+    const post = await this.categoryModel
+      .findByIdAndUpdate(id, data)
+      .setOptions({ overwrite: true, new: true })
+    if (!post) {
+      throw new NotFoundException();
+    }
+    return post;
   }
   
   deleteById(id: string): Observable<Category>{
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+    
     return from(this.categoryModel.findByIdAndDelete({_id: id}).exec()).pipe(
       mergeMap((p) => (p ? of(p): EMPTY)),
       throwIfEmpty(() => new NotFoundException(`category: $id was not found`)),

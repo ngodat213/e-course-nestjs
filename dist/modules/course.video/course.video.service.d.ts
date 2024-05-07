@@ -24,7 +24,7 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
 export declare class CourseVideoService {
     private videoModel;
@@ -33,6 +33,8 @@ export declare class CourseVideoService {
     findAll(keyword?: string, skip?: number, limit?: number): Promise<CourseVideo[]>;
     findById(id: string): Promise<CourseVideo>;
     save(data: CreateCourseVideoDTO): Promise<CourseVideo>;
-    updateById(id: string, Course: UpdateCourseVideoDTO): Promise<CourseVideo>;
+    updateById(id: string, data: UpdateCourseVideoDTO): Promise<mongoose.Document<unknown, {}, CourseVideo> & CourseVideo & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     deleteById(id: string): Promise<CourseVideo>;
 }

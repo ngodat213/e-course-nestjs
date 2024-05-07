@@ -49,19 +49,21 @@ export class FeedbackService {
   async save(data: CreateFeedbackDTO): Promise<Feedback> {
     const res = await this.feedbackModel.create({...data});
     return res;
-}
+  }
 
-
-  async updateById(id: string, category: UpdateFeedbackDTO): Promise<Feedback>{
+  async updateById(id: string, data: UpdateFeedbackDTO) {
     const isValidId = mongoose.isValidObjectId(id);
     if(!isValidId){
       throw new BadRequestException('Please enter correct id.');
     }
 
-    return await this.feedbackModel.findByIdAndUpdate(id, category,{
-      new: true,
-      runValidators: true
-    });
+    const updated = await this.feedbackModel
+      .findByIdAndUpdate(id, data)
+      .setOptions({ overwrite: true, new: true })
+    if (!updated) {
+      throw new NotFoundException();
+    }
+    return updated;
   }
   
   deleteById(id: string) : Observable<Feedback>{

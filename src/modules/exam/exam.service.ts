@@ -50,18 +50,21 @@ export class ExamService {
 
     const res = await this.examModel.create({...data});
     return res;
-}
+  }
 
-
-  async updateById(id: string, exam: UpdateExamDTO): Promise<Exam>{
+  async updateById(id: string, data: UpdateExamDTO) {
     const isValidId = mongoose.isValidObjectId(id);
     if(!isValidId){
       throw new BadRequestException('Please enter correct id.');
     }
-    return await this.examModel.findByIdAndUpdate(id, exam,{
-      new: true,
-      runValidators: true
-    });
+
+    const exam = await this.examModel
+      .findByIdAndUpdate(id, data)
+      .setOptions({ overwrite: true, new: true })
+    if (!exam) {
+      throw new NotFoundException();
+    }
+    return exam;
   }
 
   deleteAll(): Promise<any>{

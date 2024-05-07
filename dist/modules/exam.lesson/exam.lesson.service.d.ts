@@ -22,7 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
@@ -36,7 +36,9 @@ export declare class ExamLessonService {
     findAll(keyword?: string, skip?: number, limit?: number): Promise<ExamLesson[]>;
     findById(id: string): Promise<ExamLesson>;
     save(data: CreateExamLessonDTO): Promise<ExamLesson>;
-    updateById(id: string, examLesson: UpdateExamLessonDTO): Promise<ExamLesson>;
+    updateById(id: string, data: UpdateExamLessonDTO): Promise<mongoose.Document<unknown, {}, ExamLesson> & ExamLesson & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     deleteById(id: string): Observable<ExamLesson>;
     questionsOf(id: string): Promise<ExamQuestion[]>;
 }

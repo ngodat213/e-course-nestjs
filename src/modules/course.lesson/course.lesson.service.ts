@@ -48,18 +48,26 @@ export class CourseLessonService {
 
     const res = await this.lessonModel.create({...data});
     return res;
-}
+  }
 
-
-  async updateById(id: string, courseLesson: UpdateCourseLessonDTO): Promise<CourseLesson>{
+  async updateById(id: string, data: UpdateCourseLessonDTO) {
     const isValidId = mongoose.isValidObjectId(id);
     if(!isValidId){
       throw new BadRequestException('Please enter correct id.');
     }
-    return await this.lessonModel.findByIdAndUpdate(id, courseLesson,{
-      new: true,
-      runValidators: true
-    });
+    
+    const existingCategory = await this.lessonModel.findOne({ title: data.title });
+    if (existingCategory) {
+        throw new BadRequestException('Category already exists');
+    }
+
+    const post = await this.lessonModel
+      .findByIdAndUpdate(id, data)
+      .setOptions({ overwrite: true, new: true })
+    if (!post) {
+      throw new NotFoundException();
+    }
+    return post;
   }
 
   deleteById(id: string): Observable<CourseLesson>{

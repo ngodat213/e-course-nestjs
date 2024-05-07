@@ -24,7 +24,7 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { CourseOrder } from './course.order.model';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CreateCourseOrderDTO, UpdateCourseOrderDTO } from './course.order.dto';
 export declare class CourseOrderService {
     private orderModel;
@@ -33,6 +33,8 @@ export declare class CourseOrderService {
     findAll(keywordUser?: string, keywordCourse?: string, skip?: number, limit?: number): Promise<CourseOrder[]>;
     findById(id: string): Promise<CourseOrder>;
     save(data: CreateCourseOrderDTO): Promise<CourseOrder>;
-    updateById(id: string, courseOrder: UpdateCourseOrderDTO): Promise<CourseOrder>;
+    updateById(id: string, data: UpdateCourseOrderDTO): Promise<mongoose.Document<unknown, {}, CourseOrder> & CourseOrder & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     deleteById(id: string): Promise<CourseOrder>;
 }

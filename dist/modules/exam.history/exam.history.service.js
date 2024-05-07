@@ -16,44 +16,63 @@ exports.ExamHistoryService = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
-const rxjs_1 = require("rxjs");
 const database_constants_1 = require("../../database/database.constants");
 let ExamHistoryService = class ExamHistoryService {
     constructor(historyModel, req) {
         this.historyModel = historyModel;
         this.req = req;
     }
-    findAll(keyword, skip = 0, limit = 10) {
-        if (keyword) {
-            return (0, rxjs_1.from)(this.historyModel
-                .find({ title: { $regex: '.*' + keyword + '.*' } })
-                .skip(skip)
-                .limit(limit)
-                .exec());
+    async findAll(keywordUser, keywordExam, skip = 0, limit = 10) {
+        if (keywordUser && keywordUser.trim() === '') {
+            throw new common_1.BadRequestException('Do not enter spaces.');
         }
-        else {
-            return (0, rxjs_1.from)(this.historyModel.find({}).skip(skip).limit(limit).exec());
+        if (keywordExam && keywordExam.trim() === '') {
+            throw new common_1.BadRequestException('Do not enter spaces.');
         }
+        const query = {};
+        if (keywordUser) {
+            query.user = { $regex: keywordUser, $options: 'i' };
+        }
+        if (keywordExam) {
+            query.course = { $regex: keywordExam, $options: 'i' };
+        }
+        return this.historyModel.find({ ...query }).select('-__v').skip(skip).limit(limit).exec();
     }
-    findById(id) {
-        return (0, rxjs_1.from)(this.historyModel.findOne({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`video: $id was not found`)));
+    async findById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const res = this.historyModel.findById(id);
+        if (!res) {
+            throw new common_1.NotFoundException('CourseOrder not found.');
+        }
+        return res;
     }
-    save(data) {
-        const createQuestion = this.historyModel.create({
-            ...data,
-        });
-        return (0, rxjs_1.from)(createQuestion);
+    async save(data) {
+        const res = await this.historyModel.create({ ...data });
+        return res;
     }
-    update(id, data) {
-        return (0, rxjs_1.from)(this.historyModel
-            .findOneAndUpdate({ _id: id }, { ...data, updateBy: { _id: this.req.user.id } }, { new: true })
-            .exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`exam history: $id was not found`)));
+    async updateById(id, data) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const update = await this.historyModel
+            .findByIdAndUpdate(id, data)
+            .setOptions({ overwrite: true, new: true });
+        if (!update) {
+            throw new common_1.NotFoundException();
+        }
+        return update;
     }
-    deleteAll() {
-        return (0, rxjs_1.from)(this.historyModel.deleteMany({}).exec());
-    }
-    deleteById(id) {
-        return (0, rxjs_1.from)(this.historyModel.findOneAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`exam history: $id was not found`)));
+    async deleteById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const res = await this.historyModel.findByIdAndDelete(id);
+        return res;
     }
 };
 exports.ExamHistoryService = ExamHistoryService;

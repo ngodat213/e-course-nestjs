@@ -50,15 +50,19 @@ export class ExamQuestionService {
     return res;
   }
 
-  async updateById(id: string, question: UpdateExamQuestionDTO): Promise<ExamQuestion>{
+  async updateById(id: string, data: UpdateExamQuestionDTO) {
     const isValidId = mongoose.isValidObjectId(id);
     if(!isValidId){
       throw new BadRequestException('Please enter correct id.');
     }
-    return await this.questionModel.findByIdAndUpdate(id, question,{
-      new: true,
-      runValidators: true
-    });
+
+    const updated = await this.questionModel
+      .findByIdAndUpdate(id, data)
+      .setOptions({ overwrite: true, new: true })
+    if (!updated) {
+      throw new NotFoundException();
+    }
+    return updated;
   }
 
   deleteById(id: string) : Observable<ExamQuestion>{

@@ -33,7 +33,7 @@ let CategoryController = class CategoryController {
     createCategory(category) {
         return this.categoryService.save(category);
     }
-    updateCategory(id, category, res) {
+    updateCategory(id, category) {
         return this.categoryService.updateById(id, category);
     }
     deleteCategoryById(id, res) {
@@ -72,10 +72,9 @@ __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, category_dto_1.UpdateCategoryDTO, Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:paramtypes", [String, category_dto_1.UpdateCategoryDTO]),
+    __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "updateCategory", null);
 __decorate([
     (0, common_1.Delete)(':id'),

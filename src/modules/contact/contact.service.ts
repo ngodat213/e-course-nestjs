@@ -43,16 +43,19 @@ export class ContactService {
   }
 
 
-  async updateById(id: string, category: UpdateContactDTO): Promise<Contact>{
+  async updateById(id: string, data: UpdateContactDTO) {
     const isValidId = mongoose.isValidObjectId(id);
     if(!isValidId){
       throw new BadRequestException('Please enter correct id.');
     }
 
-    return await this.contactModel.findByIdAndUpdate(id, category,{
-      new: true,
-      runValidators: true
-    });
+    const post = await this.contactModel
+      .findByIdAndUpdate(id, data)
+      .setOptions({ overwrite: true, new: true })
+    if (!post) {
+      throw new NotFoundException();
+    }
+    return post;
   }
   
   deleteById(id: string): Observable<Contact> {

@@ -22,7 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Category } from 'src/modules/category/category.model';
@@ -34,6 +34,8 @@ export declare class CategoryService {
     findAll(keyword?: string, skip?: number, limit?: number): Promise<Category[]>;
     findById(id: string): Promise<Category>;
     save(data: CreateCategoryDTO): Promise<Category>;
-    updateById(id: string, category: UpdateCategoryDTO): Promise<Category>;
+    updateById(id: string, data: UpdateCategoryDTO): Promise<mongoose.Document<unknown, {}, Category> & Category & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     deleteById(id: string): Observable<Category>;
 }

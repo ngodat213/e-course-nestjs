@@ -22,8 +22,7 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Model } from 'mongoose';
-import { Observable } from 'rxjs';
+import mongoose, { Model } from 'mongoose';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamHistory } from './exam.history.model';
 import { CreateExamHistoryDTO, UpdateExamHistoryDTO } from './exam.history.dto';
@@ -31,10 +30,11 @@ export declare class ExamHistoryService {
     private historyModel;
     private req;
     constructor(historyModel: Model<ExamHistory>, req: AuthenticatedRequest);
-    findAll(keyword?: string, skip?: number, limit?: number): Observable<ExamHistory[]>;
-    findById(id: string): Observable<ExamHistory>;
-    save(data: CreateExamHistoryDTO): Observable<ExamHistory>;
-    update(id: string, data: UpdateExamHistoryDTO): Observable<ExamHistory>;
-    deleteAll(): Observable<any>;
-    deleteById(id: string): Observable<ExamHistory>;
+    findAll(keywordUser?: string, keywordExam?: string, skip?: number, limit?: number): Promise<ExamHistory[]>;
+    findById(id: string): Promise<ExamHistory>;
+    save(data: CreateExamHistoryDTO): Promise<ExamHistory>;
+    updateById(id: string, data: UpdateExamHistoryDTO): Promise<mongoose.Document<unknown, {}, ExamHistory> & ExamHistory & {
+        _id: mongoose.Types.ObjectId;
+    }>;
+    deleteById(id: string): Promise<ExamHistory>;
 }

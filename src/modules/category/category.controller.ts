@@ -40,8 +40,7 @@ export class CategoryController {
   updateCategory(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() category: UpdateCategoryDTO,
-    @Res() res: Response, 
-  ) :Promise<Category>{
+  ) {
     return this.categoryService.updateById(id, category);
   }
 

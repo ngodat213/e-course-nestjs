@@ -46,15 +46,18 @@ let ContactService = class ContactService {
         const res = await this.contactModel.create({ ...data });
         return res;
     }
-    async updateById(id, category) {
+    async updateById(id, data) {
         const isValidId = mongoose_1.default.isValidObjectId(id);
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        return await this.contactModel.findByIdAndUpdate(id, category, {
-            new: true,
-            runValidators: true
-        });
+        const post = await this.contactModel
+            .findByIdAndUpdate(id, data)
+            .setOptions({ overwrite: true, new: true });
+        if (!post) {
+            throw new common_1.NotFoundException();
+        }
+        return post;
     }
     deleteById(id) {
         return (0, rxjs_1.from)(this.contactModel.findOneAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`contact :$id was not found`)));

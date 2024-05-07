@@ -49,15 +49,22 @@ let CourseVideoService = class CourseVideoService {
         const res = await this.videoModel.create({ ...data });
         return res;
     }
-    async updateById(id, Course) {
+    async updateById(id, data) {
         const isValidId = mongoose_1.default.isValidObjectId(id);
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        return await this.videoModel.findByIdAndUpdate(id, Course, {
-            new: true,
-            runValidators: true
-        });
+        const existingCategory = await this.videoModel.findOne({ title: data.title });
+        if (existingCategory) {
+            throw new common_1.BadRequestException('Category already exists');
+        }
+        const video = await this.videoModel
+            .findByIdAndUpdate(id, data)
+            .setOptions({ overwrite: true, new: true });
+        if (!video) {
+            throw new common_1.NotFoundException();
+        }
+        return video;
     }
     async deleteById(id) {
         const isValidId = mongoose_1.default.isValidObjectId(id);

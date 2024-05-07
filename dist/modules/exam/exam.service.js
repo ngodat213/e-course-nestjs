@@ -51,15 +51,18 @@ let ExamService = class ExamService {
         const res = await this.examModel.create({ ...data });
         return res;
     }
-    async updateById(id, exam) {
+    async updateById(id, data) {
         const isValidId = mongoose_1.default.isValidObjectId(id);
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        return await this.examModel.findByIdAndUpdate(id, exam, {
-            new: true,
-            runValidators: true
-        });
+        const exam = await this.examModel
+            .findByIdAndUpdate(id, data)
+            .setOptions({ overwrite: true, new: true });
+        if (!exam) {
+            throw new common_1.NotFoundException();
+        }
+        return exam;
     }
     deleteAll() {
         return this.examModel.deleteMany({}).exec();

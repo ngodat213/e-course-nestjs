@@ -51,15 +51,22 @@ let CourseLessonService = class CourseLessonService {
         const res = await this.lessonModel.create({ ...data });
         return res;
     }
-    async updateById(id, courseLesson) {
+    async updateById(id, data) {
         const isValidId = mongoose_1.default.isValidObjectId(id);
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        return await this.lessonModel.findByIdAndUpdate(id, courseLesson, {
-            new: true,
-            runValidators: true
-        });
+        const existingCategory = await this.lessonModel.findOne({ title: data.title });
+        if (existingCategory) {
+            throw new common_1.BadRequestException('Category already exists');
+        }
+        const post = await this.lessonModel
+            .findByIdAndUpdate(id, data)
+            .setOptions({ overwrite: true, new: true });
+        if (!post) {
+            throw new common_1.NotFoundException();
+        }
+        return post;
     }
     deleteById(id) {
         return (0, rxjs_1.from)(this.lessonModel.findByIdAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`lesson: $id was not found`)));

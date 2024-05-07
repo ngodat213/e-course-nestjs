@@ -53,15 +53,18 @@ let CourseOrderService = class CourseOrderService {
         const res = await this.orderModel.create({ ...data });
         return res;
     }
-    async updateById(id, courseOrder) {
+    async updateById(id, data) {
         const isValidId = mongoose_1.default.isValidObjectId(id);
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        return await this.orderModel.findByIdAndUpdate(id, courseOrder, {
-            new: true,
-            runValidators: true
-        });
+        const post = await this.orderModel
+            .findByIdAndUpdate(id, data)
+            .setOptions({ overwrite: true, new: true });
+        if (!post) {
+            throw new common_1.NotFoundException();
+        }
+        return post;
     }
     async deleteById(id) {
         const isValidId = mongoose_1.default.isValidObjectId(id);
