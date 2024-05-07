@@ -94,6 +94,7 @@ __decorate([
 ], CategoryController.prototype, "deleteCategoryById", null);
 exports.CategoryController = CategoryController = __decorate([
     (0, swagger_1.ApiTags)('Category'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: 'categorys', scope: common_1.Scope.REQUEST }),
     __metadata("design:paramtypes", [category_service_1.CategoryService])
 ], CategoryController);

@@ -96,7 +96,8 @@ __decorate([
 ], CourseOrderController.prototype, "deleteCourseOrderById", null);
 exports.CourseOrderController = CourseOrderController = __decorate([
     (0, swagger_1.ApiTags)('Course order'),
-    (0, common_1.Controller)('order'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.Controller)({ path: 'order', scope: common_1.Scope.REQUEST }),
     __metadata("design:paramtypes", [course_order_service_1.CourseOrderService])
 ], CourseOrderController);
 //# sourceMappingURL=course.order.controller.js.map

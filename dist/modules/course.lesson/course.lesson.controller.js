@@ -104,6 +104,7 @@ __decorate([
 ], CourseLessonController.prototype, "getAllLessonsOfCourse", null);
 exports.CourseLessonController = CourseLessonController = __decorate([
     (0, swagger_1.ApiTags)('Course Lesson'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: 'course/lessons', scope: common_1.Scope.REQUEST }),
     __metadata("design:paramtypes", [course_lesson_service_1.CourseLessonService])
 ], CourseLessonController);

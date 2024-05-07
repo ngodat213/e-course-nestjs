@@ -6,13 +6,14 @@ import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseLessonDTO, UpdateCourseLessonDTO } from './course.lesson.dto';
 import { Response } from 'express';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Course Lesson')
+@ApiBearerAuth()
 @Controller({path: 'course/lessons', scope: Scope.REQUEST})
 export class CourseLessonController {
   constructor(private lessonService: CourseLessonService){}

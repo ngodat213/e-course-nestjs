@@ -8,13 +8,14 @@ import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
 import { GetUser } from 'src/decorators/current.user.decorator';
-import { ApiBearerAuth, ApiProperty, ApiQuery } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiProperty, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 import { AuthService } from './auth.service';
 
+@ApiTags('Auth')
 @ApiBearerAuth()
 @Controller({ path: "/users" })
 export class UserController {

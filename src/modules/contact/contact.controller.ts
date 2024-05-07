@@ -1,5 +1,5 @@
 import { Body, Controller, DefaultValuePipe, Delete, Get, HttpException, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ContactService } from './contact.service';
 import { Contact } from 'src/modules/contact/contact.model';
@@ -12,6 +12,7 @@ import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 
 @ApiTags('Contact')
+@ApiBearerAuth()
 @Controller({path: 'contacts', scope: Scope.REQUEST})
 export class ContactController {
   constructor(private contactSerivce: ContactService){}

@@ -114,6 +114,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "updateUser", null);
 exports.UserController = UserController = __decorate([
+    (0, swagger_1.ApiTags)('Auth'),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: "/users" }),
     __metadata("design:paramtypes", [user_service_1.UserService,

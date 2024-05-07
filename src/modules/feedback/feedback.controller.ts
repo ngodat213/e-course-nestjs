@@ -1,5 +1,5 @@
 import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { FeedbackService } from './feedback.service';
 import { Observable, map } from 'rxjs';
@@ -12,6 +12,7 @@ import { RoleType } from 'src/shared/enum/role.type.enum';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Feedback')
+@ApiBearerAuth()
 @Controller({path: 'feedbacks', scope: Scope.REQUEST})
 export class FeedbackController {
   constructor(private feedbackService: FeedbackService){}

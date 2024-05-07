@@ -98,6 +98,7 @@ __decorate([
 ], FeedbackController.prototype, "deleteFeedbackById", null);
 exports.FeedbackController = FeedbackController = __decorate([
     (0, swagger_1.ApiTags)('Feedback'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: 'feedbacks', scope: common_1.Scope.REQUEST }),
     __metadata("design:paramtypes", [feedback_service_1.FeedbackService])
 ], FeedbackController);

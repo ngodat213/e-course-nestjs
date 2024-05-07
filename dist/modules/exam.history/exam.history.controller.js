@@ -96,6 +96,7 @@ __decorate([
 ], ExamHistoryController.prototype, "deleteExamHistoryById", null);
 exports.ExamHistoryController = ExamHistoryController = __decorate([
     (0, swagger_1.ApiTags)('Exam History'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: 'history', scope: common_1.Scope.REQUEST }),
     __metadata("design:paramtypes", [exam_history_service_1.ExamHistoryService])
 ], ExamHistoryController);

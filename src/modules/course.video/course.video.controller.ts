@@ -5,7 +5,7 @@ import { Response } from 'express';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Responser } from 'src/decorators/responser.decorator';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
@@ -13,6 +13,7 @@ import { RoleType } from 'src/shared/enum/role.type.enum';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Course Video')
+@ApiBearerAuth()
 @Controller({path: 'course/videos', scope: Scope.REQUEST})
 export class CourseVideoController {
   constructor(private videoService: CourseVideoService){}

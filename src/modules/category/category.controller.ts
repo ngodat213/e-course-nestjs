@@ -1,5 +1,5 @@
 import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CategoryService } from './category.service';
 import { Category } from 'src/modules/category/category.model';
@@ -12,6 +12,7 @@ import { RoleType } from 'src/shared/enum/role.type.enum';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Category')
+@ApiBearerAuth()
 @Controller({path: 'categorys', scope: Scope.REQUEST})
 export class CategoryController {
   constructor(private categoryService: CategoryService){}

@@ -105,6 +105,7 @@ __decorate([
 ], ExamController.prototype, "getAllLessonsOfExam", null);
 exports.ExamController = ExamController = __decorate([
     (0, swagger_1.ApiTags)('Exam'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: 'exams', scope: common_1.Scope.REQUEST }),
     __metadata("design:paramtypes", [exam_service_1.ExamService])
 ], ExamController);

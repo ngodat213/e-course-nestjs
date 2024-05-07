@@ -97,6 +97,7 @@ __decorate([
 ], ContactController.prototype, "deleteContactById", null);
 exports.ContactController = ContactController = __decorate([
     (0, swagger_1.ApiTags)('Contact'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: 'contacts', scope: common_1.Scope.REQUEST }),
     __metadata("design:paramtypes", [contact_service_1.ContactService])
 ], ContactController);

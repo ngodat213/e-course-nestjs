@@ -2,7 +2,7 @@ import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, P
 import { Response } from 'express';
 import { Observable, map } from 'rxjs';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ExamHistoryService } from './exam.history.service';
 import { ExamHistory } from './exam.history.model';
 import { CreateExamHistoryDTO, UpdateExamHistoryDTO } from './exam.history.dto';
@@ -13,6 +13,7 @@ import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 
 @ApiTags('Exam History')
+@ApiBearerAuth()
 @Controller({path: 'history', scope: Scope.REQUEST})
 export class ExamHistoryController {
   constructor(private historyService: ExamHistoryService){}

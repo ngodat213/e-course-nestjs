@@ -90,6 +90,7 @@ __decorate([
 ], CourseVideoController.prototype, "deleteCourseVideoById", null);
 exports.CourseVideoController = CourseVideoController = __decorate([
     (0, swagger_1.ApiTags)('Course Video'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: 'course/videos', scope: common_1.Scope.REQUEST }),
     __metadata("design:paramtypes", [course_video_service_1.CourseVideoService])
 ], CourseVideoController);

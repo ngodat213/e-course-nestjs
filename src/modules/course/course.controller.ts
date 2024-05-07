@@ -5,7 +5,7 @@ import { Observable, map } from 'rxjs';
 import { Course } from 'src/modules/course/course.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CourseLesson } from '../course.lesson/course.lesson.model';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
@@ -13,6 +13,7 @@ import { RoleType } from 'src/shared/enum/role.type.enum';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Course')
+@ApiBearerAuth()
 @Controller({path: 'courses', scope: Scope.REQUEST})
 export class CourseController {
   constructor(private courseService: CourseService){}

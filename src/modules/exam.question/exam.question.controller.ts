@@ -1,5 +1,5 @@
 import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ExamQuestionService } from './exam.question.service';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
@@ -12,6 +12,7 @@ import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 @ApiTags('Exam question')
+@ApiBearerAuth()
 @Controller({path: 'exam/questions', scope: Scope.REQUEST})
 export class ExamQuestionController {
   constructor(private questionService: ExamQuestionService){}

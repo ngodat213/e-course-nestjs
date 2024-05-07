@@ -1,11 +1,11 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
 import { CourseOrderService } from './course.order.service';
 import { CourseOrder } from './course.order.model';
 import { Response } from 'express';
 import { Observable, map } from 'rxjs';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseOrderDTO, UpdateCourseOrderDTO } from './course.order.dto';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Responser } from 'src/decorators/responser.decorator';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
@@ -13,7 +13,8 @@ import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 
 @ApiTags('Course order')
-@Controller('order')
+@ApiBearerAuth()
+@Controller({path: 'order', scope: Scope.REQUEST})
 export class CourseOrderController {
   constructor(private orderService: CourseOrderService){}
 
