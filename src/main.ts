@@ -6,7 +6,6 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
-
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new ErrorInterceptor())
   const config = new DocumentBuilder()
@@ -16,8 +15,10 @@ async function bootstrap() {
     .addTag('cats')
     .addBearerAuth()
     .build();
-    const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api/v1', app, document);
+
+  // Enable swagger
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/v1', app, document);
 
   await app.listen(3000);
 }

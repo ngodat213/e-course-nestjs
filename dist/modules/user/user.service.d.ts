@@ -27,9 +27,12 @@ import { Observable } from 'rxjs';
 import { User, UserModel } from 'src/modules/user/user.model';
 import { RegisterDto, UpdateUserDTO } from './user.dto';
 import { UserPrincipal } from 'src/interfaces/user-principal.interface';
+import { JwtService } from '@nestjs/jwt';
+import { TokenResult } from 'src/interfaces/auth.interface';
 export declare class UserService {
     private userModel;
-    constructor(userModel: UserModel);
+    private jwtService;
+    constructor(userModel: UserModel, jwtService: JwtService);
     findByEmail(email: string): Observable<User | undefined>;
     findOneByEmail(email: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, User> & User & {
         _id: import("mongoose").Types.ObjectId;
@@ -37,7 +40,8 @@ export declare class UserService {
         _id: import("mongoose").Types.ObjectId;
     }, {}, User, "findOne">;
     exitsByEmail(email: string): Observable<boolean>;
-    create(data: RegisterDto): Observable<User>;
+    register(data: RegisterDto): Observable<User>;
+    login(user: UserPrincipal): Observable<TokenResult>;
     validateUser(email: string, pass: string): Observable<UserPrincipal>;
     findAll(keyword?: string, skip?: number, limit?: number): Observable<User[]>;
     updateById(id: string, requestBody: UpdateUserDTO, currentUser: User): Promise<{

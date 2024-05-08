@@ -13,7 +13,6 @@ import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 import { RoleType } from 'src/shared/enum/role.type.enum';
-import { AuthService } from './auth.service';
 
 @ApiTags('Auth')
 @ApiBearerAuth()
@@ -21,13 +20,12 @@ import { AuthService } from './auth.service';
 export class UserController {
   constructor(
     private userService: UserService,
-    private authService: AuthService,
   ){}
 
   @Get()
   @ApiQuery({ name: 'q', required: false })
-  @UseGuards(AuthGuard, RolesGuard)
-  @HasRoles(RoleType.ADMIN)
+  // @UseGuards(AuthGuard, RolesGuard)
+  // @HasRoles(RoleType.USER, RoleType.ADMIN, RoleType.TEACHER)
   GetAllUsers(
     @Query('q') keyword? :string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
@@ -50,7 +48,9 @@ export class UserController {
     @Req() req: AuthenticatedRequest, 
     @Res() res: Response
   ) : Observable<Response>{
-    return this.authService.login(req.user).pipe(
+    console.log(process.env.JWT_SECRET_KEY)
+    console.log(process.env.JWT_EXPIRES_IN)
+    return this.userService.login(req.user).pipe(
         map(token => {
           return res
             .header('Authorization', 'Bearer ' + token.access_token)
@@ -71,7 +71,7 @@ export class UserController {
         if(exits){
           throw new ConflictException(`email: ${email} is existed`);
         }else{
-          return this.authService.register(registerDto).pipe(
+          return this.userService.register(registerDto).pipe(
             map(user => 
               res.location('/users/' + user.id)
               .status(201)

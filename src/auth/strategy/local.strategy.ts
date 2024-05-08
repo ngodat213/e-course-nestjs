@@ -20,7 +20,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     );
 
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(`Email or password is wrong!`);
     }
     return user;
   }

@@ -17,7 +17,6 @@ const passport_1 = require("@nestjs/passport");
 const jwt_1 = require("@nestjs/jwt");
 const jwt_config_1 = require("../../configs/jwt.config");
 const local_strategy_1 = require("../../auth/strategy/local.strategy");
-const auth_service_1 = require("./auth.service");
 let UserModule = class UserModule {
 };
 exports.UserModule = UserModule;
@@ -29,15 +28,15 @@ exports.UserModule = UserModule = __decorate([
             passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
             jwt_1.JwtModule.register({
                 global: true,
-                privateKey: process.env.JWT_SECRET_KEY,
+                secret: "hydracoder1993744",
                 signOptions: {
-                    expiresIn: process.env.JWT_EXPIRES_IN
+                    expiresIn: "7d"
                 }
             })
         ],
         controllers: [user_controller_1.UserController],
-        exports: [user_service_1.UserService],
-        providers: [user_service_1.UserService, auth_service_1.AuthService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy]
+        exports: [user_service_1.UserService, passport_1.PassportModule],
+        providers: [user_service_1.UserService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy]
     })
 ], UserModule);
 //# sourceMappingURL=user.module.js.map

@@ -25,11 +25,9 @@ const roles_guard_1 = require("../../auth/guard/roles.guard");
 const auth_guard_1 = require("../../auth/guard/auth.guard");
 const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
 const role_type_enum_1 = require("../../shared/enum/role.type.enum");
-const auth_service_1 = require("./auth.service");
 let UserController = class UserController {
-    constructor(userService, authService) {
+    constructor(userService) {
         this.userService = userService;
-        this.authService = authService;
     }
     GetAllUsers(keyword, limit, skip) {
         return this.userService.findAll(keyword, skip, limit);
@@ -38,7 +36,9 @@ let UserController = class UserController {
         return user;
     }
     Login(req, res) {
-        return this.authService.login(req.user).pipe((0, rxjs_1.map)(token => {
+        console.log(process.env.JWT_SECRET_KEY);
+        console.log(process.env.JWT_EXPIRES_IN);
+        return this.userService.login(req.user).pipe((0, rxjs_1.map)(token => {
             return res
                 .header('Authorization', 'Bearer ' + token.access_token)
                 .json(token)
@@ -52,7 +52,7 @@ let UserController = class UserController {
                 throw new common_1.ConflictException(`email: ${email} is existed`);
             }
             else {
-                return this.authService.register(registerDto).pipe((0, rxjs_1.map)(user => res.location('/users/' + user.id)
+                return this.userService.register(registerDto).pipe((0, rxjs_1.map)(user => res.location('/users/' + user.id)
                     .status(201)
                     .send()));
             }
@@ -66,8 +66,6 @@ exports.UserController = UserController;
 __decorate([
     (0, common_1.Get)(),
     (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
-    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
@@ -117,7 +115,6 @@ exports.UserController = UserController = __decorate([
     (0, swagger_1.ApiTags)('Auth'),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)({ path: "/users" }),
-    __metadata("design:paramtypes", [user_service_1.UserService,
-        auth_service_1.AuthService])
+    __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 //# sourceMappingURL=user.controller.js.map

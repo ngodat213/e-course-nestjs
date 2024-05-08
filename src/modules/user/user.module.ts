@@ -3,13 +3,11 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { DatabaseModule } from 'src/database/database.module';
 import { JwtStrategy } from 'src/auth/strategy/jwt.strategy';
-import { ConfigModule, ConfigType } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
-import { JwtModule, JwtModuleOptions, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from 'src/configs/jwt.config';
 import { LocalStrategy } from 'src/auth/strategy/local.strategy';
-import { AuthService } from './auth.service';
-import type jwt from 'jsonwebtoken'
 
 @Module({
   imports: [
@@ -18,14 +16,14 @@ import type jwt from 'jsonwebtoken'
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       global: true,
-      privateKey: process.env.JWT_SECRET_KEY as jwt.Secret,
+      secret: "hydracoder1993744",
       signOptions: {
-        expiresIn: process.env.JWT_EXPIRES_IN as string
+        expiresIn: "7d" as string
       }
-    })
-  ],
+    },
+  )],
   controllers: [UserController],
-  exports: [UserService],
-  providers: [UserService, AuthService, LocalStrategy, JwtStrategy]
+  exports: [UserService, PassportModule],
+  providers: [UserService, LocalStrategy, JwtStrategy]
 })
 export class UserModule {}
