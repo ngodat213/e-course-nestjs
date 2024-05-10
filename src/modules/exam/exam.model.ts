@@ -5,6 +5,7 @@ interface Exam extends Document{
   readonly description: string,
   readonly category: string,
   readonly imageUrl:  string,
+  readonly imagePublicId: string;
 }
 
 type ExamModel = Model<Exam>;
@@ -15,6 +16,7 @@ const ExamSchema = new Schema<Exam>(
     description: {type: String, required: true},
     category: {type: String, required: true},
     imageUrl: {type: String, required: true},
+    imagePublicId: {type: String, required: true},
   },{ timestamps: true }
 );
 

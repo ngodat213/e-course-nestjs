@@ -10,7 +10,8 @@ interface User extends Document{
   readonly email: string;
   readonly password: string;
   readonly username: string;
-  readonly photoUrl: string;
+  photoUrl: string;
+  photoPublicId: string;
   readonly roles?: RoleType[];
   readonly courses: Partial<CourseModel>;
   readonly favouritesCourses: Partial<CourseModel>;
@@ -26,6 +27,7 @@ const UserSchema = new Schema<User>(
     password: {type: SchemaTypes.String, required: true},
     username: {type: SchemaTypes.String, required: true},
     photoUrl: {type: SchemaTypes.String, default: "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"},
+    photoPublicId: {type: SchemaTypes.String, default: null},
     roles: [{ type: SchemaTypes.String, enum: ['ADMIN','TEACHER', 'USER'], required: false },],
     courses:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Course' }] },
     favouritesCourses:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Course' }] },

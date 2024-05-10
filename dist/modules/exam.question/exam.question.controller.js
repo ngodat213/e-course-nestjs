@@ -23,6 +23,8 @@ const roles_guard_1 = require("../../auth/guard/roles.guard");
 const role_type_enum_1 = require("../../shared/enum/role.type.enum");
 const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
 const auth_guard_1 = require("../../auth/guard/auth.guard");
+const platform_express_1 = require("@nestjs/platform-express");
+const api_file_decorator_1 = require("../../decorators/api.file.decorator");
 let ExamQuestionController = class ExamQuestionController {
     constructor(questionService) {
         this.questionService = questionService;
@@ -67,6 +69,8 @@ __decorate([
     (0, common_1.Post)(''),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file'), api_file_decorator_1.FileToBodyInterceptor),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [exam_question_dto_1.CreateExamQuestionDTO]),

@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
 const rxjs_1 = require("rxjs");
-const database_constants_1 = require("../../database/database.constants");
+const database_constants_1 = require("../../processors/database/database.constants");
 let CategoryService = class CategoryService {
     constructor(categoryModel, req) {
         this.categoryModel = categoryModel;

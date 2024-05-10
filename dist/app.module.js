@@ -22,10 +22,9 @@ const category_module_1 = require("./modules/category/category.module");
 const course_order_module_1 = require("./modules/course.order/course.order.module");
 const exam_history_module_1 = require("./modules/exam.history/exam.history.module");
 const feedback_module_1 = require("./modules/feedback/feedback.module");
-const database_module_1 = require("./database/database.module");
-const cloudinary_module_1 = require("./cloudinary/cloudinary.module");
-const helper_module_1 = require("./helper/helper.module");
+const database_module_1 = require("./processors/database/database.module");
 const contact_module_1 = require("./modules/contact/contact.module");
+const helper_module_1 = require("./processors/helper/helper.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -47,7 +46,6 @@ exports.AppModule = AppModule = __decorate([
             feedback_module_1.FeedbackModule,
             category_module_1.CategoryModule,
             database_module_1.DatabaseModule,
-            cloudinary_module_1.CloudinaryModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

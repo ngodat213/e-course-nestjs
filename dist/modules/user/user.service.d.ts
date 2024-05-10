@@ -25,14 +25,16 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { Observable } from 'rxjs';
 import { User, UserModel } from 'src/modules/user/user.model';
-import { RegisterDto, UpdateUserDTO } from './user.dto';
+import { ChangeAvatarDTO, RegisterDto, UpdateUserDTO } from './user.dto';
 import { UserPrincipal } from 'src/interfaces/user-principal.interface';
 import { JwtService } from '@nestjs/jwt';
 import { TokenResult } from 'src/interfaces/auth.interface';
+import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
 export declare class UserService {
     private userModel;
     private jwtService;
-    constructor(userModel: UserModel, jwtService: JwtService);
+    private readonly cloudinaryService;
+    constructor(userModel: UserModel, jwtService: JwtService, cloudinaryService: CloudinaryService);
     findByEmail(email: string): Observable<User | undefined>;
     findOneByEmail(email: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, User> & User & {
         _id: import("mongoose").Types.ObjectId;
@@ -44,6 +46,11 @@ export declare class UserService {
     login(user: UserPrincipal): Observable<TokenResult>;
     validateUser(email: string, pass: string): Observable<UserPrincipal>;
     findAll(keyword?: string, skip?: number, limit?: number): Observable<User[]>;
+    changedAvatar(id: string, requestBody: ChangeAvatarDTO, currentUser: User): Promise<{
+        username: string;
+        photoUrl: string;
+        email: string;
+    }>;
     updateById(id: string, requestBody: UpdateUserDTO, currentUser: User): Promise<{
         username: string;
         photoUrl: string;

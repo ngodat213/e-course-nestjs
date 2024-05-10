@@ -15,12 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseVideoService = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
-const database_constants_1 = require("../../database/database.constants");
+const database_constants_1 = require("../../processors/database/database.constants");
 const mongoose_1 = require("mongoose");
+const cloudinary_constants_1 = require("../../constants/cloudinary.constants");
+const helper_clouldinary_1 = require("../../processors/helper/helper.clouldinary");
 let CourseVideoService = class CourseVideoService {
-    constructor(videoModel, req) {
+    constructor(videoModel, req, cloudinaryService) {
         this.videoModel = videoModel;
         this.req = req;
+        this.cloudinaryService = cloudinaryService;
     }
     async findAll(keyword, skip = 0, limit = 10) {
         if (keyword && keyword.trim() === '') {
@@ -42,12 +45,22 @@ let CourseVideoService = class CourseVideoService {
         return res;
     }
     async save(data) {
+        const fileVideo = data.file;
         const existing = await this.videoModel.findOne({ title: data.title });
         if (existing) {
             throw new common_1.BadRequestException('Course already exists');
         }
-        const res = await this.videoModel.create({ ...data });
-        return res;
+        try {
+            const resultVideo = await this.cloudinaryService.uploadFile(data.file, cloudinary_constants_1.FILE_COURSE_INTRO, fileVideo.fieldname, cloudinary_constants_1.RESOURCE_TYPE_VIDEO);
+            data.videoUrl = resultVideo.url;
+            data.videoPublicId = resultVideo.public_id;
+            const res = await this.videoModel.create({ ...data });
+            return res;
+        }
+        catch (err) {
+            console.log(`Faill error: ${err}`);
+            throw new Error(`Failed to upload image: ${err}`);
+        }
     }
     async updateById(id, data) {
         const isValidId = mongoose_1.default.isValidObjectId(id);
@@ -80,6 +93,6 @@ exports.CourseVideoService = CourseVideoService = __decorate([
     (0, common_1.Injectable)({ scope: common_1.Scope.REQUEST }),
     __param(0, (0, common_1.Inject)(database_constants_1.COURSE_VIDEO_MODEL)),
     __param(1, (0, common_1.Inject)(core_1.REQUEST)),
-    __metadata("design:paramtypes", [mongoose_1.Model, Object])
+    __metadata("design:paramtypes", [mongoose_1.Model, Object, helper_clouldinary_1.CloudinaryService])
 ], CourseVideoService);
 //# sourceMappingURL=course.video.service.js.map

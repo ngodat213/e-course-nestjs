@@ -26,10 +26,12 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import mongoose, { Model } from 'mongoose';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
+import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
 export declare class CourseVideoService {
     private videoModel;
     private req;
-    constructor(videoModel: Model<CourseVideo>, req: AuthenticatedRequest);
+    private readonly cloudinaryService;
+    constructor(videoModel: Model<CourseVideo>, req: AuthenticatedRequest, cloudinaryService: CloudinaryService);
     findAll(keyword?: string, skip?: number, limit?: number): Promise<CourseVideo[]>;
     findById(id: string): Promise<CourseVideo>;
     save(data: CreateCourseVideoDTO): Promise<CourseVideo>;

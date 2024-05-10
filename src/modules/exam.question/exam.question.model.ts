@@ -6,6 +6,7 @@ interface ExamQuestion extends Document{
     readonly options: [{string}];
     readonly answer: number;
     readonly imageUrl: string;
+    readonly imagePublicId: string;
     readonly lesson: Partial<ExamLesson>
 }
 
@@ -17,6 +18,7 @@ const ExamQuestionSchema = new Schema<ExamQuestion>(
     options: [{type: SchemaTypes.String, required: true}],
     answer: {type: SchemaTypes.Number, required: true},
     imageUrl:{type: SchemaTypes.String, required: true},
+    imagePublicId:{type: SchemaTypes.String, required: true},
     lesson: {type: SchemaTypes.ObjectId, ref: 'ExamLesson'},
   },{ timestamps: true }
 );

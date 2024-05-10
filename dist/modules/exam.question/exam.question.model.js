@@ -7,6 +7,7 @@ const ExamQuestionSchema = new mongoose_1.Schema({
     options: [{ type: mongoose_1.SchemaTypes.String, required: true }],
     answer: { type: mongoose_1.SchemaTypes.Number, required: true },
     imageUrl: { type: mongoose_1.SchemaTypes.String, required: true },
+    imagePublicId: { type: mongoose_1.SchemaTypes.String, required: true },
     lesson: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'ExamLesson' },
 }, { timestamps: true });
 const createExamQuestionModel = (connection) => connection.model('ExamQuestion', ExamQuestionSchema, 'ExamQuestions');

@@ -31,6 +31,7 @@ interface ExamQuestion extends Document {
     }];
     readonly answer: number;
     readonly imageUrl: string;
+    readonly imagePublicId: string;
     readonly lesson: Partial<ExamLesson>;
 }
 type ExamQuestionModel = Model<ExamQuestion>;

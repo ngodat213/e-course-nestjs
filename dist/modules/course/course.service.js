@@ -16,10 +16,9 @@ exports.CourseService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("mongoose");
 const rxjs_1 = require("rxjs");
-const database_constants_1 = require("../../database/database.constants");
-const cloudinary_service_1 = require("../../cloudinary/cloudinary.service");
+const database_constants_1 = require("../../processors/database/database.constants");
 const cloudinary_constants_1 = require("../../constants/cloudinary.constants");
-const clouddinary_constants_1 = require("../../cloudinary/clouddinary.constants");
+const helper_clouldinary_1 = require("../../processors/helper/helper.clouldinary");
 let CourseService = class CourseService {
     constructor(courseModel, courseLessonModel, cloudinaryService) {
         this.courseModel = courseModel;
@@ -52,8 +51,8 @@ let CourseService = class CourseService {
             throw new common_1.BadRequestException('Course already exists');
         }
         try {
-            const resultImage = await this.cloudinaryService.uploadFile(fileImage, cloudinary_constants_1.FILE_COURSE_THUMB, fileImage.filename, clouddinary_constants_1.RESOURCE_TYPE_IMAGE);
-            const resultVideo = await this.cloudinaryService.uploadFile(fileVideo, cloudinary_constants_1.FILE_COURSE_INTRO, fileImage.fieldname, clouddinary_constants_1.RESOURCE_TYPE_VIDEO);
+            const resultImage = await this.cloudinaryService.uploadFile(fileImage, cloudinary_constants_1.FILE_COURSE_THUMB, fileImage.filename, cloudinary_constants_1.RESOURCE_TYPE_IMAGE);
+            const resultVideo = await this.cloudinaryService.uploadFile(fileVideo, cloudinary_constants_1.FILE_COURSE_INTRO, fileVideo.fieldname, cloudinary_constants_1.RESOURCE_TYPE_VIDEO);
             data.imagePublicId = resultImage.public_id;
             data.imageIntroduce = resultImage.url;
             data.videoIntroduce = resultVideo.public_id;
@@ -102,6 +101,6 @@ exports.CourseService = CourseService = __decorate([
     __param(1, (0, common_1.Inject)(database_constants_1.COURSE_LESSON_MODEL)),
     __metadata("design:paramtypes", [mongoose_1.Model,
         mongoose_1.Model,
-        cloudinary_service_1.CloudinaryService])
+        helper_clouldinary_1.CloudinaryService])
 ], CourseService);
 //# sourceMappingURL=course.service.js.map

@@ -1,5 +1,5 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards, UseInterceptors } from '@nestjs/common';
+import { ApiBearerAuth, ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ExamQuestionService } from './exam.question.service';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
@@ -10,6 +10,8 @@ import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FileToBodyInterceptor } from 'src/decorators/api.file.decorator';
 
 @ApiTags('Exam question')
 @ApiBearerAuth()
@@ -35,6 +37,8 @@ export class ExamQuestionController {
   @Post('')
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('file'), FileToBodyInterceptor)
   createExam(
     @Body() exam: CreateExamQuestionDTO,
   ) {

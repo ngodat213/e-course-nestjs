@@ -9,6 +9,7 @@ const UserSchema = new mongoose_1.Schema({
     password: { type: mongoose_1.SchemaTypes.String, required: true },
     username: { type: mongoose_1.SchemaTypes.String, required: true },
     photoUrl: { type: mongoose_1.SchemaTypes.String, default: "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg" },
+    photoPublicId: { type: mongoose_1.SchemaTypes.String, default: null },
     roles: [{ type: mongoose_1.SchemaTypes.String, enum: ['ADMIN', 'TEACHER', 'USER'], required: false },],
     courses: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Course' }] },
     favouritesCourses: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Course' }] },

@@ -27,7 +27,7 @@ import { Observable } from 'rxjs';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
 export declare class CourseService {
     private courseModel;
     private courseLessonModel;

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString, IsOptional, IsObject, IsUrl } from 'class-validator';
+import { ApiFile } from 'src/decorators/api.file.decorator';
 
 export class CreateCourseVideoDTO {
   @ApiProperty()
@@ -22,21 +23,24 @@ export class CreateCourseVideoDTO {
   @IsNumber()
   readonly minute: number;
 
-  @ApiProperty()
-  @IsNotEmpty()
   @IsString()
   @IsUrl()
-  readonly videoUrl: string;
+  @IsOptional()
+  videoUrl: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
   @IsString()
-  readonly videoPublicId: string;
+  @IsOptional()
+  videoPublicId: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   readonly lesson?: string; // Assuming lesson is an object with an id property
+
+  @IsNotEmpty()
+  @IsOptional()
+  @ApiFile()
+  file: Express.Multer.File;
 }
 
 export class UpdateCourseVideoDTO {

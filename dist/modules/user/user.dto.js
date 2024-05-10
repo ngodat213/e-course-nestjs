@@ -9,9 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ChangePasswordDTO = exports.UpdateUserDTO = exports.UserDto = exports.RegisterDto = void 0;
+exports.ChangePasswordDTO = exports.ChangeAvatarDTO = exports.UpdateUserDTO = exports.UserDto = exports.RegisterDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
+const api_file_decorator_1 = require("../../decorators/api.file.decorator");
 const role_type_enum_1 = require("../../shared/enum/role.type.enum");
 class RegisterDto {
 }
@@ -109,6 +110,15 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateUserDTO.prototype, "finishedExams", void 0);
+class ChangeAvatarDTO {
+}
+exports.ChangeAvatarDTO = ChangeAvatarDTO;
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsOptional)(),
+    (0, api_file_decorator_1.ApiFile)(),
+    __metadata("design:type", Object)
+], ChangeAvatarDTO.prototype, "file", void 0);
 class ChangePasswordDTO {
 }
 exports.ChangePasswordDTO = ChangePasswordDTO;

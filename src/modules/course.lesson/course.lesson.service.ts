@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import mongoose, { Model } from 'mongoose';
-import { COURSE_LESSON_MODEL, COURSE_VIDEO_MODEL } from 'src/database/database.constants';
+import { COURSE_LESSON_MODEL, COURSE_VIDEO_MODEL } from 'src/processors/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';

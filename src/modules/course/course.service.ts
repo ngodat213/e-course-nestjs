@@ -1,13 +1,12 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import mongoose, { Model } from 'mongoose';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
-import { COURSE_LESSON_MODEL, COURSE_MODEL } from 'src/database/database.constants';
+import { COURSE_LESSON_MODEL, COURSE_MODEL } from 'src/processors/database/database.constants';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import { FILE_COURSE_INTRO, FILE_COURSE_THUMB } from 'src/constants/cloudinary.constants';
-import { RESOURCE_TYPE_IMAGE, RESOURCE_TYPE_VIDEO } from 'src/cloudinary/clouddinary.constants';
+import { FILE_COURSE_INTRO, FILE_COURSE_THUMB, RESOURCE_TYPE_IMAGE, RESOURCE_TYPE_VIDEO } from 'src/constants/cloudinary.constants';
+import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CourseService {
@@ -54,7 +53,7 @@ export class CourseService {
 
     try{
       const resultImage = await this.cloudinaryService.uploadFile(fileImage, FILE_COURSE_THUMB, fileImage.filename, RESOURCE_TYPE_IMAGE);
-      const resultVideo = await this.cloudinaryService.uploadFile(fileVideo, FILE_COURSE_INTRO, fileImage.fieldname, RESOURCE_TYPE_VIDEO);
+      const resultVideo = await this.cloudinaryService.uploadFile(fileVideo, FILE_COURSE_INTRO, fileVideo.fieldname, RESOURCE_TYPE_VIDEO);
 
       data.imagePublicId = resultImage.public_id;
       data.imageIntroduce = resultImage.url;

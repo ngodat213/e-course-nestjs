@@ -1,3 +1,4 @@
+/// <reference types="multer" />
 import { RoleType } from 'src/shared/enum/role.type.enum';
 export declare class RegisterDto {
     readonly username: string;
@@ -21,6 +22,9 @@ export declare class UpdateUserDTO {
     readonly favouritesCourses?: string;
     readonly favouritesExams?: string;
     readonly finishedExams?: string;
+}
+export declare class ChangeAvatarDTO {
+    file: Express.Multer.File;
 }
 export declare class ChangePasswordDTO {
     readonly email: string;

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ExamLessonController } from './exam.lesson.controller';
 import { ExamLessonService } from './exam.lesson.service';
-import { DatabaseModule } from 'src/database/database.module';
+import { DatabaseModule } from 'src/processors/database/database.module';
 import { UserService } from '../user/user.service';
 
 @Module({

@@ -15,15 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const rxjs_1 = require("rxjs");
-const database_constants_1 = require("../../database/database.constants");
+const database_constants_1 = require("../../processors/database/database.constants");
 const role_type_enum_1 = require("../../shared/enum/role.type.enum");
 const checkPermission_helper_1 = require("../../helper/checkPermission.helper");
 const jwt_1 = require("@nestjs/jwt");
-``;
+const cloudinary_constants_1 = require("../../constants/cloudinary.constants");
+const helper_clouldinary_1 = require("../../processors/helper/helper.clouldinary");
 let UserService = class UserService {
-    constructor(userModel, jwtService) {
+    constructor(userModel, jwtService, cloudinaryService) {
         this.userModel = userModel;
         this.jwtService = jwtService;
+        this.cloudinaryService = cloudinaryService;
     }
     findByEmail(email) {
         return (0, rxjs_1.from)(this.userModel.findOne({ email: email }).exec());
@@ -82,7 +84,37 @@ let UserService = class UserService {
             return (0, rxjs_1.from)(this.userModel.find({}).select('-password -__v').skip(skip).limit(limit).exec());
         }
     }
+    async changedAvatar(id, requestBody, currentUser) {
+        const fileImage = requestBody.file;
+        let user = await this.userModel.findById(id);
+        if (!user) {
+            throw new common_1.NotFoundException('User does not exist');
+        }
+        checkPermission_helper_1.Permission.check(id, currentUser);
+        try {
+            if (user.photoPublicId) {
+                this.cloudinaryService.destroyFile(user.photoPublicId);
+            }
+            const imageUpload = await this.cloudinaryService.uploadFile(fileImage, cloudinary_constants_1.USER_AVATAR, id, cloudinary_constants_1.RESOURCE_TYPE_IMAGE);
+            user.photoPublicId = imageUpload.public_id;
+            user.photoUrl = imageUpload.url;
+            await this.userModel.findByIdAndUpdate(id, user);
+            const getUser = await this.userModel.findById(id);
+            return {
+                username: getUser.username,
+                photoUrl: getUser.photoUrl,
+                email: getUser.email,
+            };
+        }
+        catch (err) {
+            console.log(`Faill error: ${err}`);
+            throw new Error(`Failed to upload image: ${err}`);
+        }
+    }
     async updateById(id, requestBody, currentUser) {
+        if (requestBody.roles) {
+            throw new common_1.BadRequestException('You cannot change role');
+        }
         let user = await this.userModel.findById(id);
         if (!user) {
             throw new common_1.NotFoundException('User does not exist');
@@ -107,6 +139,7 @@ exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)(database_constants_1.USER_MODEL)),
-    __metadata("design:paramtypes", [Object, jwt_1.JwtService])
+    __metadata("design:paramtypes", [Object, jwt_1.JwtService,
+        helper_clouldinary_1.CloudinaryService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

@@ -27,10 +27,12 @@ import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
+import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
 export declare class ExamQuestionService {
     private questionModel;
     private req;
-    constructor(questionModel: Model<ExamQuestion>, req: AuthenticatedRequest);
+    private readonly cloudinaryService;
+    constructor(questionModel: Model<ExamQuestion>, req: AuthenticatedRequest, cloudinaryService: CloudinaryService);
     findAll(keyword?: string, skip?: number, limit?: number): Promise<ExamQuestion[]>;
     findById(id: string): Promise<ExamQuestion>;
     save(data: CreateExamQuestionDTO): Promise<ExamQuestion>;

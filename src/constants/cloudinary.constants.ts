@@ -8,3 +8,12 @@ export const FILE_COURSE_VIDEO = `${FILE_COURSE}/videos`;
 export const FILE_EXAM = `${FILE_APP}/exam`;
 export const FILE_EXAM_THUMB = `${FILE_EXAM}/thumbs`;
 export const FILE_EXAM_QUESTION = `${FILE_EXAM}/questions`;
+// USER
+export const USER = `${FILE_APP}/user`
+export const USER_AVATAR = `${USER}/avatars`
+
+// 
+export const CLOUDINARY = 'CLOUDINARY';
+// RESOURCE
+export const RESOURCE_TYPE_VIDEO = 'video';
+export const RESOURCE_TYPE_IMAGE = 'image'

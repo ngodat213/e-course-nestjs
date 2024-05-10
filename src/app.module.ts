@@ -13,10 +13,9 @@ import { CategoryModule } from './modules/category/category.module';
 import { CourseOrderModule } from './modules/course.order/course.order.module';
 import { ExamHistoryModule } from './modules/exam.history/exam.history.module';
 import { FeedbackModule } from './modules/feedback/feedback.module';
-import { DatabaseModule } from './database/database.module';
-import { CloudinaryModule } from './cloudinary/cloudinary.module';
-import { HelperModuleModule } from './helper/helper.module';
+import { DatabaseModule } from './processors/database/database.module';
 import { ContactModule } from './modules/contact/contact.module';
+import { HelperModuleModule } from './processors/helper/helper.module';
 
 @Module({
   imports: [
@@ -35,7 +34,6 @@ import { ContactModule } from './modules/contact/contact.module';
     FeedbackModule,
     CategoryModule,
     DatabaseModule,
-    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

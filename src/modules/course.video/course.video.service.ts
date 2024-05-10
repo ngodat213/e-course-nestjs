@@ -1,17 +1,20 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
-import { COURSE_VIDEO_MODEL } from 'src/database/database.constants';
+import { COURSE_VIDEO_MODEL } from 'src/processors/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import mongoose, { Model } from 'mongoose';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
+import { FILE_COURSE_INTRO, RESOURCE_TYPE_VIDEO } from 'src/constants/cloudinary.constants';
+import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CourseVideoService {
   constructor(
     @Inject(COURSE_VIDEO_MODEL) private videoModel: Model<CourseVideo>,
     @Inject(REQUEST) private req: AuthenticatedRequest,
+    private readonly cloudinaryService: CloudinaryService
   ){}
 
   async findAll(keyword?: string, skip: number = 0, limit: number = 10): Promise<CourseVideo[]> {
@@ -40,14 +43,24 @@ export class CourseVideoService {
   }
 
   async save(data: CreateCourseVideoDTO): Promise<CourseVideo> {
+    const fileVideo = data.file;
     const existing = await this.videoModel.findOne({ title: data.title });
-
     if (existing) {
         throw new BadRequestException('Course already exists');
     }
 
-    const res = await this.videoModel.create({...data});
-    return res;
+    try{
+      const resultVideo = await this.cloudinaryService.uploadFile(data.file, FILE_COURSE_INTRO, fileVideo.fieldname, RESOURCE_TYPE_VIDEO);
+
+      data.videoUrl = resultVideo.url;
+      data.videoPublicId = resultVideo.public_id;
+
+      const res = await this.videoModel.create({...data});
+      return res;
+    }catch(err){
+      console.log(`Faill error: ${err}`);
+      throw new Error(`Failed to upload image: ${err}`);
+    }
   }
 
   async updateById(id: string, data: UpdateCourseVideoDTO) {

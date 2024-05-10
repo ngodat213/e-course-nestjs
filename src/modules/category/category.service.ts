@@ -2,7 +2,7 @@ import { BadRequestException, Inject, Injectable, NotFoundException, Scope } fro
 import { REQUEST } from '@nestjs/core';
 import mongoose, { Model } from 'mongoose';
 import { EMPTY, Observable, from, map, mergeMap, of, throwIfEmpty } from 'rxjs';
-import { CATEGORY_MODEL } from 'src/database/database.constants';
+import { CATEGORY_MODEL } from 'src/processors/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Category } from 'src/modules/category/category.model';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';

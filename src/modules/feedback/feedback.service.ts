@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import mongoose, { Model } from 'mongoose';
-import { FEEDBACK_MODEL } from 'src/database/database.constants';
+import { FEEDBACK_MODEL } from 'src/processors/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Feedback } from 'src/modules/feedback/feedback.model';
 import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';

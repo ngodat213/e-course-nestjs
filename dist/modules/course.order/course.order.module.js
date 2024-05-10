@@ -10,7 +10,7 @@ exports.CourseOrderModule = void 0;
 const common_1 = require("@nestjs/common");
 const course_order_controller_1 = require("./course.order.controller");
 const course_order_service_1 = require("./course.order.service");
-const database_module_1 = require("../../database/database.module");
+const database_module_1 = require("../../processors/database/database.module");
 const user_service_1 = require("../user/user.service");
 let CourseOrderModule = class CourseOrderModule {
 };

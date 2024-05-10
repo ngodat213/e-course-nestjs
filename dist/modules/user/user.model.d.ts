@@ -32,7 +32,8 @@ interface User extends Document {
     readonly email: string;
     readonly password: string;
     readonly username: string;
-    readonly photoUrl: string;
+    photoUrl: string;
+    photoPublicId: string;
     readonly roles?: RoleType[];
     readonly courses: Partial<CourseModel>;
     readonly favouritesCourses: Partial<CourseModel>;

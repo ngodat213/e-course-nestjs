@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { ApiFile } from 'src/decorators/api.file.decorator';
 
 export class CreateExamDTO {
   @ApiProperty()
@@ -17,10 +18,18 @@ export class CreateExamDTO {
   @IsString()
   readonly category: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  readonly imageUrl: string;
+  imageUrl: string;
+
+  @IsString()
+  @IsOptional()
+  imagePublicId: string;
+
+  @IsNotEmpty()
+  @IsOptional()
+  @ApiFile()
+  file: Express.Multer.File;
 }
 
 export class UpdateExamDTO {

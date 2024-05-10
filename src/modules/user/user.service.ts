@@ -1,21 +1,25 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { EMPTY, Observable, from, map, mergeMap, of, throwIfEmpty } from 'rxjs';
-import { USER_MODEL } from '../../database/database.constants';
+import { USER_MODEL } from '../../processors/database/database.constants';
 import { User, UserModel } from 'src/modules/user/user.model';
-import { RegisterDto, UpdateUserDTO } from './user.dto';
+import { ChangeAvatarDTO, RegisterDto, UpdateUserDTO } from './user.dto';
 import { RoleType } from '../../shared/enum/role.type.enum';
 import { UserPrincipal } from 'src/interfaces/user-principal.interface';
 import { Permission } from 'src/helper/checkPermission.helper';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from 'src/interfaces/jwt.interface';
 import { TokenResult } from 'src/interfaces/auth.interface';
-``
+import { RESOURCE_TYPE_IMAGE, USER_AVATAR } from 'src/constants/cloudinary.constants';
+import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
+import { success } from 'src/decorators/responser.decorator';
+
 @Injectable()
 export class 
 UserService {
   constructor(
     @Inject(USER_MODEL) private userModel: UserModel,
     private jwtService: JwtService,
+    private readonly cloudinaryService: CloudinaryService,
   ){}
 
   findByEmail(email: string): Observable<User | undefined> {
@@ -91,10 +95,41 @@ UserService {
     }
   }
 
+  async changedAvatar(id: string, requestBody: ChangeAvatarDTO, currentUser: User){
+    const fileImage = requestBody.file;
+    let user = await this.userModel.findById(id);
+    if(!user){
+      throw new NotFoundException('User does not exist');
+    }
+    Permission.check(id, currentUser);
+
+    try{
+      if(user.photoPublicId){
+        this.cloudinaryService.destroyFile(user.photoPublicId);
+      }
+
+      const imageUpload = await this.cloudinaryService.uploadFile(fileImage, USER_AVATAR, id, RESOURCE_TYPE_IMAGE);
+      user.photoPublicId = imageUpload.public_id;
+      user.photoUrl = imageUpload.url;
+
+      await this.userModel.findByIdAndUpdate(id, user);
+      const getUser = await this.userModel.findById(id);
+
+      return {
+        username: getUser.username,
+      photoUrl: getUser.photoUrl,
+      email: getUser.email,
+      };
+    }catch(err){
+      console.log(`Faill error: ${err}`);
+      throw new Error(`Failed to upload image: ${err}`);
+    }
+  }
+
   async updateById(id: string, requestBody: UpdateUserDTO, currentUser: User){
-    // if(requestBody.roles){
-    //   throw new BadRequestException('You cannot change role');
-    // }
+    if(requestBody.roles){
+      throw new BadRequestException('You cannot change role');
+    }
 
     let user = await this.userModel.findById(id);
     if(!user){

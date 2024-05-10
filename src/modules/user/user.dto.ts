@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsUrl, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength, MinLength } from 'class-validator';
+import { ApiFile } from 'src/decorators/api.file.decorator';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 
 export class RegisterDto {
@@ -76,6 +77,13 @@ export class UpdateUserDTO {
   @ApiProperty()
   @IsOptional()
   readonly finishedExams?: string;
+}
+
+export class ChangeAvatarDTO{
+  @IsNotEmpty()
+  @IsOptional()
+  @ApiFile()
+  file: Express.Multer.File;
 }
 
 export class ChangePasswordDTO {

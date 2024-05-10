@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { Observable, map, mergeMap } from 'rxjs';
 import { User } from 'src/modules/user/user.model';
-import { RegisterDto, UpdateUserDTO } from './user.dto';
+import { ChangeAvatarDTO, RegisterDto, UpdateUserDTO } from './user.dto';
 import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
@@ -13,6 +13,8 @@ import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 import { RoleType } from 'src/shared/enum/role.type.enum';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FileToBodyInterceptor} from 'src/decorators/api.file.decorator';
 
 @ApiTags('Auth')
 @ApiBearerAuth()
@@ -95,5 +97,18 @@ export class UserController {
     @GetUser() currentUser: User,
   ) {
     return this.userService.updateById(id, requestBody, currentUser);
+  }
+
+  @Put('/avatar/:id')
+  @ApiConsumes('multipart/form-data')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN, RoleType.USER, RoleType.TEACHER)
+  @UseInterceptors(FileInterceptor('file'), FileToBodyInterceptor)
+  updateAvatarUser(
+    @Param('id', ParseObjectIdPipe) id: string,
+    @Body() body: ChangeAvatarDTO,
+    @GetUser() currentUser: User,
+  ) {
+    return this.userService.changedAvatar(id, body, currentUser);
   }
 }

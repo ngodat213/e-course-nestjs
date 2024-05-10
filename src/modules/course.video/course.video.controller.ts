@@ -1,16 +1,18 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CourseVideoService } from './course.video.service';
 import { Observable, map } from 'rxjs';
 import { Response } from 'express';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Responser } from 'src/decorators/responser.decorator';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FileToBodyInterceptor } from 'src/decorators/api.file.decorator';
 
 @ApiTags('Course Video')
 @ApiBearerAuth()
@@ -36,6 +38,8 @@ export class CourseVideoController {
   @Post('')
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('file'), FileToBodyInterceptor)
   createCourseVideo(
     @Body() video: CreateCourseVideoDTO,
   ) {

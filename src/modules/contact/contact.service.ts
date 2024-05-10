@@ -2,7 +2,7 @@ import { BadRequestException, Inject, Injectable, NotFoundException, Scope } fro
 import { REQUEST } from '@nestjs/core';
 import mongoose, { Model } from 'mongoose';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
-import { CONTACT_MODEL } from 'src/database/database.constants';
+import { CONTACT_MODEL } from 'src/processors/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Contact } from 'src/modules/contact/contact.model';
 import { CreateContactDTO, UpdateContactDTO } from './contact.dto';

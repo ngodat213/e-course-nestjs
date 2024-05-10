@@ -1,5 +1,5 @@
-import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards, UseInterceptors } from '@nestjs/common';
+import { ApiBearerAuth, ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Observable, map } from 'rxjs';
 import { ExamService } from './exam.service';
@@ -11,6 +11,8 @@ import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FileToBodyInterceptor } from 'src/decorators/api.file.decorator';
 
 @ApiTags('Exam')
 @ApiBearerAuth()
@@ -36,6 +38,8 @@ export class ExamController {
   @Post('')
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('file'), FileToBodyInterceptor)
   createExam(
     @Body() exam: CreateExamDTO,
   ) {

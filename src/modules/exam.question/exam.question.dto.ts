@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
+import { ApiFile } from 'src/decorators/api.file.decorator';
 
 export class CreateExamQuestionDTO {
   @ApiProperty()
@@ -20,12 +21,21 @@ export class CreateExamQuestionDTO {
 
   @ApiProperty()
   @IsUrl()
-  readonly imageUrl: string;
+  imageUrl: string;
+
+  @IsString()
+  @IsOptional()
+  imagePublicId: string;
 
   @ApiProperty({ required: false }) // For optional properties
   @IsOptional()
   @IsString()
   readonly exam?: string;
+
+  @IsNotEmpty()
+  @IsOptional()
+  @ApiFile()
+  file: Express.Multer.File;
 }
 
 export class UpdateExamQuestionDTO {

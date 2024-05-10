@@ -72,6 +72,7 @@ export class CreateCourseDTO {
   @IsOptional()
   readonly category: string;
 
+  @IsNotEmpty()
   @IsOptional()
   @ApiFile({ isArray: true })
   files: Express.Multer.File[];

@@ -1,9 +1,12 @@
+/// <reference types="multer" />
 export declare class CreateExamQuestionDTO {
     readonly question: string;
     readonly options: string[];
     readonly answer: number;
-    readonly imageUrl: string;
+    imageUrl: string;
+    imagePublicId: string;
     readonly exam?: string;
+    file: Express.Multer.File;
 }
 export declare class UpdateExamQuestionDTO {
     readonly question?: string;

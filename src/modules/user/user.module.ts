@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { DatabaseModule } from 'src/database/database.module';
+import { DatabaseModule } from 'src/processors/database/database.module';
 import { JwtStrategy } from 'src/auth/strategy/jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from 'src/configs/jwt.config';
 import { LocalStrategy } from 'src/auth/strategy/local.strategy';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
 
 @Module({
   imports: [

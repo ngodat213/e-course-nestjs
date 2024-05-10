@@ -28,6 +28,7 @@ interface Exam extends Document {
     readonly description: string;
     readonly category: string;
     readonly imageUrl: string;
+    readonly imagePublicId: string;
 }
 type ExamModel = Model<Exam>;
 declare const createExamModel: (conn: Connection) => ExamModel;

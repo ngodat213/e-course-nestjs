@@ -1,5 +1,5 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
-import { COURSE_ORDER_MODEL } from 'src/database/database.constants';
+import { COURSE_ORDER_MODEL } from 'src/processors/database/database.constants';
 import { CourseOrder } from './course.order.model';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import mongoose, { Model } from 'mongoose';

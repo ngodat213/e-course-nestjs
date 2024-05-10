@@ -16,13 +16,16 @@ exports.ExamService = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
-const database_constants_1 = require("../../database/database.constants");
+const database_constants_1 = require("../../processors/database/database.constants");
 const rxjs_1 = require("rxjs");
+const cloudinary_constants_1 = require("../../constants/cloudinary.constants");
+const helper_clouldinary_1 = require("../../processors/helper/helper.clouldinary");
 let ExamService = class ExamService {
-    constructor(examModel, lessonModel, req) {
+    constructor(examModel, lessonModel, req, cloudinaryService) {
         this.examModel = examModel;
         this.lessonModel = lessonModel;
         this.req = req;
+        this.cloudinaryService = cloudinaryService;
     }
     async findAll(keyword, skip = 0, limit = 10) {
         if (keyword && keyword.trim() === '') {
@@ -44,12 +47,22 @@ let ExamService = class ExamService {
         return res;
     }
     async save(data) {
+        const fileImage = data.file;
         const existing = await this.examModel.findOne({ title: data.title });
         if (existing) {
             throw new common_1.BadRequestException('Exam already exists');
         }
-        const res = await this.examModel.create({ ...data });
-        return res;
+        try {
+            const resultImage = await this.cloudinaryService.uploadFile(fileImage, cloudinary_constants_1.FILE_COURSE_INTRO, fileImage.fieldname, cloudinary_constants_1.RESOURCE_TYPE_IMAGE);
+            data.imageUrl = resultImage.url;
+            data.imagePublicId = resultImage.public_id;
+            const res = await this.examModel.create({ ...data });
+            return res;
+        }
+        catch (err) {
+            console.log(`Faill error: ${err}`);
+            throw new Error(`Failed to upload image: ${err}`);
+        }
     }
     async updateById(id, data) {
         const isValidId = mongoose_1.default.isValidObjectId(id);
@@ -87,6 +100,6 @@ exports.ExamService = ExamService = __decorate([
     __param(1, (0, common_1.Inject)(database_constants_1.EXAM_LESSON_MODEL)),
     __param(2, (0, common_1.Inject)(core_1.REQUEST)),
     __metadata("design:paramtypes", [mongoose_1.Model,
-        mongoose_1.Model, Object])
+        mongoose_1.Model, Object, helper_clouldinary_1.CloudinaryService])
 ], ExamService);
 //# sourceMappingURL=exam.service.js.map

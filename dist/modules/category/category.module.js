@@ -10,7 +10,7 @@ exports.CategoryModule = void 0;
 const common_1 = require("@nestjs/common");
 const category_controller_1 = require("./category.controller");
 const category_service_1 = require("./category.service");
-const database_module_1 = require("../../database/database.module");
+const database_module_1 = require("../../processors/database/database.module");
 const user_service_1 = require("../user/user.service");
 let CategoryModule = class CategoryModule {
 };

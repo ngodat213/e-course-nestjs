@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseOrderService = void 0;
 const common_1 = require("@nestjs/common");
-const database_constants_1 = require("../../database/database.constants");
+const database_constants_1 = require("../../processors/database/database.constants");
 const mongoose_1 = require("mongoose");
 const core_1 = require("@nestjs/core");
 let CourseOrderService = class CourseOrderService {

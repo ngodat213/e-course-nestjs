@@ -25,6 +25,8 @@ const roles_guard_1 = require("../../auth/guard/roles.guard");
 const auth_guard_1 = require("../../auth/guard/auth.guard");
 const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
 const role_type_enum_1 = require("../../shared/enum/role.type.enum");
+const platform_express_1 = require("@nestjs/platform-express");
+const api_file_decorator_1 = require("../../decorators/api.file.decorator");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -60,6 +62,9 @@ let UserController = class UserController {
     }
     updateUser(id, requestBody, currentUser) {
         return this.userService.updateById(id, requestBody, currentUser);
+    }
+    updateAvatarUser(id, body, currentUser) {
+        return this.userService.changedAvatar(id, body, currentUser);
     }
 };
 exports.UserController = UserController;
@@ -114,6 +119,19 @@ __decorate([
     __metadata("design:paramtypes", [String, user_dto_1.UpdateUserDTO, Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "updateUser", null);
+__decorate([
+    (0, common_1.Put)('/avatar/:id'),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.USER, role_type_enum_1.RoleType.TEACHER),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file'), api_file_decorator_1.FileToBodyInterceptor),
+    __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, current_user_decorator_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, user_dto_1.ChangeAvatarDTO, Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "updateAvatarUser", null);
 exports.UserController = UserController = __decorate([
     (0, swagger_1.ApiTags)('Auth'),
     (0, swagger_1.ApiBearerAuth)(),

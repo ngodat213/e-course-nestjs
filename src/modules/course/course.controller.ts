@@ -4,7 +4,6 @@ import {
   DefaultValuePipe,
   Delete,
   Get,
-  HttpStatus,
   Param,
   ParseIntPipe,
   Post,
@@ -12,8 +11,6 @@ import {
   Query,
   Res,
   Scope,
-  UploadedFile,
-  UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -25,7 +22,6 @@ import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import {
   ApiBearerAuth,
-  ApiBody,
   ApiConsumes,
   ApiQuery,
   ApiTags,

@@ -1,7 +1,7 @@
 import { UserService } from './user.service';
 import { Observable } from 'rxjs';
 import { User } from 'src/modules/user/user.model';
-import { RegisterDto, UpdateUserDTO } from './user.dto';
+import { ChangeAvatarDTO, RegisterDto, UpdateUserDTO } from './user.dto';
 import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 export declare class UserController {
@@ -12,6 +12,11 @@ export declare class UserController {
     Login(req: AuthenticatedRequest, res: Response): Observable<Response>;
     Register(registerDto: RegisterDto, res: Response): Observable<Response>;
     updateUser(id: string, requestBody: UpdateUserDTO, currentUser: User): Promise<{
+        username: string;
+        photoUrl: string;
+        email: string;
+    }>;
+    updateAvatarUser(id: string, body: ChangeAvatarDTO, currentUser: User): Promise<{
         username: string;
         photoUrl: string;
         email: string;
