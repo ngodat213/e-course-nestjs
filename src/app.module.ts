@@ -21,7 +21,7 @@ import { ContactModule } from './modules/contact/contact.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ignoreEnvFile: true}),
-    DatabaseModule,
+    HelperModuleModule,
     ContactModule,
     CourseModule,
     CourseLessonModule,
@@ -34,8 +34,8 @@ import { ContactModule } from './modules/contact/contact.module';
     UserModule,
     FeedbackModule,
     CategoryModule,
+    DatabaseModule,
     CloudinaryModule,
-    HelperModuleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

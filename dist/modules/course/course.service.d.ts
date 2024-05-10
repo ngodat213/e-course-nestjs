@@ -24,17 +24,15 @@
 /// <reference types="mongoose/types/inferschematype" />
 import mongoose, { Model } from 'mongoose';
 import { Observable } from 'rxjs';
-import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
-import { User } from '../user/user.model';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 export declare class CourseService {
     private courseModel;
-    private teacherModel;
     private courseLessonModel;
-    private req;
-    constructor(courseModel: Model<Course>, teacherModel: Model<User>, courseLessonModel: Model<CourseLesson>, req: AuthenticatedRequest);
+    private readonly cloudinaryService;
+    constructor(courseModel: Model<Course>, courseLessonModel: Model<CourseLesson>, cloudinaryService: CloudinaryService);
     findAll(keyword?: string, skip?: number, limit?: number): Promise<Course[]>;
     findById(id: string): Promise<Course>;
     save(data: CreateCourseDTO): Promise<Course>;

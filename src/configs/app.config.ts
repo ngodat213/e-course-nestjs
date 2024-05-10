@@ -1,3 +1,4 @@
+import { registerAs } from '@nestjs/config'
 import yargs from 'yargs'
 const argv = yargs.argv as Record<string, string | void>
 
@@ -10,12 +11,6 @@ export const AUTH = {
   data: argv.auth_data || { user: 'root' },
   jwtSecret: argv.auth_key || 'ecourse',
   defaultPassword: argv.auth_default_password || 'root'
-}
-
-export const COULDINARY = {
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
 }
 
 export const GOOGLE = {

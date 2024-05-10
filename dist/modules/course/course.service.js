@@ -14,16 +14,17 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseService = void 0;
 const common_1 = require("@nestjs/common");
-const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
 const rxjs_1 = require("rxjs");
 const database_constants_1 = require("../../database/database.constants");
+const cloudinary_service_1 = require("../../cloudinary/cloudinary.service");
+const cloudinary_constants_1 = require("../../constants/cloudinary.constants");
+const clouddinary_constants_1 = require("../../cloudinary/clouddinary.constants");
 let CourseService = class CourseService {
-    constructor(courseModel, teacherModel, courseLessonModel, req) {
+    constructor(courseModel, courseLessonModel, cloudinaryService) {
         this.courseModel = courseModel;
-        this.teacherModel = teacherModel;
         this.courseLessonModel = courseLessonModel;
-        this.req = req;
+        this.cloudinaryService = cloudinaryService;
     }
     async findAll(keyword, skip = 0, limit = 10) {
         if (keyword && keyword.trim() === '') {
@@ -45,12 +46,25 @@ let CourseService = class CourseService {
         return res;
     }
     async save(data) {
+        const [fileImage, fileVideo] = data.files;
         const existing = await this.courseModel.findOne({ title: data.title });
         if (existing) {
             throw new common_1.BadRequestException('Course already exists');
         }
-        const res = await this.courseModel.create({ ...data });
-        return res;
+        try {
+            const resultImage = await this.cloudinaryService.uploadFile(fileImage, cloudinary_constants_1.FILE_COURSE_THUMB, fileImage.filename, clouddinary_constants_1.RESOURCE_TYPE_IMAGE);
+            const resultVideo = await this.cloudinaryService.uploadFile(fileVideo, cloudinary_constants_1.FILE_COURSE_INTRO, fileImage.fieldname, clouddinary_constants_1.RESOURCE_TYPE_VIDEO);
+            data.imagePublicId = resultImage.public_id;
+            data.imageIntroduce = resultImage.url;
+            data.videoIntroduce = resultVideo.public_id;
+            data.videoPublicId = resultVideo.url;
+            const res = await this.courseModel.create({ ...data });
+            return res;
+        }
+        catch (err) {
+            console.log(`Faill error: ${err}`);
+            throw new Error(`Failed to upload image: ${err}`);
+        }
     }
     async updateById(id, data) {
         const isValidId = mongoose_1.default.isValidObjectId(id);
@@ -85,11 +99,9 @@ exports.CourseService = CourseService;
 exports.CourseService = CourseService = __decorate([
     (0, common_1.Injectable)({ scope: common_1.Scope.REQUEST }),
     __param(0, (0, common_1.Inject)(database_constants_1.COURSE_MODEL)),
-    __param(1, (0, common_1.Inject)(database_constants_1.USER_MODEL)),
-    __param(2, (0, common_1.Inject)(database_constants_1.COURSE_LESSON_MODEL)),
-    __param(3, (0, common_1.Inject)(core_1.REQUEST)),
+    __param(1, (0, common_1.Inject)(database_constants_1.COURSE_LESSON_MODEL)),
     __metadata("design:paramtypes", [mongoose_1.Model,
         mongoose_1.Model,
-        mongoose_1.Model, Object])
+        cloudinary_service_1.CloudinaryService])
 ], CourseService);
 //# sourceMappingURL=course.service.js.map

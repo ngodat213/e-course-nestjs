@@ -84,6 +84,7 @@ __decorate([
 ], UserController.prototype, "GetCurrentUser", null);
 __decorate([
     (0, common_1.Post)('/login'),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
     (0, swagger_1.ApiProperty)(),
     __param(0, (0, common_1.Req)()),
@@ -94,6 +95,7 @@ __decorate([
 ], UserController.prototype, "Login", null);
 __decorate([
     (0, common_1.Post)('/register'),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -102,6 +104,7 @@ __decorate([
 ], UserController.prototype, "Register", null);
 __decorate([
     (0, common_1.Put)('/:id'),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.USER, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),

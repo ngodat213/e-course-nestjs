@@ -33,7 +33,7 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({ ignoreEnvFile: true }),
-            database_module_1.DatabaseModule,
+            helper_module_1.HelperModuleModule,
             contact_module_1.ContactModule,
             course_module_1.CourseModule,
             course_lesson_module_1.CourseLessonModule,
@@ -46,8 +46,8 @@ exports.AppModule = AppModule = __decorate([
             user_module_1.UserModule,
             feedback_module_1.FeedbackModule,
             category_module_1.CategoryModule,
+            database_module_1.DatabaseModule,
             cloudinary_module_1.CloudinaryModule,
-            helper_module_1.HelperModuleModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

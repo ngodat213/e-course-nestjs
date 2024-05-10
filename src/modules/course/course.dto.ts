@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, IsDate, IsArray, IsOptional, IsObject } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsString, IsOptional, IsInt } from 'class-validator';
+import { ApiFile } from 'src/decorators/api.file.decorator';
 
 export class CreateCourseDTO {
   @ApiProperty()
@@ -10,7 +12,8 @@ export class CreateCourseDTO {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsNumber()
+  @Type(() => Number)
+  @IsInt()
   @IsOptional()
   readonly price: number;
 
@@ -28,33 +31,26 @@ export class CreateCourseDTO {
   @IsNumber()
   readonly register?: number = 0;
 
-  @ApiProperty()
-  @IsNotEmpty()
   @IsString()
   @IsOptional()
-  readonly imageIntroduce: string;
+  imageIntroduce: string;
+
+  @IsString()
+  @IsOptional()
+  imagePublicId: string;
+
+  @IsString()
+  @IsOptional()
+  videoIntroduce: string;
+
+  @IsString()
+  @IsOptional()
+  videoPublicId: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsString()
-  @IsOptional()
-  readonly imagePublicId: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  @IsOptional()
-  readonly videoIntroduce: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  @IsOptional()
-  readonly videoPublicId: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsNumber()
+  @Type(() => Number)
+  @IsInt()
   @IsOptional()
   readonly time: number;
 
@@ -75,6 +71,10 @@ export class CreateCourseDTO {
   @IsString()
   @IsOptional()
   readonly category: string;
+
+  @IsOptional()
+  @ApiFile({ isArray: true })
+  files: Express.Multer.File[];
 }
 
 export class UpdateCourseDTO {
@@ -142,7 +142,9 @@ export class UpdateCourseDTO {
   @IsOptional()
   @IsString()
   readonly category?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @ApiFile({ isArray: true })
+  files: Express.Multer.File[];
 }
-
-
-

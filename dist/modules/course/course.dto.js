@@ -11,7 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateCourseDTO = exports.CreateCourseDTO = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
+const api_file_decorator_1 = require("../../decorators/api.file.decorator");
 class CreateCourseDTO {
     constructor() {
         this.rating = 5;
@@ -29,7 +31,8 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsNumber)(),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsInt)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
 ], CreateCourseDTO.prototype, "price", void 0);
@@ -51,29 +54,21 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateCourseDTO.prototype, "register", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateCourseDTO.prototype, "imageIntroduce", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateCourseDTO.prototype, "imagePublicId", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateCourseDTO.prototype, "videoIntroduce", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
@@ -81,7 +76,8 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsNumber)(),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsInt)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
 ], CreateCourseDTO.prototype, "time", void 0);
@@ -106,6 +102,11 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateCourseDTO.prototype, "category", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, api_file_decorator_1.ApiFile)({ isArray: true }),
+    __metadata("design:type", Array)
+], CreateCourseDTO.prototype, "files", void 0);
 class UpdateCourseDTO {
 }
 exports.UpdateCourseDTO = UpdateCourseDTO;
@@ -187,4 +188,10 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateCourseDTO.prototype, "category", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, class_validator_1.IsOptional)(),
+    (0, api_file_decorator_1.ApiFile)({ isArray: true }),
+    __metadata("design:type", Array)
+], UpdateCourseDTO.prototype, "files", void 0);
 //# sourceMappingURL=course.dto.js.map

@@ -23,6 +23,8 @@ const roles_guard_1 = require("../../auth/guard/roles.guard");
 const auth_guard_1 = require("../../auth/guard/auth.guard");
 const role_type_enum_1 = require("../../shared/enum/role.type.enum");
 const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
+const platform_express_1 = require("@nestjs/platform-express");
+const api_file_decorator_1 = require("../../decorators/api.file.decorator");
 let CourseController = class CourseController {
     constructor(courseService) {
         this.courseService = courseService;
@@ -33,8 +35,8 @@ let CourseController = class CourseController {
     getCourseById(id) {
         return this.courseService.findById(id);
     }
-    createCourse(course) {
-        return this.courseService.save(course);
+    createCourse(body) {
+        return this.courseService.save(body);
     }
     updateCourse(id, course, res) {
         return this.courseService.updateById(id, course);
@@ -70,6 +72,8 @@ __decorate([
     (0, common_1.Post)(''),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files'), api_file_decorator_1.FilesToBodyInterceptor),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [course_dto_1.CreateCourseDTO]),
@@ -77,6 +81,7 @@ __decorate([
 ], CourseController.prototype, "createCourse", null);
 __decorate([
     (0, common_1.Put)(':id'),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),

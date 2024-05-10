@@ -11,9 +11,9 @@ const common_1 = require("@nestjs/common");
 const cloudinary_1 = require("cloudinary");
 const streamifier = require('streamifier');
 let CloudinaryService = class CloudinaryService {
-    uploadFile(file) {
+    uploadFile(file, folder, filename_override, resource_type) {
         return new Promise((resolve, reject) => {
-            const uploadStream = cloudinary_1.v2.uploader.upload_stream((error, result) => {
+            const uploadStream = cloudinary_1.v2.uploader.upload_stream({ folder: folder, filename_override: filename_override, resource_type: resource_type }, (error, result) => {
                 if (error)
                     return reject(error);
                 resolve(result);

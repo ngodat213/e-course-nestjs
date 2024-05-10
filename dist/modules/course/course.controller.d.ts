@@ -9,7 +9,7 @@ export declare class CourseController {
     constructor(courseService: CourseService);
     getAllCourses(keyword?: string, limit?: number, skip?: number): Promise<Course[]>;
     getCourseById(id: string): Promise<Course>;
-    createCourse(course: CreateCourseDTO): Promise<Course>;
+    createCourse(body: CreateCourseDTO): Promise<Course>;
     updateCourse(id: string, course: UpdateCourseDTO, res: Response): Promise<Course>;
     deleteCourseById(id: string, res: Response): Observable<Response>;
     getAllLessonsOfCourse(id: string): Promise<CourseLesson[]>;

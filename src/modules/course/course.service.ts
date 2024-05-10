@@ -1,21 +1,20 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
-import { REQUEST } from '@nestjs/core';
 import mongoose, { Model } from 'mongoose';
-import { EMPTY, Observable, from, map, mergeMap, of, throwError, throwIfEmpty } from 'rxjs';
-import { COURSE_LESSON_MODEL, COURSE_MODEL, USER_MODEL } from 'src/database/database.constants';
-import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
+import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
+import { COURSE_LESSON_MODEL, COURSE_MODEL } from 'src/database/database.constants';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
-import { User } from '../user/user.model';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { FILE_COURSE_INTRO, FILE_COURSE_THUMB } from 'src/constants/cloudinary.constants';
+import { RESOURCE_TYPE_IMAGE, RESOURCE_TYPE_VIDEO } from 'src/cloudinary/clouddinary.constants';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CourseService {
   constructor(
     @Inject(COURSE_MODEL) private courseModel: Model<Course>,
-    @Inject(USER_MODEL) private teacherModel: Model<User>,
     @Inject(COURSE_LESSON_MODEL) private courseLessonModel: Model<CourseLesson>,
-    @Inject(REQUEST) private req: AuthenticatedRequest,
+    private readonly cloudinaryService: CloudinaryService,
   ){}
 
   
@@ -44,15 +43,30 @@ export class CourseService {
     return res;
   }
 
-  async save(data: CreateCourseDTO): Promise<Course> {
+  async save(
+    data: CreateCourseDTO, 
+  ): Promise<Course> {
+    const [fileImage, fileVideo] = data.files;
     const existing = await this.courseModel.findOne({ title: data.title });
-
     if (existing) {
-        throw new BadRequestException('Course already exists');
+      throw new BadRequestException('Course already exists');
     }
 
-    const res = await this.courseModel.create({...data});
-    return res;
+    try{
+      const resultImage = await this.cloudinaryService.uploadFile(fileImage, FILE_COURSE_THUMB, fileImage.filename, RESOURCE_TYPE_IMAGE);
+      const resultVideo = await this.cloudinaryService.uploadFile(fileVideo, FILE_COURSE_INTRO, fileImage.fieldname, RESOURCE_TYPE_VIDEO);
+
+      data.imagePublicId = resultImage.public_id;
+      data.imageIntroduce = resultImage.url;
+      data.videoIntroduce = resultVideo.public_id;
+      data.videoPublicId = resultVideo.url;
+
+      const res = await this.courseModel.create({...data});
+      return res;
+    } catch(err){
+      console.log(`Faill error: ${err}`);
+      throw new Error(`Failed to upload image: ${err}`);
+    }
   }
 
 

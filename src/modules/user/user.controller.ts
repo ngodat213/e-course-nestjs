@@ -8,7 +8,7 @@ import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
 import { GetUser } from 'src/decorators/current.user.decorator';
-import { ApiBearerAuth, ApiProperty, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiProperty, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
@@ -42,6 +42,7 @@ export class UserController {
   }
 
   @Post('/login')
+  @ApiConsumes('multipart/form-data')
   @UseGuards(LocalAuthGuard)
   @ApiProperty()
   Login(
@@ -61,6 +62,7 @@ export class UserController {
   }
 
   @Post('/register')
+  @ApiConsumes('multipart/form-data')
   Register(
     @Body() registerDto: RegisterDto,
     @Res() res: Response
@@ -84,6 +86,7 @@ export class UserController {
   }
 
   @Put('/:id')
+  @ApiConsumes('multipart/form-data')
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.USER, RoleType.TEACHER)
   updateUser(

@@ -6,8 +6,8 @@ const app_module_1 = require("./app.module");
 const common_1 = require("@nestjs/common");
 const error_interceptor_1 = require("./interceptors/error.interceptor");
 async function bootstrap() {
-    const app = await core_1.NestFactory.create(app_module_1.AppModule, { cors: true });
-    app.useGlobalPipes(new common_1.ValidationPipe());
+    const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    app.useGlobalPipes(new common_1.ValidationPipe({ transform: true }));
     app.useGlobalInterceptors(new error_interceptor_1.ErrorInterceptor());
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Cats example')
@@ -18,6 +18,7 @@ async function bootstrap() {
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);
     swagger_1.SwaggerModule.setup('api/v1', app, document);
+    app.enableCors();
     await app.listen(3000);
 }
 bootstrap();

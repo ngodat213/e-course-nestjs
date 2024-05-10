@@ -23,7 +23,6 @@ export class AuthGuard implements CanActivate {
         });
 
         const user = await this.userService.findOneByEmail(payload.email);
-        console.log(user);
         if (!user) {
           throw new BadRequestException(
             'User not belong to token, please try again',
