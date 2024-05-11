@@ -24,7 +24,7 @@ type UserModel = Model<User>;
 const UserSchema = new Schema<User>(
    {
     email: {type: SchemaTypes.String, unique: true, required: true, match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/},
-    password: {type: SchemaTypes.String, required: true},
+    password: {type: SchemaTypes.String, required: true, minlength: 8},
     username: {type: SchemaTypes.String, required: true},
     photoUrl: {type: SchemaTypes.String, default: "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"},
     photoPublicId: {type: SchemaTypes.String, default: null},

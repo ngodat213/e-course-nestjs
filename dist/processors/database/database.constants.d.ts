@@ -12,3 +12,4 @@ export declare const FEEDBACK_MODEL = "FEEDBACK_MODEL";
 export declare const BLOG_MODEL = "BLOG_MODEL";
 export declare const CONTACT_MODEL = "CONTACT_MODEL";
 export declare const CATEGORY_MODEL = "CATEGORY_MODEL";
+export declare const FORGOT_PASSWORD_MODEL = "FORGOT_PASSWORD_MODEL";

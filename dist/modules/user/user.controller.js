@@ -66,11 +66,19 @@ let UserController = class UserController {
     updateAvatarUser(id, body, currentUser) {
         return this.userService.changedAvatar(id, body, currentUser);
     }
+    resetPassword(email) {
+        return this.userService.sendEmailForgotPassword(email);
+    }
+    setNewPassword(requestBody) {
+        return this.userService.changedPassword(requestBody);
+    }
 };
 exports.UserController = UserController;
 __decorate([
     (0, common_1.Get)(),
     (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.USER, role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
@@ -132,6 +140,21 @@ __decorate([
     __metadata("design:paramtypes", [String, user_dto_1.ChangeAvatarDTO, Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "updateAvatarUser", null);
+__decorate([
+    (0, common_1.Post)('/forgot-password/:email'),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    __param(0, (0, common_1.Param)('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "resetPassword", null);
+__decorate([
+    (0, common_1.Post)('/reset-password'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.ResetPasswordDTO]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "setNewPassword", null);
 exports.UserController = UserController = __decorate([
     (0, swagger_1.ApiTags)('Auth'),
     (0, swagger_1.ApiBearerAuth)(),

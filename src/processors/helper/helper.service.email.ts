@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import * as nodemailer from 'nodemailer';
 import * as APP_CONFIG from '../../app.config'
-const streamifier = require('streamifier');
 
 export interface EmailOptions {
   to: string
@@ -16,7 +15,7 @@ export class EmailService {
   private clientIsValid: boolean
 
   constructor(){
-    return this.transporter = nodemailer.createTransport({
+    this.transporter = nodemailer.createTransport({
       host: APP_CONFIG.EMAIL.host,
       secure: APP_CONFIG.EMAIL.secure,
       auth: {

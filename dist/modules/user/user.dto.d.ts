@@ -26,6 +26,11 @@ export declare class UpdateUserDTO {
 export declare class ChangeAvatarDTO {
     file: Express.Multer.File;
 }
+export declare class ResetPasswordDTO {
+    readonly newPassword: string;
+    readonly newPasswordToken: string;
+    readonly email: string;
+}
 export declare class ChangePasswordDTO {
     readonly email: string;
     readonly oldPw: string;

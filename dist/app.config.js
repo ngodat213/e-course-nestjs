@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JWT = exports.MONGODB = exports.EMAIL = exports.CLOUDINARY = void 0;
+exports.JWT = exports.MONGODB = exports.EMAIL = exports.CLOUDINARY = exports.APP = void 0;
+exports.APP = {
+    NAME: "ECourse",
+    ADMIN_EMAIL: "noreply.ecourse@gmail.com"
+};
 exports.CLOUDINARY = {
     cloud_name: process.env.CLOUDINARY_NAME || "duhncgkpo",
     api_key: process.env.CLOUDINARY_API_KEY || "425358843362883",

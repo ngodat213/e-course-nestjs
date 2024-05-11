@@ -15,7 +15,6 @@ const jwt_strategy_1 = require("../../auth/strategy/jwt.strategy");
 const passport_1 = require("@nestjs/passport");
 const jwt_1 = require("@nestjs/jwt");
 const local_strategy_1 = require("../../auth/strategy/local.strategy");
-const helper_service_clouldinary_1 = require("../../processors/helper/helper.service.clouldinary");
 let UserModule = class UserModule {
 };
 exports.UserModule = UserModule;
@@ -34,7 +33,7 @@ exports.UserModule = UserModule = __decorate([
         ],
         controllers: [user_controller_1.UserController],
         exports: [user_service_1.UserService, passport_1.PassportModule],
-        providers: [user_service_1.UserService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy, helper_service_clouldinary_1.CloudinaryService]
+        providers: [user_service_1.UserService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy]
     })
 ], UserModule);
 //# sourceMappingURL=user.module.js.map

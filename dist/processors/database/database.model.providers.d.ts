@@ -67,4 +67,8 @@ export declare const databaseModelsProviders: ({
     provide: string;
     useFactory: (connection: Connection) => import("src/modules/contact/contact.model").ContactModel;
     inject: string[];
+} | {
+    provide: string;
+    useFactory: (connection: Connection) => import("src/modules/user/forgot.password.model").ForgotPasswordModel;
+    inject: string[];
 })[];

@@ -21,11 +21,16 @@ const checkPermission_helper_1 = require("../../helper/checkPermission.helper");
 const jwt_1 = require("@nestjs/jwt");
 const cloudinary_constants_1 = require("../../constants/cloudinary.constants");
 const helper_service_clouldinary_1 = require("../../processors/helper/helper.service.clouldinary");
+const helper_service_email_1 = require("../../processors/helper/helper.service.email");
+const bcrypt_1 = require("bcrypt");
+const APP_CONFIG = require("../../app.config");
 let UserService = class UserService {
-    constructor(userModel, jwtService, cloudinaryService) {
+    constructor(userModel, forgotPwModel, jwtService, cloudinaryService, emailService) {
         this.userModel = userModel;
+        this.forgotPwModel = forgotPwModel;
         this.jwtService = jwtService;
         this.cloudinaryService = cloudinaryService;
+        this.emailService = emailService;
     }
     findByEmail(email) {
         return (0, rxjs_1.from)(this.userModel.findOne({ email: email }).exec());
@@ -67,6 +72,81 @@ let UserService = class UserService {
                 }
             }));
         }));
+    }
+    passwordTokenRandom() {
+        return (Math.floor(Math.random() * 9000000) + 1000000).toString();
+    }
+    async sendEmailForgotPassword(email) {
+        try {
+            var user = await this.userModel.findOne({ email: email });
+            if (!user) {
+                throw new common_1.HttpException(`Forgot password: user not found`, common_1.HttpStatus.NOT_FOUND);
+            }
+            var tokenModel = await this.createForgotPasswordToken(email);
+            if (tokenModel && tokenModel.newPasswordToken) {
+                const content = `
+        <p>Hello,</p>
+        <p>We received a request to reset your password. Please use the following token to reset your password:</p>
+        <p><strong>${tokenModel.newPasswordToken}</strong></p>
+        <p>If you didn't request this, you can safely ignore this email.</p>
+        <p>Thank you,</p>
+        <p>Company Team</p>
+        `;
+                this.emailService.sendMailAs(APP_CONFIG.APP.NAME, {
+                    to: email,
+                    subject: "Forgotten Password",
+                    text: "hehe",
+                    html: content,
+                });
+                return true;
+            }
+        }
+        catch (err) {
+            console.log(err);
+            throw new Error(`${err}`);
+        }
+    }
+    async createForgotPasswordToken(email) {
+        var forgottenPassword = await this.forgotPwModel.findOne({ email: email });
+        if (forgottenPassword && (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 < 15) {
+            throw new common_1.HttpException("RESET.PASSWORD.EMAIL_SENDED_RECENTLY", common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        else {
+            var forgottenPasswordModel = await this.forgotPwModel.findOneAndUpdate({ email: email }, { email: email,
+                newPasswordToken: this.passwordTokenRandom(),
+                timestamp: new Date(),
+            }, {
+                upsert: true,
+                new: true,
+            });
+            return forgottenPasswordModel;
+        }
+    }
+    async changedPassword(body) {
+        try {
+            if (body.newPassword.length < 8) {
+                throw new Error(`The min length of password is 8`);
+            }
+            if (body.newPasswordToken) {
+                var forgottenPassworldModel = await this.getForgottenPasswordModel(body.email, body.newPasswordToken);
+                if (!forgottenPassworldModel) {
+                    throw new Error(`Password token or email is wrong`);
+                }
+                const findOneUser = await this.userModel.findOne({ email: body.email });
+                const hashedPassword = await (0, bcrypt_1.hash)(body.newPassword, 12);
+                findOneUser.set('password', hashedPassword);
+                await this.userModel.findByIdAndUpdate(findOneUser.id, findOneUser);
+                await forgottenPassworldModel.deleteOne();
+                return true;
+            }
+        }
+        catch (err) {
+            console.log(err);
+            throw new Error(`${err}`);
+        }
+    }
+    async getForgottenPasswordModel(email, newPasswordToken) {
+        return await this.forgotPwModel.findOne({ email: email, newPasswordToken: newPasswordToken });
     }
     findAll(keyword, skip = 0, limit = 10) {
         if (keyword && keyword.trim() === '') {
@@ -139,7 +219,9 @@ exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)(database_constants_1.USER_MODEL)),
-    __metadata("design:paramtypes", [Object, jwt_1.JwtService,
-        helper_service_clouldinary_1.CloudinaryService])
+    __param(1, (0, common_1.Inject)(database_constants_1.FORGOT_PASSWORD_MODEL)),
+    __metadata("design:paramtypes", [Object, Object, jwt_1.JwtService,
+        helper_service_clouldinary_1.CloudinaryService,
+        helper_service_email_1.EmailService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

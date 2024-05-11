@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CATEGORY_MODEL = exports.CONTACT_MODEL = exports.BLOG_MODEL = exports.FEEDBACK_MODEL = exports.USER_MODEL = exports.EXAM_HISTORY_MODEL = exports.EXAM_QUESTION_MODEL = exports.EXAM_LESSON_MODEL = exports.EXAM_MODEL = exports.COURSE_ORDER_MODEL = exports.COURSE_VIDEO_MODEL = exports.COURSE_LESSON_MODEL = exports.COURSE_MODEL = exports.DATABASE_CONNECTION = void 0;
+exports.FORGOT_PASSWORD_MODEL = exports.CATEGORY_MODEL = exports.CONTACT_MODEL = exports.BLOG_MODEL = exports.FEEDBACK_MODEL = exports.USER_MODEL = exports.EXAM_HISTORY_MODEL = exports.EXAM_QUESTION_MODEL = exports.EXAM_LESSON_MODEL = exports.EXAM_MODEL = exports.COURSE_ORDER_MODEL = exports.COURSE_VIDEO_MODEL = exports.COURSE_LESSON_MODEL = exports.COURSE_MODEL = exports.DATABASE_CONNECTION = void 0;
 exports.DATABASE_CONNECTION = 'DATABASE_CONNECTION';
 exports.COURSE_MODEL = 'COURSE_MODEL';
 exports.COURSE_LESSON_MODEL = 'COURSE_LESSON_MODEL';
@@ -15,4 +15,5 @@ exports.FEEDBACK_MODEL = 'FEEDBACK_MODEL';
 exports.BLOG_MODEL = 'BLOG_MODEL';
 exports.CONTACT_MODEL = 'CONTACT_MODEL';
 exports.CATEGORY_MODEL = 'CATEGORY_MODEL';
+exports.FORGOT_PASSWORD_MODEL = 'FORGOT_PASSWORD_MODEL';
 //# sourceMappingURL=database.constants.js.map

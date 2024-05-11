@@ -6,7 +6,7 @@ const bcrypt_1 = require("bcrypt");
 const rxjs_1 = require("rxjs");
 const UserSchema = new mongoose_1.Schema({
     email: { type: mongoose_1.SchemaTypes.String, unique: true, required: true, match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/ },
-    password: { type: mongoose_1.SchemaTypes.String, required: true },
+    password: { type: mongoose_1.SchemaTypes.String, required: true, minlength: 8 },
     username: { type: mongoose_1.SchemaTypes.String, required: true },
     photoUrl: { type: mongoose_1.SchemaTypes.String, default: "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg" },
     photoPublicId: { type: mongoose_1.SchemaTypes.String, default: null },

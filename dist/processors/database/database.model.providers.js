@@ -13,6 +13,7 @@ const user_model_1 = require("../../modules/user/user.model");
 const feedback_model_1 = require("../../modules/feedback/feedback.model");
 const category_model_1 = require("../../modules/category/category.model");
 const contact_model_1 = require("../../modules/contact/contact.model");
+const forgot_password_model_1 = require("../../modules/user/forgot.password.model");
 exports.databaseModelsProviders = [
     {
         provide: database_constants_1.COURSE_MODEL,
@@ -79,5 +80,10 @@ exports.databaseModelsProviders = [
         useFactory: (connection) => (0, contact_model_1.createContactModel)(connection),
         inject: [database_constants_1.DATABASE_CONNECTION]
     },
+    {
+        provide: database_constants_1.FORGOT_PASSWORD_MODEL,
+        useFactory: (connection) => (0, forgot_password_model_1.createForgotPasswordModel)(connection),
+        inject: [database_constants_1.DATABASE_CONNECTION]
+    }
 ];
 //# sourceMappingURL=database.model.providers.js.map

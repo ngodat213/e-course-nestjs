@@ -13,10 +13,9 @@ exports.EmailService = void 0;
 const common_1 = require("@nestjs/common");
 const nodemailer = require("nodemailer");
 const APP_CONFIG = require("../../app.config");
-const streamifier = require('streamifier');
 let EmailService = class EmailService {
     constructor() {
-        return this.transporter = nodemailer.createTransport({
+        this.transporter = nodemailer.createTransport({
             host: APP_CONFIG.EMAIL.host,
             secure: APP_CONFIG.EMAIL.secure,
             auth: {

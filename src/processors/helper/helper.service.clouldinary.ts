@@ -8,7 +8,6 @@ export type CloudinaryResponse = UploadApiResponse | UploadApiErrorResponse;
 
 @Injectable()
 export class CloudinaryService{
-
   constructor(){
     this.createClould();
   }

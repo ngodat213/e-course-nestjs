@@ -1,8 +1,8 @@
-import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { EMPTY, Observable, from, map, mergeMap, of, throwIfEmpty } from 'rxjs';
-import { USER_MODEL } from '../../processors/database/database.constants';
+import { BadRequestException, HttpException, HttpStatus, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { EMPTY, Observable, find, from, map, mergeMap, of, throwIfEmpty } from 'rxjs';
+import { FORGOT_PASSWORD_MODEL, USER_MODEL } from '../../processors/database/database.constants';
 import { User, UserModel } from 'src/modules/user/user.model';
-import { ChangeAvatarDTO, RegisterDto, UpdateUserDTO } from './user.dto';
+import { ChangeAvatarDTO, RegisterDto, ResetPasswordDTO, UpdateUserDTO } from './user.dto';
 import { RoleType } from '../../shared/enum/role.type.enum';
 import { UserPrincipal } from 'src/interfaces/user-principal.interface';
 import { Permission } from 'src/helper/checkPermission.helper';
@@ -11,22 +11,26 @@ import { JwtPayload } from 'src/interfaces/jwt.interface';
 import { TokenResult } from 'src/interfaces/auth.interface';
 import { RESOURCE_TYPE_IMAGE, USER_AVATAR } from 'src/constants/cloudinary.constants';
 import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
-import { success } from 'src/decorators/responser.decorator';
-
+import { ForgotPassword, ForgotPasswordModel } from './forgot.password.model';
+import { EmailService } from 'src/processors/helper/helper.service.email';
+import { hash } from 'bcrypt'
+import * as APP_CONFIG from '../../app.config';
 @Injectable()
 export class 
 UserService {
   constructor(
     @Inject(USER_MODEL) private userModel: UserModel,
+    @Inject(FORGOT_PASSWORD_MODEL) private forgotPwModel: ForgotPasswordModel,
     private jwtService: JwtService,
     private readonly cloudinaryService: CloudinaryService,
+    private readonly emailService: EmailService,
   ){}
 
   findByEmail(email: string): Observable<User | undefined> {
     return from(this.userModel.findOne({ email: email }).exec());
   }
 
-  findOneByEmail(email: string) {
+  findOneByEmail(email: string) : Promise<User>{
     return this.userModel.findOne({ email });
   }
 
@@ -77,6 +81,98 @@ UserService {
     );
   }
 
+  passwordTokenRandom(){
+    return (Math.floor(Math.random() * 9000000) + 1000000).toString();
+  }
+
+  async sendEmailForgotPassword(email: string): Promise<boolean> {
+    try{
+      var user = await this.userModel.findOne({email: email});
+      if(!user){
+        throw new HttpException(`Forgot password: user not found`, HttpStatus.NOT_FOUND);
+      }
+  
+      var tokenModel = await this.createForgotPasswordToken(email);
+  
+      if(tokenModel && tokenModel.newPasswordToken){
+        const content = `
+        <p>Hello,</p>
+        <p>We received a request to reset your password. Please use the following token to reset your password:</p>
+        <p><strong>${tokenModel.newPasswordToken}</strong></p>
+        <p>If you didn't request this, you can safely ignore this email.</p>
+        <p>Thank you,</p>
+        <p>Company Team</p>
+        `;
+        
+        this.emailService.sendMailAs(APP_CONFIG.APP.NAME, {
+          to: email,
+          subject: "Forgotten Password",
+          text: "hehe",
+          html: content,
+        });
+        return true;
+      }
+    }catch(err){
+      console.log(err);
+      throw new Error(`${err}`);
+    }
+  }
+
+  async createForgotPasswordToken(email: string): Promise<ForgotPassword> {
+    var  forgottenPassword = await this.forgotPwModel.findOne({email: email});
+    
+    if(forgottenPassword && (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 < 15){
+      throw new HttpException(
+        "RESET.PASSWORD.EMAIL_SENDED_RECENTLY",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }else{
+      var forgottenPasswordModel = await this.forgotPwModel.findOneAndUpdate(
+        {email: email},
+        {email: email,
+          newPasswordToken: this.passwordTokenRandom(),
+          timestamp: new Date(),
+        },
+        {
+          upsert: true,
+          new: true,
+        }
+      );
+      return forgottenPasswordModel;
+    }
+  }
+
+  async changedPassword(body: ResetPasswordDTO){
+    try{
+      if(body.newPassword.length < 8){
+        throw new Error(`The min length of password is 8`);
+      }
+      if(body.newPasswordToken){
+        var forgottenPassworldModel = await this.getForgottenPasswordModel(body.email, body.newPasswordToken);
+        if(!forgottenPassworldModel){
+          throw new Error(`Password token or email is wrong`)
+        }
+        const findOneUser = await this.userModel.findOne({email: body.email});
+
+        const hashedPassword = await hash(body.newPassword, 12);
+
+        findOneUser.set('password', hashedPassword);
+        await this.userModel.findByIdAndUpdate(findOneUser.id, findOneUser);
+        await forgottenPassworldModel.deleteOne();
+        return true;
+      }
+    }catch(err){
+      console.log(err);
+      throw new Error(`${err}`);
+    }
+  }
+
+  async getForgottenPasswordModel(
+    email: string,
+    newPasswordToken: string
+  ): Promise<ForgotPassword>{
+    return await this.forgotPwModel.findOne({email: email, newPasswordToken: newPasswordToken});
+  }
 
   findAll(keyword?: string, skip = 0, limit = 10): Observable<User[]>{
     if (keyword && keyword.trim() === '') {

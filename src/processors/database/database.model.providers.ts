@@ -1,4 +1,4 @@
-import { BLOG_MODEL, CATEGORY_MODEL, CONTACT_MODEL, COURSE_LESSON_MODEL, COURSE_MODEL, COURSE_ORDER_MODEL, COURSE_VIDEO_MODEL, DATABASE_CONNECTION, EXAM_HISTORY_MODEL, EXAM_LESSON_MODEL, EXAM_MODEL, EXAM_QUESTION_MODEL, FEEDBACK_MODEL, USER_MODEL } from './database.constants';
+import { BLOG_MODEL, CATEGORY_MODEL, CONTACT_MODEL, COURSE_LESSON_MODEL, COURSE_MODEL, COURSE_ORDER_MODEL, COURSE_VIDEO_MODEL, DATABASE_CONNECTION, EXAM_HISTORY_MODEL, EXAM_LESSON_MODEL, EXAM_MODEL, EXAM_QUESTION_MODEL, FEEDBACK_MODEL, FORGOT_PASSWORD_MODEL, USER_MODEL } from './database.constants';
 import { Connection } from 'mongoose';
 import { createCourseModel } from 'src/modules/course/course.model';
 import { createCourseLessonModel } from 'src/modules/course.lesson/course.lesson.model';
@@ -11,6 +11,7 @@ import { createUserModel } from 'src/modules/user/user.model';
 import { createFeedbackModel } from 'src/modules/feedback/feedback.model';
 import { createCategoryModel } from 'src/modules/category/category.model';
 import { createContactModel } from 'src/modules/contact/contact.model';
+import { createForgotPasswordModel } from 'src/modules/user/forgot.password.model';
 
   export const databaseModelsProviders = [
     // course
@@ -81,4 +82,9 @@ import { createContactModel } from 'src/modules/contact/contact.model';
       useFactory: (connection: Connection) => createContactModel(connection),
       inject: [DATABASE_CONNECTION]
     },
+    {
+      provide: FORGOT_PASSWORD_MODEL,
+      useFactory: (connection: Connection) => createForgotPasswordModel(connection),
+      inject: [DATABASE_CONNECTION]
+    }
   ]

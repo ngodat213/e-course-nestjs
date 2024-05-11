@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { Observable, map, mergeMap } from 'rxjs';
 import { User } from 'src/modules/user/user.model';
-import { ChangeAvatarDTO, RegisterDto, UpdateUserDTO } from './user.dto';
+import { ChangeAvatarDTO, RegisterDto, UpdateUserDTO, ResetPasswordDTO } from './user.dto';
 import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
@@ -26,8 +26,8 @@ export class UserController {
 
   @Get()
   @ApiQuery({ name: 'q', required: false })
-  // @UseGuards(AuthGuard, RolesGuard)
-  // @HasRoles(RoleType.USER, RoleType.ADMIN, RoleType.TEACHER)
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.USER, RoleType.ADMIN, RoleType.TEACHER)
   GetAllUsers(
     @Query('q') keyword? :string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
@@ -110,5 +110,20 @@ export class UserController {
     @GetUser() currentUser: User,
   ) {
     return this.userService.changedAvatar(id, body, currentUser);
+  }
+
+  @Post('/forgot-password/:email')
+  @ApiConsumes('multipart/form-data')
+  resetPassword(
+    @Param('email') email: string,
+  ) {
+    return this.userService.sendEmailForgotPassword(email);
+  }
+  
+  @Post('/reset-password')
+  setNewPassword(
+    @Body() requestBody: ResetPasswordDTO
+  ) {
+    return this.userService.changedPassword(requestBody);
   }
 }

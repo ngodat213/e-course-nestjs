@@ -1,7 +1,7 @@
 import { UserService } from './user.service';
 import { Observable } from 'rxjs';
 import { User } from 'src/modules/user/user.model';
-import { ChangeAvatarDTO, RegisterDto, UpdateUserDTO } from './user.dto';
+import { ChangeAvatarDTO, RegisterDto, UpdateUserDTO, ResetPasswordDTO } from './user.dto';
 import { Response } from 'express';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 export declare class UserController {
@@ -21,4 +21,6 @@ export declare class UserController {
         photoUrl: string;
         email: string;
     }>;
+    resetPassword(email: string): Promise<boolean>;
+    setNewPassword(requestBody: ResetPasswordDTO): Promise<boolean>;
 }

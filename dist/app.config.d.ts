@@ -1,3 +1,7 @@
+export declare const APP: {
+    NAME: string;
+    ADMIN_EMAIL: string;
+};
 export declare const CLOUDINARY: {
     cloud_name: string;
     api_key: string;
