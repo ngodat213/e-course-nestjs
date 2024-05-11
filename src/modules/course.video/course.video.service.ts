@@ -7,7 +7,7 @@ import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import mongoose, { Model } from 'mongoose';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
 import { FILE_COURSE_INTRO, RESOURCE_TYPE_VIDEO } from 'src/constants/cloudinary.constants';
-import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
+import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CourseVideoService {

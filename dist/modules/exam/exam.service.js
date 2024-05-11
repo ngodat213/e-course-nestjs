@@ -19,7 +19,7 @@ const mongoose_1 = require("mongoose");
 const database_constants_1 = require("../../processors/database/database.constants");
 const rxjs_1 = require("rxjs");
 const cloudinary_constants_1 = require("../../constants/cloudinary.constants");
-const helper_clouldinary_1 = require("../../processors/helper/helper.clouldinary");
+const helper_service_clouldinary_1 = require("../../processors/helper/helper.service.clouldinary");
 let ExamService = class ExamService {
     constructor(examModel, lessonModel, req, cloudinaryService) {
         this.examModel = examModel;
@@ -100,6 +100,6 @@ exports.ExamService = ExamService = __decorate([
     __param(1, (0, common_1.Inject)(database_constants_1.EXAM_LESSON_MODEL)),
     __param(2, (0, common_1.Inject)(core_1.REQUEST)),
     __metadata("design:paramtypes", [mongoose_1.Model,
-        mongoose_1.Model, Object, helper_clouldinary_1.CloudinaryService])
+        mongoose_1.Model, Object, helper_service_clouldinary_1.CloudinaryService])
 ], ExamService);
 //# sourceMappingURL=exam.service.js.map

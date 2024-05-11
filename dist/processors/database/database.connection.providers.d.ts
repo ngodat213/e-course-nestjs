@@ -22,11 +22,8 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import mongodbConfig from '../../configs/mongodb.config';
-import { ConfigType } from "@nestjs/config";
 import { Connection } from "mongoose";
 export declare const databaseConnectionProviders: {
     provide: string;
-    useFactory: (dbConfig: ConfigType<typeof mongodbConfig>) => Connection;
-    inject: string[];
+    useFactory: () => Connection;
 }[];

@@ -8,9 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HelperModuleModule = void 0;
 const common_1 = require("@nestjs/common");
-const helper_clouldinary_1 = require("./helper.clouldinary");
+const helper_service_clouldinary_1 = require("./helper.service.clouldinary");
 const axios_1 = require("@nestjs/axios");
-const services = [helper_clouldinary_1.CloudinaryService];
+const helper_service_email_1 = require("./helper.service.email");
+const services = [helper_service_clouldinary_1.CloudinaryService, helper_service_email_1.EmailService];
 let HelperModuleModule = class HelperModuleModule {
 };
 exports.HelperModuleModule = HelperModuleModule;

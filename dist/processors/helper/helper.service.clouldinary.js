@@ -57,4 +57,4 @@ exports.CloudinaryService = CloudinaryService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [])
 ], CloudinaryService);
-//# sourceMappingURL=helper.clouldinary.js.map
+//# sourceMappingURL=helper.service.clouldinary.js.map

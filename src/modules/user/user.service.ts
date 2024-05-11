@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from 'src/interfaces/jwt.interface';
 import { TokenResult } from 'src/interfaces/auth.interface';
 import { RESOURCE_TYPE_IMAGE, USER_AVATAR } from 'src/constants/cloudinary.constants';
-import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
+import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 import { success } from 'src/decorators/responser.decorator';
 
 @Injectable()
@@ -75,7 +75,8 @@ UserService {
         }))
       })
     );
-  } 
+  }
+
 
   findAll(keyword?: string, skip = 0, limit = 10): Observable<User[]>{
     if (keyword && keyword.trim() === '') {

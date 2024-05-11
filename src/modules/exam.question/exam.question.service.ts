@@ -7,7 +7,7 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
 import { FILE_COURSE_INTRO, FILE_EXAM_QUESTION, RESOURCE_TYPE_IMAGE } from 'src/constants/cloudinary.constants';
-import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
+import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 
 @Injectable({ scope: Scope.REQUEST })
 export class ExamQuestionService {

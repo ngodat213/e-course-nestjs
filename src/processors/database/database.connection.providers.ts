@@ -1,16 +1,15 @@
 import { DATABASE_CONNECTION } from "./database.constants";
-import mongodbConfig from '../../configs/mongodb.config';
+import * as APP_CONFIG from '../../app.config'
 import { ConfigType } from "@nestjs/config";
 import { Connection, createConnection } from "mongoose";
 
 export const databaseConnectionProviders  = [
   {
     provide: DATABASE_CONNECTION,
-    useFactory: (dbConfig: ConfigType<typeof mongodbConfig>) : Connection => {
-      const conn = createConnection(dbConfig.uri, {
+    useFactory: () : Connection => {
+      const conn = createConnection(APP_CONFIG.MONGODB.uri, {
       });
       return conn;
     },
-    inject: [mongodbConfig.KEY],
   }
 ]

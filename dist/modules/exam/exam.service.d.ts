@@ -28,7 +28,7 @@ import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 import { Exam } from 'src/modules/exam/exam.model';
 import { CreateExamDTO, UpdateExamDTO } from './exam.dto';
 import { Observable } from 'rxjs';
-import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
+import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 export declare class ExamService {
     private examModel;
     private lessonModel;

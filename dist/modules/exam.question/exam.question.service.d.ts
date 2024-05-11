@@ -27,7 +27,7 @@ import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
-import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
+import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 export declare class ExamQuestionService {
     private questionModel;
     private req;

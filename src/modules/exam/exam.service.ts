@@ -8,7 +8,7 @@ import { Exam} from 'src/modules/exam/exam.model';
 import { CreateExamDTO, UpdateExamDTO } from './exam.dto';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { FILE_COURSE_INTRO, RESOURCE_TYPE_IMAGE } from 'src/constants/cloudinary.constants';
-import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
+import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 
 @Injectable({ scope: Scope.REQUEST })
 export class ExamService {

@@ -18,7 +18,7 @@ const core_1 = require("@nestjs/core");
 const database_constants_1 = require("../../processors/database/database.constants");
 const mongoose_1 = require("mongoose");
 const cloudinary_constants_1 = require("../../constants/cloudinary.constants");
-const helper_clouldinary_1 = require("../../processors/helper/helper.clouldinary");
+const helper_service_clouldinary_1 = require("../../processors/helper/helper.service.clouldinary");
 let CourseVideoService = class CourseVideoService {
     constructor(videoModel, req, cloudinaryService) {
         this.videoModel = videoModel;
@@ -93,6 +93,6 @@ exports.CourseVideoService = CourseVideoService = __decorate([
     (0, common_1.Injectable)({ scope: common_1.Scope.REQUEST }),
     __param(0, (0, common_1.Inject)(database_constants_1.COURSE_VIDEO_MODEL)),
     __param(1, (0, common_1.Inject)(core_1.REQUEST)),
-    __metadata("design:paramtypes", [mongoose_1.Model, Object, helper_clouldinary_1.CloudinaryService])
+    __metadata("design:paramtypes", [mongoose_1.Model, Object, helper_service_clouldinary_1.CloudinaryService])
 ], CourseVideoService);
 //# sourceMappingURL=course.video.service.js.map

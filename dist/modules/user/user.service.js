@@ -20,7 +20,7 @@ const role_type_enum_1 = require("../../shared/enum/role.type.enum");
 const checkPermission_helper_1 = require("../../helper/checkPermission.helper");
 const jwt_1 = require("@nestjs/jwt");
 const cloudinary_constants_1 = require("../../constants/cloudinary.constants");
-const helper_clouldinary_1 = require("../../processors/helper/helper.clouldinary");
+const helper_service_clouldinary_1 = require("../../processors/helper/helper.service.clouldinary");
 let UserService = class UserService {
     constructor(userModel, jwtService, cloudinaryService) {
         this.userModel = userModel;
@@ -140,6 +140,6 @@ exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)(database_constants_1.USER_MODEL)),
     __metadata("design:paramtypes", [Object, jwt_1.JwtService,
-        helper_clouldinary_1.CloudinaryService])
+        helper_service_clouldinary_1.CloudinaryService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

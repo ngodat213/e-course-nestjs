@@ -8,8 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DatabaseModule = void 0;
 const common_1 = require("@nestjs/common");
-const config_1 = require("@nestjs/config");
-const mongodb_config_1 = require("../../configs/mongodb.config");
 const database_connection_providers_1 = require("./database.connection.providers");
 const database_model_providers_1 = require("./database.model.providers");
 let DatabaseModule = class DatabaseModule {
@@ -17,7 +15,7 @@ let DatabaseModule = class DatabaseModule {
 exports.DatabaseModule = DatabaseModule;
 exports.DatabaseModule = DatabaseModule = __decorate([
     (0, common_1.Module)({
-        imports: [config_1.ConfigModule.forFeature(mongodb_config_1.default)],
+        imports: [],
         providers: [...database_connection_providers_1.databaseConnectionProviders, ...database_model_providers_1.databaseModelsProviders],
         exports: [...database_connection_providers_1.databaseConnectionProviders, ...database_model_providers_1.databaseModelsProviders],
     })

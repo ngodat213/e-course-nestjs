@@ -29,7 +29,7 @@ import { ChangeAvatarDTO, RegisterDto, UpdateUserDTO } from './user.dto';
 import { UserPrincipal } from 'src/interfaces/user-principal.interface';
 import { JwtService } from '@nestjs/jwt';
 import { TokenResult } from 'src/interfaces/auth.interface';
-import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
+import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 export declare class UserService {
     private userModel;
     private jwtService;

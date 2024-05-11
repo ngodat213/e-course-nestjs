@@ -18,7 +18,7 @@ const mongoose_1 = require("mongoose");
 const rxjs_1 = require("rxjs");
 const database_constants_1 = require("../../processors/database/database.constants");
 const cloudinary_constants_1 = require("../../constants/cloudinary.constants");
-const helper_clouldinary_1 = require("../../processors/helper/helper.clouldinary");
+const helper_service_clouldinary_1 = require("../../processors/helper/helper.service.clouldinary");
 let CourseService = class CourseService {
     constructor(courseModel, courseLessonModel, cloudinaryService) {
         this.courseModel = courseModel;
@@ -101,6 +101,6 @@ exports.CourseService = CourseService = __decorate([
     __param(1, (0, common_1.Inject)(database_constants_1.COURSE_LESSON_MODEL)),
     __metadata("design:paramtypes", [mongoose_1.Model,
         mongoose_1.Model,
-        helper_clouldinary_1.CloudinaryService])
+        helper_service_clouldinary_1.CloudinaryService])
 ], CourseService);
 //# sourceMappingURL=course.service.js.map

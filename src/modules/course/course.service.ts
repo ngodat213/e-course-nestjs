@@ -6,7 +6,7 @@ import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
 import { FILE_COURSE_INTRO, FILE_COURSE_THUMB, RESOURCE_TYPE_IMAGE, RESOURCE_TYPE_VIDEO } from 'src/constants/cloudinary.constants';
-import { CloudinaryService } from 'src/processors/helper/helper.clouldinary';
+import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CourseService {

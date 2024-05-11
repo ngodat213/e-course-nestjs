@@ -3,3 +3,19 @@ export declare const CLOUDINARY: {
     api_key: string;
     api_secret: string;
 };
+export declare const EMAIL: {
+    host: string;
+    secure: string | boolean;
+    user: string;
+    pass: string;
+    from: string;
+};
+export declare const MONGODB: {
+    key: string;
+    uri: string;
+};
+export declare const JWT: {
+    global: boolean;
+    secretKey: string;
+    expiresIn: string;
+};

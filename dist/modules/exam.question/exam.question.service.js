@@ -19,7 +19,7 @@ const mongoose_1 = require("mongoose");
 const rxjs_1 = require("rxjs");
 const database_constants_1 = require("../../processors/database/database.constants");
 const cloudinary_constants_1 = require("../../constants/cloudinary.constants");
-const helper_clouldinary_1 = require("../../processors/helper/helper.clouldinary");
+const helper_service_clouldinary_1 = require("../../processors/helper/helper.service.clouldinary");
 let ExamQuestionService = class ExamQuestionService {
     constructor(questionModel, req, cloudinaryService) {
         this.questionModel = questionModel;
@@ -85,6 +85,6 @@ exports.ExamQuestionService = ExamQuestionService = __decorate([
     (0, common_1.Injectable)({ scope: common_1.Scope.REQUEST }),
     __param(0, (0, common_1.Inject)(database_constants_1.EXAM_QUESTION_MODEL)),
     __param(1, (0, common_1.Inject)(core_1.REQUEST)),
-    __metadata("design:paramtypes", [mongoose_1.Model, Object, helper_clouldinary_1.CloudinaryService])
+    __metadata("design:paramtypes", [mongoose_1.Model, Object, helper_service_clouldinary_1.CloudinaryService])
 ], ExamQuestionService);
 //# sourceMappingURL=exam.question.service.js.map
