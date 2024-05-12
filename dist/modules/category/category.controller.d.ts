@@ -23,11 +23,9 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Response } from 'express';
 import { CategoryService } from './category.service';
 import { Category } from 'src/modules/category/category.model';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
-import { Observable } from 'rxjs';
 export declare class CategoryController {
     private categoryService;
     constructor(categoryService: CategoryService);
@@ -37,5 +35,7 @@ export declare class CategoryController {
     updateCategory(id: string, category: UpdateCategoryDTO): Promise<import("mongoose").Document<unknown, {}, Category> & Category & {
         _id: import("mongoose").Types.ObjectId;
     }>;
-    deleteCategoryById(id: string, res: Response): Observable<Response>;
+    deleteCategoryById(id: string): Promise<import("mongoose").Document<unknown, {}, Category> & Category & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
 }

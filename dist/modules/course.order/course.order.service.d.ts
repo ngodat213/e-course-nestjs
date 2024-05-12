@@ -36,5 +36,7 @@ export declare class CourseOrderService {
     updateById(id: string, data: UpdateCourseOrderDTO): Promise<mongoose.Document<unknown, {}, CourseOrder> & CourseOrder & {
         _id: mongoose.Types.ObjectId;
     }>;
-    deleteById(id: string): Promise<CourseOrder>;
+    deleteById(id: string): Promise<mongoose.Document<unknown, {}, CourseOrder> & CourseOrder & {
+        _id: mongoose.Types.ObjectId;
+    }>;
 }

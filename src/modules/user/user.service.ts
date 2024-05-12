@@ -114,7 +114,7 @@ UserService {
       }
     }catch(err){
       console.log(err);
-      throw new Error(`${err}`);
+      throw new BadRequestException(`${err.message}`);
     }
   }
 
@@ -145,12 +145,12 @@ UserService {
   async changedPassword(body: ResetPasswordDTO){
     try{
       if(body.newPassword.length < 8){
-        throw new Error(`The min length of password is 8`);
+        throw new BadRequestException(`The min length of password is 8`);
       }
       if(body.newPasswordToken){
         var forgottenPassworldModel = await this.getForgottenPasswordModel(body.email, body.newPasswordToken);
         if(!forgottenPassworldModel){
-          throw new Error(`Password token or email is wrong`)
+          throw new BadRequestException(`Password token or email is wrong`)
         }
         const findOneUser = await this.userModel.findOne({email: body.email});
 
@@ -163,7 +163,7 @@ UserService {
       }
     }catch(err){
       console.log(err);
-      throw new Error(`${err}`);
+      throw new BadRequestException(`${err.message}`);
     }
   }
 
@@ -219,7 +219,7 @@ UserService {
       };
     }catch(err){
       console.log(`Faill error: ${err}`);
-      throw new Error(`Failed to upload image: ${err}`);
+      throw new BadRequestException(`Failed to upload image: ${err}`);
     }
   }
 

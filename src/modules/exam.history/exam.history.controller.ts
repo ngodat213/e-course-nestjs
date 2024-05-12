@@ -63,7 +63,7 @@ export class ExamHistoryController {
   deleteExamHistoryById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,
-  ): Promise<ExamHistory>{
+  ){
     return this.historyService.deleteById(id);
   }
 }

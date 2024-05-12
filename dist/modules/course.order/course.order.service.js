@@ -71,8 +71,11 @@ let CourseOrderService = class CourseOrderService {
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        const res = await this.orderModel.findByIdAndDelete(id);
-        return res;
+        const valueFind = await this.orderModel.findByIdAndDelete({ _id: id });
+        if (!valueFind) {
+            throw `Order '${id}' not found`;
+        }
+        return valueFind;
     }
 };
 exports.CourseOrderService = CourseOrderService;

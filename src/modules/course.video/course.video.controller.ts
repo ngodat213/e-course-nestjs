@@ -61,7 +61,7 @@ export class CourseVideoController {
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteCourseVideoById(
     @Param('id', ParseObjectIdPipe) id: string,
-  ): Promise<CourseVideo>{
+  ){
     return this.videoService.deleteById(id);
   }
 }

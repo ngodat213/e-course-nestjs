@@ -92,7 +92,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], ExamHistoryController.prototype, "deleteExamHistoryById", null);
 exports.ExamHistoryController = ExamHistoryController = __decorate([
     (0, swagger_1.ApiTags)('Exam History'),

@@ -23,7 +23,6 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import mongoose, { Model } from 'mongoose';
-import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Contact } from 'src/modules/contact/contact.model';
 import { CreateContactDTO, UpdateContactDTO } from './contact.dto';
@@ -37,5 +36,7 @@ export declare class ContactService {
     updateById(id: string, data: UpdateContactDTO): Promise<mongoose.Document<unknown, {}, Contact> & Contact & {
         _id: mongoose.Types.ObjectId;
     }>;
-    deleteById(id: string): Observable<Contact>;
+    deleteById(id: string): Promise<mongoose.Document<unknown, {}, Contact> & Contact & {
+        _id: mongoose.Types.ObjectId;
+    }>;
 }

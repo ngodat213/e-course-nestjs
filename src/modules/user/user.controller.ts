@@ -15,6 +15,7 @@ import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileToBodyInterceptor} from 'src/decorators/api.file.decorator';
+import { Responser } from 'src/decorators/responser.decorator';
 
 @ApiTags('Auth')
 @ApiBearerAuth()
@@ -37,6 +38,7 @@ export class UserController {
   }
 
   @Get('/current')
+  @Responser.handle('Get current user')
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.USER, RoleType.TEACHER)
   GetCurrentUser(@GetUser() user: User) {

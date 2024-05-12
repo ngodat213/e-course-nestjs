@@ -16,7 +16,6 @@ exports.ContactService = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
-const rxjs_1 = require("rxjs");
 const database_constants_1 = require("../../processors/database/database.constants");
 let ContactService = class ContactService {
     constructor(contactModel, req) {
@@ -59,8 +58,16 @@ let ContactService = class ContactService {
         }
         return post;
     }
-    deleteById(id) {
-        return (0, rxjs_1.from)(this.contactModel.findOneAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`contact :$id was not found`)));
+    async deleteById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const contact = await this.contactModel.findByIdAndDelete({ _id: id });
+        if (!contact) {
+            throw `Contact '${id}' not found`;
+        }
+        return contact;
     }
 };
 exports.ContactService = ContactService;

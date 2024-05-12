@@ -103,7 +103,7 @@ let UserService = class UserService {
         }
         catch (err) {
             console.log(err);
-            throw new Error(`${err}`);
+            throw new common_1.BadRequestException(`${err.message}`);
         }
     }
     async createForgotPasswordToken(email) {
@@ -125,12 +125,12 @@ let UserService = class UserService {
     async changedPassword(body) {
         try {
             if (body.newPassword.length < 8) {
-                throw new Error(`The min length of password is 8`);
+                throw new common_1.BadRequestException(`The min length of password is 8`);
             }
             if (body.newPasswordToken) {
                 var forgottenPassworldModel = await this.getForgottenPasswordModel(body.email, body.newPasswordToken);
                 if (!forgottenPassworldModel) {
-                    throw new Error(`Password token or email is wrong`);
+                    throw new common_1.BadRequestException(`Password token or email is wrong`);
                 }
                 const findOneUser = await this.userModel.findOne({ email: body.email });
                 const hashedPassword = await (0, bcrypt_1.hash)(body.newPassword, 12);
@@ -142,7 +142,7 @@ let UserService = class UserService {
         }
         catch (err) {
             console.log(err);
-            throw new Error(`${err}`);
+            throw new common_1.BadRequestException(`${err.message}`);
         }
     }
     async getForgottenPasswordModel(email, newPasswordToken) {
@@ -188,7 +188,7 @@ let UserService = class UserService {
         }
         catch (err) {
             console.log(`Faill error: ${err}`);
-            throw new Error(`Failed to upload image: ${err}`);
+            throw new common_1.BadRequestException(`Failed to upload image: ${err}`);
         }
     }
     async updateById(id, requestBody, currentUser) {

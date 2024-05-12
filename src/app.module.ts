@@ -19,7 +19,7 @@ import { HelperModuleModule } from './processors/helper/helper.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ignoreEnvFile: true}),
+    ConfigModule.forRoot({ignoreEnvFile: true, isGlobal: true}),
     HelperModuleModule,
     ContactModule,
     CourseModule,

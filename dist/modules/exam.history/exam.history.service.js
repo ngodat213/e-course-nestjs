@@ -71,8 +71,11 @@ let ExamHistoryService = class ExamHistoryService {
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        const res = await this.historyModel.findByIdAndDelete(id);
-        return res;
+        const valueFind = await this.historyModel.findByIdAndDelete({ _id: id });
+        if (!valueFind) {
+            throw `Exam history '${id}' not found`;
+        }
+        return valueFind;
     }
 };
 exports.ExamHistoryService = ExamHistoryService;

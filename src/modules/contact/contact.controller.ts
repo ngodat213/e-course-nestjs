@@ -60,11 +60,7 @@ export class ContactController {
   deleteContactById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,
-  ): Observable<Response> {
-    return this.contactSerivce.deleteById(id).pipe(
-      map((contact) => {
-        return res.status(204).send();
-      }),
-    );
+  ){
+    return this.contactSerivce.deleteById(id);
   }
 }

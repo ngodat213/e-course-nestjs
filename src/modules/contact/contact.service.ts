@@ -58,10 +58,16 @@ export class ContactService {
     return post;
   }
   
-  deleteById(id: string): Observable<Contact> {
-    return from(this.contactModel.findOneAndDelete({ _id: id }).exec()).pipe(
-      mergeMap((p) => (p ? of(p) : EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`contact :$id was not found`)),
-    );
+  async deleteById(id: string){
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+
+    const contact = await this.contactModel.findByIdAndDelete({_id: id})
+    if(!contact){
+      throw `Contact '${id}' not found`
+    }
+    return contact;
   }
 }

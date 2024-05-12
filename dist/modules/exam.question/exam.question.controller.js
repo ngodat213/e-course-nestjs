@@ -16,7 +16,6 @@ exports.ExamQuestionController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const exam_question_service_1 = require("./exam.question.service");
-const rxjs_1 = require("rxjs");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const exam_question_dto_1 = require("./exam.question.dto");
 const roles_guard_1 = require("../../auth/guard/roles.guard");
@@ -42,9 +41,7 @@ let ExamQuestionController = class ExamQuestionController {
         return this.questionService.updateById(id, exam);
     }
     deleteQuestionById(id, res) {
-        return this.questionService.deleteById(id).pipe((0, rxjs_1.map)((video) => {
-            return res.status(204).send();
-        }));
+        return this.questionService.deleteById(id);
     }
 };
 exports.ExamQuestionController = ExamQuestionController;
@@ -95,7 +92,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", void 0)
 ], ExamQuestionController.prototype, "deleteQuestionById", null);
 exports.ExamQuestionController = ExamQuestionController = __decorate([
     (0, swagger_1.ApiTags)('Exam question'),

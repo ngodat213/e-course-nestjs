@@ -40,9 +40,12 @@ export class CategoryService {
   }
 
   async save(data: CreateCategoryDTO): Promise<Category> {
+    if(data.category == ""){
+      throw new BadRequestException('Can\'t ')
+    }
     const existingCategory = await this.categoryModel.findOne({ category: data.category });
     if (existingCategory) {
-        throw new BadRequestException('Category already exists');
+      throw new BadRequestException('Category already exists');
     }
 
     const res = await this.categoryModel.create({...data});
@@ -69,15 +72,16 @@ export class CategoryService {
     return post;
   }
   
-  deleteById(id: string): Observable<Category>{
+  async deleteById(id: string){
     const isValidId = mongoose.isValidObjectId(id);
     if(!isValidId){
       throw new BadRequestException('Please enter correct id.');
     }
-    
-    return from(this.categoryModel.findByIdAndDelete({_id: id}).exec()).pipe(
-      mergeMap((p) => (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`category: $id was not found`)),
-    )
+
+    const category = await this.categoryModel.findByIdAndDelete({_id: id})
+    if(!category){
+      throw `Vote '${id}' not found`
+    }
+    return category;
   }
 }

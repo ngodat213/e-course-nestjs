@@ -63,7 +63,7 @@ export class CourseOrderController {
   deleteCourseOrderById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,
-  ): Promise<CourseOrder>{
+  ){
     return this.orderService.deleteById(id);
   }
 }

@@ -23,7 +23,6 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import mongoose, { Model } from 'mongoose';
-import { Observable } from 'rxjs';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
@@ -40,6 +39,8 @@ export declare class CourseService {
         _id: mongoose.Types.ObjectId;
     }>;
     deleteAll(): Promise<any>;
-    deleteById(id: string): Observable<Course>;
+    deleteById(id: string): Promise<mongoose.Document<unknown, {}, Course> & Course & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     lessonsOf(id: string): Promise<CourseLesson[]>;
 }

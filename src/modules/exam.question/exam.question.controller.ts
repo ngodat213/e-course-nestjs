@@ -62,11 +62,7 @@ export class ExamQuestionController {
   deleteQuestionById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,
-  ): Observable<Response>{
-    return this.questionService.deleteById(id).pipe(
-      map((video) => {
-        return res.status(204).send();
-      }),
-    );
+  ){
+    return this.questionService.deleteById(id);
   }
 }

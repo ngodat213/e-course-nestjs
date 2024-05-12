@@ -88,7 +88,11 @@ export class CourseVideoService {
     if(!isValidId){
       throw new BadRequestException('Please enter correct id.');
     }
-    const res = await this.videoModel.findByIdAndDelete(id)
-    return res;
+
+    const valueFind = await this.videoModel.findByIdAndDelete({_id: id})
+    if(!valueFind){
+      throw `Course video '${id}' not found`
+    }
+    return valueFind;
   }
 }

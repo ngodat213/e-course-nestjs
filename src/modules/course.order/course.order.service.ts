@@ -67,13 +67,16 @@ export class CourseOrderService {
     return post;
   }
   
-  async deleteById(id: string): Promise<CourseOrder>{
+  async deleteById(id: string){
     const isValidId = mongoose.isValidObjectId(id);
     if(!isValidId){
       throw new BadRequestException('Please enter correct id.');
     }
 
-    const res = await this.orderModel.findByIdAndDelete(id)
-    return res;
+    const valueFind = await this.orderModel.findByIdAndDelete({_id: id})
+    if(!valueFind){
+      throw `Order '${id}' not found`
+    }
+    return valueFind;
   }
 }

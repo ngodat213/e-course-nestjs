@@ -10,6 +10,7 @@ import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { RoleType } from 'src/shared/enum/role.type.enum';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
+import { Responser } from 'src/decorators/responser.decorator';
 
 @ApiTags('Category')
 @ApiBearerAuth()
@@ -52,16 +53,11 @@ export class CategoryController {
   }
 
   @Delete(':id')
+  @Responser.handle('Delete category')
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteCategoryById(
-    @Param('id', ParseObjectIdPipe) id: string,
-    @Res() res: Response,
-  ): Observable<Response>{
-    return this.categoryService.deleteById(id).pipe(
-      map((category) => {
-        return res.status(204).send();
-      }),
-    );
+    @Param('id', ParseObjectIdPipe) id: string ){
+    return this.categoryService.deleteById(id);
   }
 }

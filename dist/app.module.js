@@ -31,7 +31,7 @@ exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot({ ignoreEnvFile: true }),
+            config_1.ConfigModule.forRoot({ ignoreEnvFile: true, isGlobal: true }),
             helper_module_1.HelperModuleModule,
             contact_module_1.ContactModule,
             course_module_1.CourseModule,

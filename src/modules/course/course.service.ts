@@ -23,8 +23,8 @@ export class CourseService {
   }
     const query = keyword? 
         { title: { $regex: keyword, $options: 'i' } } : {};
-
-    return this.courseModel.find({...query}).select('-__v').skip(skip).limit(limit).exec();
+    const res = await this.courseModel.find({...query}).select('-__v').skip(skip).limit(limit).exec()
+    return res;
   }
 
   async findById(id: string): Promise<Course>{
@@ -88,11 +88,17 @@ export class CourseService {
     return this.courseModel.deleteMany({}).exec();
   }
 
-  deleteById(id: string) : Observable<Course>{
-    return from(this.courseModel.findOneAndDelete({_id: id}).exec()).pipe(
-      mergeMap((p) => (p? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`course: $id was not found`)),
-    );
+  async deleteById(id: string){
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+
+    const valueFind = await this.courseModel.findByIdAndDelete({_id: id})
+    if(!valueFind){
+      throw `Course '${id}' not found`
+    }
+    return valueFind;
   }
 
   lessonsOf(id: string): Promise<CourseLesson[]> {

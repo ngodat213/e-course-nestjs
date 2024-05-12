@@ -18,7 +18,6 @@ const swagger_1 = require("@nestjs/swagger");
 const contact_service_1 = require("./contact.service");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const contact_dto_1 = require("./contact.dto");
-const rxjs_1 = require("rxjs");
 const roles_guard_1 = require("../../auth/guard/roles.guard");
 const auth_guard_1 = require("../../auth/guard/auth.guard");
 const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
@@ -40,9 +39,7 @@ let ContactController = class ContactController {
         return this.contactSerivce.updateById(id, contact);
     }
     deleteContactById(id, res) {
-        return this.contactSerivce.deleteById(id).pipe((0, rxjs_1.map)((contact) => {
-            return res.status(204).send();
-        }));
+        return this.contactSerivce.deleteById(id);
     }
 };
 exports.ContactController = ContactController;
@@ -93,7 +90,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:returntype", void 0)
 ], ContactController.prototype, "deleteContactById", null);
 exports.ContactController = ContactController = __decorate([
     (0, swagger_1.ApiTags)('Contact'),

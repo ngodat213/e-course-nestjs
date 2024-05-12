@@ -84,11 +84,17 @@ export class ExamService {
     return this.examModel.deleteMany({}).exec();
   }
 
-  deleteById(id: string): Observable<Exam>{
-    return from(this.examModel.findByIdAndDelete({_id: id}).exec()).pipe(
-      mergeMap((p) => (p ? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`exam: $id was not found`)),
-    )
+  async deleteById(id: string){
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+
+    const valueFind = await this.examModel.findByIdAndDelete({_id: id})
+    if(!valueFind){
+      throw `Exam '${id}' not found`
+    }
+    return valueFind;
   }
 
   lessonsOf(id: string): Promise<ExamLesson[]> {

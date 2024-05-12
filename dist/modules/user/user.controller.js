@@ -27,6 +27,7 @@ const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
 const role_type_enum_1 = require("../../shared/enum/role.type.enum");
 const platform_express_1 = require("@nestjs/platform-express");
 const api_file_decorator_1 = require("../../decorators/api.file.decorator");
+const responser_decorator_1 = require("../../decorators/responser.decorator");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -88,6 +89,7 @@ __decorate([
 ], UserController.prototype, "GetAllUsers", null);
 __decorate([
     (0, common_1.Get)('/current'),
+    responser_decorator_1.Responser.handle('Get current user'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.USER, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, current_user_decorator_1.GetUser)()),

@@ -23,7 +23,6 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import mongoose, { Model } from 'mongoose';
-import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Category } from 'src/modules/category/category.model';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './category.dto';
@@ -37,5 +36,7 @@ export declare class CategoryService {
     updateById(id: string, data: UpdateCategoryDTO): Promise<mongoose.Document<unknown, {}, Category> & Category & {
         _id: mongoose.Types.ObjectId;
     }>;
-    deleteById(id: string): Observable<Category>;
+    deleteById(id: string): Promise<mongoose.Document<unknown, {}, Category> & Category & {
+        _id: mongoose.Types.ObjectId;
+    }>;
 }

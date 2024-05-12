@@ -19,6 +19,7 @@ __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.NotContains)(" "),
     __metadata("design:type", String)
 ], CreateCategoryDTO.prototype, "category", void 0);
 class UpdateCategoryDTO {
@@ -28,6 +29,7 @@ __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.NotContains)(" "),
     __metadata("design:type", String)
 ], UpdateCategoryDTO.prototype, "category", void 0);
 //# sourceMappingURL=category.dto.js.map

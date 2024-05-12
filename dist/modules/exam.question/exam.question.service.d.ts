@@ -23,7 +23,6 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import mongoose, { Model } from 'mongoose';
-import { Observable } from 'rxjs';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
@@ -39,5 +38,7 @@ export declare class ExamQuestionService {
     updateById(id: string, data: UpdateExamQuestionDTO): Promise<mongoose.Document<unknown, {}, ExamQuestion> & ExamQuestion & {
         _id: mongoose.Types.ObjectId;
     }>;
-    deleteById(id: string): Observable<ExamQuestion>;
+    deleteById(id: string): Promise<mongoose.Document<unknown, {}, ExamQuestion> & ExamQuestion & {
+        _id: mongoose.Types.ObjectId;
+    }>;
 }

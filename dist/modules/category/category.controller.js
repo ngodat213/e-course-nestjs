@@ -18,11 +18,11 @@ const swagger_1 = require("@nestjs/swagger");
 const category_service_1 = require("./category.service");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const category_dto_1 = require("./category.dto");
-const rxjs_1 = require("rxjs");
 const roles_guard_1 = require("../../auth/guard/roles.guard");
 const auth_guard_1 = require("../../auth/guard/auth.guard");
 const role_type_enum_1 = require("../../shared/enum/role.type.enum");
 const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
+const responser_decorator_1 = require("../../decorators/responser.decorator");
 let CategoryController = class CategoryController {
     constructor(categoryService) {
         this.categoryService = categoryService;
@@ -39,10 +39,8 @@ let CategoryController = class CategoryController {
     updateCategory(id, category) {
         return this.categoryService.updateById(id, category);
     }
-    deleteCategoryById(id, res) {
-        return this.categoryService.deleteById(id).pipe((0, rxjs_1.map)((category) => {
-            return res.status(204).send();
-        }));
+    deleteCategoryById(id) {
+        return this.categoryService.deleteById(id);
     }
 };
 exports.CategoryController = CategoryController;
@@ -84,13 +82,13 @@ __decorate([
 ], CategoryController.prototype, "updateCategory", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    responser_decorator_1.Responser.handle('Delete category'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
 ], CategoryController.prototype, "deleteCategoryById", null);
 exports.CategoryController = CategoryController = __decorate([
     (0, swagger_1.ApiTags)('Category'),

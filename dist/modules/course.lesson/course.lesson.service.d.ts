@@ -27,7 +27,6 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import { CreateCourseLessonDTO, UpdateCourseLessonDTO } from './course.lesson.dto';
-import { Observable } from 'rxjs';
 export declare class CourseLessonService {
     private lessonModel;
     private videoModel;
@@ -39,6 +38,8 @@ export declare class CourseLessonService {
     updateById(id: string, data: UpdateCourseLessonDTO): Promise<mongoose.Document<unknown, {}, CourseLesson> & CourseLesson & {
         _id: mongoose.Types.ObjectId;
     }>;
-    deleteById(id: string): Observable<CourseLesson>;
+    deleteById(id: string): Promise<mongoose.Document<unknown, {}, CourseLesson> & CourseLesson & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     lessonsOf(id: string): Promise<CourseVideo[]>;
 }

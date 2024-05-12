@@ -66,11 +66,17 @@ export class ExamLessonService {
     return updated;
   }
 
-  deleteById(id: string) : Observable<ExamLesson>{
-    return from(this.lessonModel.findOneAndDelete({_id: id}).exec()).pipe(
-      mergeMap((p) => (p? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`exam lesson: $id was not found`)),
-    );
+  async deleteById(id: string){
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+
+    const valueFind = await this.lessonModel.findByIdAndDelete({_id: id})
+    if(!valueFind){
+      throw `Lesson '${id}' not found`
+    }
+    return valueFind;
   }
 
   questionsOf(id: string): Promise<ExamQuestion[]> {

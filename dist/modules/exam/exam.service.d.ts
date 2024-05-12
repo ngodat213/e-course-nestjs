@@ -27,7 +27,6 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 import { Exam } from 'src/modules/exam/exam.model';
 import { CreateExamDTO, UpdateExamDTO } from './exam.dto';
-import { Observable } from 'rxjs';
 import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 export declare class ExamService {
     private examModel;
@@ -42,6 +41,8 @@ export declare class ExamService {
         _id: mongoose.Types.ObjectId;
     }>;
     deleteAll(): Promise<any>;
-    deleteById(id: string): Observable<Exam>;
+    deleteById(id: string): Promise<mongoose.Document<unknown, {}, Exam> & Exam & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     lessonsOf(id: string): Promise<ExamLesson[]>;
 }
