@@ -1,3 +1,6 @@
+/// <reference types="mongoose/types/document" />
+/// <reference types="mongoose/types/models" />
+/// <reference types="mongoose/types/connection" />
 /// <reference types="mongoose/types/aggregate" />
 /// <reference types="mongoose/types/callback" />
 /// <reference types="mongoose/types/collection" />

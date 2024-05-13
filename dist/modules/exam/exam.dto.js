@@ -77,4 +77,16 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateExamDTO.prototype, "imageUrl", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateExamDTO.prototype, "imagePublicId", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, class_validator_1.IsOptional)(),
+    (0, api_file_decorator_1.ApiFile)(),
+    __metadata("design:type", Object)
+], UpdateExamDTO.prototype, "file", void 0);
 //# sourceMappingURL=exam.dto.js.map

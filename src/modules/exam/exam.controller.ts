@@ -63,12 +63,8 @@ export class ExamController {
   deleteExamById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,
-  ): Observable<Response>{
-    return this.examService.deleteById(id).pipe(
-      map((exam) => {
-        return res.status(204).send();
-      }),
-    );
+  ) {
+    return this.examService.deleteById(id);
   }
 
   @Get(':id/lessons')

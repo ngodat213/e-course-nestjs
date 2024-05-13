@@ -7,7 +7,7 @@ import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 import { Exam} from 'src/modules/exam/exam.model';
 import { CreateExamDTO, UpdateExamDTO } from './exam.dto';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
-import { FILE_COURSE_INTRO, RESOURCE_TYPE_IMAGE } from 'src/constants/cloudinary.constants';
+import { FILE_COURSE_INTRO, FILE_EXAM_THUMB, RESOURCE_TYPE_IMAGE } from 'src/constants/cloudinary.constants';
 import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 
 @Injectable({ scope: Scope.REQUEST })
@@ -66,18 +66,36 @@ export class ExamService {
   }
 
   async updateById(id: string, data: UpdateExamDTO) {
-    const isValidId = mongoose.isValidObjectId(id);
-    if(!isValidId){
-      throw new BadRequestException('Please enter correct id.');
-    }
+    try{
+      const fileImage = data.file;
+      const isValidId = mongoose.isValidObjectId(id);
+      if(!isValidId){
+        throw new BadRequestException('Please enter correct id.');
+      }
 
-    const exam = await this.examModel
-      .findByIdAndUpdate(id, data)
-      .setOptions({ overwrite: true, new: true })
-    if (!exam) {
-      throw new NotFoundException();
+      const findOneExam = await this.examModel.findById(id);
+      if(!findOneExam){
+        throw new BadRequestException(`Course is not found`);
+      }
+
+      if(fileImage){
+        this.cloudinaryService.destroyFile(findOneExam.imagePublicId)
+        const updateImage = await this.cloudinaryService.uploadFile(fileImage, FILE_EXAM_THUMB, fileImage.filename, RESOURCE_TYPE_IMAGE);
+        data.imagePublicId = updateImage.public_id;
+        data.imageUrl = updateImage.url;
+      }
+
+      const valueFind = await this.examModel.findByIdAndUpdate(id, data, { new: true })
+
+      if (!valueFind) {
+        throw new NotFoundException();
+      }
+      console.log(valueFind);
+      return valueFind;
+    }catch(err){
+      console.log(err);
+      throw new Error(err);
     }
-    return exam;
   }
 
   deleteAll(): Promise<any>{

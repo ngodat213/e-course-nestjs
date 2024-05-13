@@ -21,10 +21,10 @@ export declare class UpdateCourseDTO {
     readonly description?: string;
     readonly rating?: number;
     readonly register?: number;
-    readonly imageIntroduce?: string;
-    readonly imagePublicId?: string;
-    readonly videoIntroduce?: string;
-    readonly videoPublicId?: string;
+    imageIntroduce: string;
+    imagePublicId: string;
+    videoIntroduce: string;
+    videoPublicId: string;
     readonly time?: number;
     readonly language?: string;
     readonly teacherId?: string;

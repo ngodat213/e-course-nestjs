@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsArray, IsInt, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
 import { ApiFile } from 'src/decorators/api.file.decorator';
 
 export class CreateExamQuestionDTO {
@@ -16,10 +17,11 @@ export class CreateExamQuestionDTO {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsNumber()
+  @Type(() => Number)
+  @IsInt()
   readonly answer: number;
 
-  @ApiProperty()
+  @IsString()
   @IsUrl()
   imageUrl: string;
 
@@ -27,10 +29,10 @@ export class CreateExamQuestionDTO {
   @IsOptional()
   imagePublicId: string;
 
-  @ApiProperty({ required: false }) // For optional properties
+  @ApiProperty()
   @IsOptional()
   @IsString()
-  readonly exam?: string;
+  readonly lesson: string;
 
   @IsNotEmpty()
   @IsOptional()
@@ -50,18 +52,29 @@ export class UpdateExamQuestionDTO {
   @IsString({ each: true })
   readonly options?: string[];
 
-  @ApiProperty({ required: false }) // For optional properties
+  @ApiProperty({ required: false })
   @IsOptional()
-  @IsNumber()
+  @Type(() => Number)
+  @IsInt()
   readonly answer?: number;
 
-  @ApiProperty({ required: false }) // For optional properties
+  @ApiProperty({ required: false })
   @IsOptional()
-  @IsUrl()
-  readonly imageUrl?: string;
+  @IsString()
+  imageUrl: string;
 
-  @ApiProperty({ required: false }) // For optional properties
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  imagePublicId: string;
+
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   readonly lesson?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @ApiFile()
+  file: Express.Multer.File;
 }

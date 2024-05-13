@@ -1,11 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, IsOptional, IsObject, IsUrl } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsString, IsOptional, IsObject, IsUrl, IsInt } from 'class-validator';
 import { ApiFile } from 'src/decorators/api.file.decorator';
 
 export class CreateCourseVideoDTO {
   @ApiProperty()
   @IsNotEmpty()  
-  @IsString()
+  @Type(() => Number)
+  @IsInt()
   readonly part: number;
 
   @ApiProperty()
@@ -15,12 +17,14 @@ export class CreateCourseVideoDTO {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsNumber()
+  @Type(() => Number)
+  @IsInt()
   readonly hour: number;
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsNumber()
+  @Type(() => Number)
+  @IsInt()
   readonly minute: number;
 
   @IsString()
@@ -32,10 +36,10 @@ export class CreateCourseVideoDTO {
   @IsOptional()
   videoPublicId: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty()
   @IsOptional()
   @IsString()
-  readonly lesson?: string; // Assuming lesson is an object with an id property
+  readonly lesson: string;
 
   @IsNotEmpty()
   @IsOptional()
@@ -46,36 +50,46 @@ export class CreateCourseVideoDTO {
 export class UpdateCourseVideoDTO {
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsString()
+  @Type(() => Number)
+  @IsInt()
   readonly part?: number;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsString()
+  @Type(() => Number)
+  @IsInt()
   readonly title?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsNumber()
+  @Type(() => Number)
+  @IsInt()
   readonly hour?: number;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsNumber()
+  @Type(() => Number)
+  @IsInt()
   readonly minute?: number;
 
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
-  readonly videoUrl?: string;
+  videoUrl?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
-  readonly videoPublicId?: string;
+  videoPublicId?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   readonly lesson?: string ;
+
+  @ApiProperty({ required: false })
+  @IsNotEmpty()
+  @IsOptional()
+  @ApiFile()
+  file: Express.Multer.File;
 }

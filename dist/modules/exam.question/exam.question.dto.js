@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateExamQuestionDTO = exports.CreateExamQuestionDTO = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 const api_file_decorator_1 = require("../../decorators/api.file.decorator");
 class CreateExamQuestionDTO {
@@ -32,11 +33,12 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsNumber)(),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], CreateExamQuestionDTO.prototype, "answer", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsUrl)(),
     __metadata("design:type", String)
 ], CreateExamQuestionDTO.prototype, "imageUrl", void 0);
@@ -46,11 +48,11 @@ __decorate([
     __metadata("design:type", String)
 ], CreateExamQuestionDTO.prototype, "imagePublicId", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], CreateExamQuestionDTO.prototype, "exam", void 0);
+], CreateExamQuestionDTO.prototype, "lesson", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsOptional)(),
@@ -76,19 +78,32 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsNumber)(),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], UpdateExamQuestionDTO.prototype, "answer", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsUrl)(),
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateExamQuestionDTO.prototype, "imageUrl", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateExamQuestionDTO.prototype, "imagePublicId", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateExamQuestionDTO.prototype, "lesson", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, class_validator_1.IsOptional)(),
+    (0, api_file_decorator_1.ApiFile)(),
+    __metadata("design:type", Object)
+], UpdateExamQuestionDTO.prototype, "file", void 0);
 //# sourceMappingURL=exam.question.dto.js.map

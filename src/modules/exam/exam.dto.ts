@@ -29,7 +29,7 @@ export class CreateExamDTO {
   @IsNotEmpty()
   @IsOptional()
   @ApiFile()
-  file: Express.Multer.File;
+  readonly file: Express.Multer.File;
 }
 
 export class UpdateExamDTO {
@@ -48,8 +48,18 @@ export class UpdateExamDTO {
   @IsString()
   readonly category?: string;
 
-  @ApiProperty({ required: false }) // For optional properties
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
-  readonly imageUrl?: string;
+  imageUrl: string;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  imagePublicId: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @ApiFile()
+  readonly file: Express.Multer.File;
 }

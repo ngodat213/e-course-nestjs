@@ -63,11 +63,11 @@ let ContactService = class ContactService {
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        const contact = await this.contactModel.findByIdAndDelete({ _id: id });
-        if (!contact) {
+        const valueFind = await this.contactModel.findByIdAndDelete({ _id: id });
+        if (!valueFind) {
             throw `Contact '${id}' not found`;
         }
-        return contact;
+        return valueFind;
     }
 };
 exports.ContactService = ContactService;

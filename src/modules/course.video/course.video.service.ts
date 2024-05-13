@@ -6,7 +6,7 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import mongoose, { Model } from 'mongoose';
 import { CreateCourseVideoDTO, UpdateCourseVideoDTO } from './course.video.dto';
-import { FILE_COURSE_INTRO, RESOURCE_TYPE_VIDEO } from 'src/constants/cloudinary.constants';
+import { FILE_COURSE_INTRO, FILE_COURSE_VIDEO, RESOURCE_TYPE_VIDEO } from 'src/constants/cloudinary.constants';
 import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 
 @Injectable({ scope: Scope.REQUEST })
@@ -59,28 +59,41 @@ export class CourseVideoService {
       return res;
     }catch(err){
       console.log(`Faill error: ${err}`);
-      throw new Error(`Failed to upload image: ${err}`);
+      throw new BadRequestException(`Failed to upload image: ${err}`);
     }
   }
 
   async updateById(id: string, data: UpdateCourseVideoDTO) {
-    const isValidId = mongoose.isValidObjectId(id);
-    if(!isValidId){
-      throw new BadRequestException('Please enter correct id.');
-    }
-    
-    const existingCategory = await this.videoModel.findOne({ title: data.title });
-    if (existingCategory) {
-        throw new BadRequestException('Category already exists');
-    }
+    try{
+      const fileVideo = data.file;
+      const isValidId = mongoose.isValidObjectId(id);
+      if(!isValidId){
+        throw new BadRequestException('Please enter correct id.');
+      }
+      
+      const findOneVideo = await this.videoModel.findById(id);
+      if(!findOneVideo){
+        throw new BadRequestException(`Course video is not found`);
+      }
 
-    const video = await this.videoModel
-      .findByIdAndUpdate(id, data)
-      .setOptions({ overwrite: true, new: true })
-    if (!video) {
-      throw new NotFoundException();
+      if(fileVideo){
+        this.cloudinaryService.destroyFile(findOneVideo.videoPublicId)
+        const updateVideo = await this.cloudinaryService.uploadFile(fileVideo, FILE_COURSE_VIDEO, fileVideo.fieldname, RESOURCE_TYPE_VIDEO);
+        data.videoPublicId = updateVideo.public_id;
+        data.videoUrl = updateVideo.url;
+      }
+
+      const valueFind = await this.videoModel.findByIdAndUpdate(id, data, { new: true })
+
+      if (!valueFind) {
+        throw new NotFoundException();
+      }
+      console.log(valueFind);
+      return valueFind;
+    }catch(err){
+      console.log(err);
+      throw new BadRequestException(err);
     }
-    return video;
   }
 
   async deleteById(id: string): Promise<CourseVideo>{

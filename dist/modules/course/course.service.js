@@ -66,20 +66,39 @@ let CourseService = class CourseService {
         }
     }
     async updateById(id, data) {
-        const isValidId = mongoose_1.default.isValidObjectId(id);
-        if (!isValidId) {
-            throw new common_1.BadRequestException('Please enter correct id.');
+        try {
+            const [fileImage, fileVideo] = data.files;
+            const isValidId = mongoose_1.default.isValidObjectId(id);
+            if (!isValidId) {
+                throw new common_1.BadRequestException('Please enter correct id.');
+            }
+            const findOneCourse = await this.courseModel.findById(id);
+            if (!findOneCourse) {
+                throw new common_1.BadRequestException(`Course is not found`);
+            }
+            if (fileImage) {
+                this.cloudinaryService.destroyFile(findOneCourse.imagePublicId);
+                const updateImage = await this.cloudinaryService.uploadFile(fileImage, cloudinary_constants_1.FILE_COURSE_THUMB, fileImage.filename, cloudinary_constants_1.RESOURCE_TYPE_IMAGE);
+                data.imagePublicId = updateImage.public_id;
+                data.imageIntroduce = updateImage.url;
+            }
+            if (fileVideo) {
+                this.cloudinaryService.destroyFile(findOneCourse.videoPublicId);
+                const updateVideo = await this.cloudinaryService.uploadFile(fileVideo, cloudinary_constants_1.FILE_COURSE_INTRO, fileVideo.fieldname, cloudinary_constants_1.RESOURCE_TYPE_VIDEO);
+                data.videoPublicId = updateVideo.public_id;
+                data.videoIntroduce = updateVideo.url;
+            }
+            const valueFind = await this.courseModel.findByIdAndUpdate(id, data, { new: true });
+            if (!valueFind) {
+                throw new common_1.NotFoundException();
+            }
+            console.log(valueFind);
+            return valueFind;
         }
-        const post = await this.courseModel
-            .findByIdAndUpdate(id, data)
-            .setOptions({ overwrite: true, new: true });
-        if (!post) {
-            throw new common_1.NotFoundException();
+        catch (err) {
+            console.log(err);
+            throw new Error(err);
         }
-        return post;
-    }
-    deleteAll() {
-        return this.courseModel.deleteMany({}).exec();
     }
     async deleteById(id) {
         const isValidId = mongoose_1.default.isValidObjectId(id);

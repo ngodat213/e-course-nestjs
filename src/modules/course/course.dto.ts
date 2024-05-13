@@ -86,7 +86,8 @@ export class UpdateCourseDTO {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsNumber()
+  @Type(() => Number)
+  @IsInt()
   readonly price?: number;
 
   @ApiProperty({ required: false })
@@ -94,39 +95,34 @@ export class UpdateCourseDTO {
   @IsString()
   readonly description?: string;
 
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsNumber()
-  readonly rating?: number;
+  @Type(() => Number)
+  @IsInt()
+  readonly rating?: number = 5;
 
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsNumber()
-  readonly register?: number;
+  @Type(() => Number)
+  @IsInt()
+  readonly register?: number = 0;
 
-  @ApiProperty({ required: false })
-  @IsOptional()
   @IsString()
-  readonly imageIntroduce?: string;
-
-  @ApiProperty({ required: false })
   @IsOptional()
+  imageIntroduce: string;
+
   @IsString()
-  readonly imagePublicId?: string;
-
-  @ApiProperty({ required: false })
   @IsOptional()
+  imagePublicId: string;
+
   @IsString()
-  readonly videoIntroduce?: string;
-
-  @ApiProperty({ required: false })
   @IsOptional()
+  videoIntroduce: string;
+
   @IsString()
-  readonly videoPublicId?: string;
+  @IsOptional()
+  videoPublicId: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsNumber()
+  @Type(() => Number)
+  @IsInt()
   readonly time?: number;
 
   @ApiProperty({ required: false })

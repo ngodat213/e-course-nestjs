@@ -64,18 +64,36 @@ export class ExamQuestionService {
   }
 
   async updateById(id: string, data: UpdateExamQuestionDTO) {
-    const isValidId = mongoose.isValidObjectId(id);
-    if(!isValidId){
-      throw new BadRequestException('Please enter correct id.');
-    }
+    try{
+      const fileImage = data.file;
+      const isValidId = mongoose.isValidObjectId(id);
+      if(!isValidId){
+        throw new BadRequestException('Please enter correct id.');
+      }
 
-    const updated = await this.questionModel
-      .findByIdAndUpdate(id, data)
-      .setOptions({ overwrite: true, new: true })
-    if (!updated) {
-      throw new NotFoundException();
+      const findOneQuestion = await this.questionModel.findById(id);
+      if(!findOneQuestion){
+        throw new BadRequestException(`Course is not found`);
+      }
+
+      if(fileImage){
+        this.cloudinaryService.destroyFile(findOneQuestion.imagePublicId)
+        const updateImage = await this.cloudinaryService.uploadFile(fileImage, FILE_EXAM_QUESTION, fileImage.filename, RESOURCE_TYPE_IMAGE);
+        data.imagePublicId = updateImage.public_id;
+        data.imageUrl = updateImage.url;
+      }
+
+      const valueFind = await this.questionModel.findByIdAndUpdate(id, data, { new: true })
+
+      if (!valueFind) {
+        throw new NotFoundException();
+      }
+      console.log(valueFind);
+      return valueFind;
+    }catch(err){
+      console.log(err);
+      throw new Error(err);
     }
-    return updated;
   }
 
   async deleteById(id: string){

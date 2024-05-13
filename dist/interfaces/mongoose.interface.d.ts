@@ -1,4 +1,3 @@
-/// <reference types="mongoose/types/document" />
 /// <reference types="mongoose/types/types" />
 /// <reference types="mongoose/types/aggregate" />
 /// <reference types="mongoose/types/callback" />
@@ -23,22 +22,14 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Response } from 'express';
-import { CourseService } from './course.service';
-import { Course } from 'src/modules/course/course.model';
-import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
-import { CourseLesson } from '../course.lesson/course.lesson.model';
-export declare class CourseController {
-    private courseService;
-    constructor(courseService: CourseService);
-    getAllCourses(keyword?: string, limit?: number, skip?: number): Promise<Course[]>;
-    getCourseById(id: string): Promise<Course>;
-    createCourse(body: CreateCourseDTO): Promise<Course>;
-    updateCourse(id: string, course: UpdateCourseDTO): Promise<import("mongoose").Document<unknown, {}, Course> & Course & {
-        _id: import("mongoose").Types.ObjectId;
-    }>;
-    deleteCourseById(id: string, res: Response): Promise<Course>;
-    getAllLessonsOfCourse(id: string): Promise<CourseLesson[]>;
-}
+import { DocumentType } from '@typegoose/typegoose';
+import type { Types } from 'mongoose';
+export type MongooseDoc<T> = Omit<DocumentType<T>, '_id' | 'id'> & T & {
+    _id: Types.ObjectId;
+};
+export type MongooseID = Types.ObjectId | string;
+export type MongooseObjectID = Types.ObjectId;
+export type WithID<T> = T & {
+    _id: Types.ObjectId;
+};

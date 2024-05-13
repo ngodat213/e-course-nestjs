@@ -1,3 +1,6 @@
+/// <reference types="mongoose/types/models" />
+/// <reference types="mongoose/types/document" />
+/// <reference types="mongoose/types/types" />
 /// <reference types="mongoose/types/aggregate" />
 /// <reference types="mongoose/types/callback" />
 /// <reference types="mongoose/types/collection" />
@@ -38,7 +41,6 @@ export declare class CourseService {
     updateById(id: string, data: UpdateCourseDTO): Promise<mongoose.Document<unknown, {}, Course> & Course & {
         _id: mongoose.Types.ObjectId;
     }>;
-    deleteAll(): Promise<any>;
     deleteById(id: string): Promise<mongoose.Document<unknown, {}, Course> & Course & {
         _id: mongoose.Types.ObjectId;
     }>;

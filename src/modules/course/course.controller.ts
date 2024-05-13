@@ -65,14 +65,14 @@ export class CourseController {
   }
 
   @Put(':id')
-  @ApiConsumes('multipart/form-data')
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FilesInterceptor('files'), FilesToBodyInterceptor)
   updateCourse(
     @Param('id', ParseObjectIdPipe) id: string,
     @Body() course: UpdateCourseDTO,
-    @Res() res: Response,
-  ): Promise<Course> {
+  ) {
     return this.courseService.updateById(id, course);
   }
 
@@ -82,7 +82,7 @@ export class CourseController {
   deleteCourseById(
     @Param('id', ParseObjectIdPipe) id: string,
     @Res() res: Response,
-  ) {
+  ): Promise<Course> {
     return this.courseService.deleteById(id);
   }
 

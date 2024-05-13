@@ -64,10 +64,10 @@ export class ContactService {
       throw new BadRequestException('Please enter correct id.');
     }
 
-    const contact = await this.contactModel.findByIdAndDelete({_id: id})
-    if(!contact){
+    const valueFind = await this.contactModel.findByIdAndDelete({_id: id})
+    if(!valueFind){
       throw `Contact '${id}' not found`
     }
-    return contact;
+    return valueFind;
   }
 }

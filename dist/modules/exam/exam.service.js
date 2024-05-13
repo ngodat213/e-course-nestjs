@@ -64,17 +64,33 @@ let ExamService = class ExamService {
         }
     }
     async updateById(id, data) {
-        const isValidId = mongoose_1.default.isValidObjectId(id);
-        if (!isValidId) {
-            throw new common_1.BadRequestException('Please enter correct id.');
+        try {
+            const fileImage = data.file;
+            const isValidId = mongoose_1.default.isValidObjectId(id);
+            if (!isValidId) {
+                throw new common_1.BadRequestException('Please enter correct id.');
+            }
+            const findOneExam = await this.examModel.findById(id);
+            if (!findOneExam) {
+                throw new common_1.BadRequestException(`Course is not found`);
+            }
+            if (fileImage) {
+                this.cloudinaryService.destroyFile(findOneExam.imagePublicId);
+                const updateImage = await this.cloudinaryService.uploadFile(fileImage, cloudinary_constants_1.FILE_EXAM_THUMB, fileImage.filename, cloudinary_constants_1.RESOURCE_TYPE_IMAGE);
+                data.imagePublicId = updateImage.public_id;
+                data.imageUrl = updateImage.url;
+            }
+            const valueFind = await this.examModel.findByIdAndUpdate(id, data, { new: true });
+            if (!valueFind) {
+                throw new common_1.NotFoundException();
+            }
+            console.log(valueFind);
+            return valueFind;
         }
-        const exam = await this.examModel
-            .findByIdAndUpdate(id, data)
-            .setOptions({ overwrite: true, new: true });
-        if (!exam) {
-            throw new common_1.NotFoundException();
+        catch (err) {
+            console.log(err);
+            throw new Error(err);
         }
-        return exam;
     }
     deleteAll() {
         return this.examModel.deleteMany({}).exec();

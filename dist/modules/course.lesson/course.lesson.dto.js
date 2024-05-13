@@ -28,7 +28,7 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateCourseLessonDTO.prototype, "selection", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false }),
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)

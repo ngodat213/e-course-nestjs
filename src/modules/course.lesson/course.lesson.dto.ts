@@ -13,7 +13,7 @@ export class CreateCourseLessonDTO {
   @IsNumber()
   readonly selection: number;
 
-  @ApiProperty({ required: false })
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   readonly course?: string;

@@ -31,6 +31,7 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.3.1",
+    "@typegoose/typegoose": "^12.4.0",
     "@types/hapi__joi": "^17.1.14",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",

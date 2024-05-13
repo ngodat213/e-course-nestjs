@@ -59,25 +59,37 @@ let CourseVideoService = class CourseVideoService {
         }
         catch (err) {
             console.log(`Faill error: ${err}`);
-            throw new Error(`Failed to upload image: ${err}`);
+            throw new common_1.BadRequestException(`Failed to upload image: ${err}`);
         }
     }
     async updateById(id, data) {
-        const isValidId = mongoose_1.default.isValidObjectId(id);
-        if (!isValidId) {
-            throw new common_1.BadRequestException('Please enter correct id.');
+        try {
+            const fileVideo = data.file;
+            const isValidId = mongoose_1.default.isValidObjectId(id);
+            if (!isValidId) {
+                throw new common_1.BadRequestException('Please enter correct id.');
+            }
+            const findOneVideo = await this.videoModel.findById(id);
+            if (!findOneVideo) {
+                throw new common_1.BadRequestException(`Course video is not found`);
+            }
+            if (fileVideo) {
+                this.cloudinaryService.destroyFile(findOneVideo.videoPublicId);
+                const updateVideo = await this.cloudinaryService.uploadFile(fileVideo, cloudinary_constants_1.FILE_COURSE_VIDEO, fileVideo.fieldname, cloudinary_constants_1.RESOURCE_TYPE_VIDEO);
+                data.videoPublicId = updateVideo.public_id;
+                data.videoUrl = updateVideo.url;
+            }
+            const valueFind = await this.videoModel.findByIdAndUpdate(id, data, { new: true });
+            if (!valueFind) {
+                throw new common_1.NotFoundException();
+            }
+            console.log(valueFind);
+            return valueFind;
         }
-        const existingCategory = await this.videoModel.findOne({ title: data.title });
-        if (existingCategory) {
-            throw new common_1.BadRequestException('Category already exists');
+        catch (err) {
+            console.log(err);
+            throw new common_1.BadRequestException(err);
         }
-        const video = await this.videoModel
-            .findByIdAndUpdate(id, data)
-            .setOptions({ overwrite: true, new: true });
-        if (!video) {
-            throw new common_1.NotFoundException();
-        }
-        return video;
     }
     async deleteById(id) {
         const isValidId = mongoose_1.default.isValidObjectId(id);

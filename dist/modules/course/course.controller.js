@@ -37,7 +37,7 @@ let CourseController = class CourseController {
     createCourse(body) {
         return this.courseService.save(body);
     }
-    updateCourse(id, course, res) {
+    updateCourse(id, course) {
         return this.courseService.updateById(id, course);
     }
     deleteCourseById(id, res) {
@@ -78,15 +78,15 @@ __decorate([
 ], CourseController.prototype, "createCourse", null);
 __decorate([
     (0, common_1.Put)(':id'),
-    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('files'), api_file_decorator_1.FilesToBodyInterceptor),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, course_dto_1.UpdateCourseDTO, Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:paramtypes", [String, course_dto_1.UpdateCourseDTO]),
+    __metadata("design:returntype", void 0)
 ], CourseController.prototype, "updateCourse", null);
 __decorate([
     (0, common_1.Delete)(':id'),
@@ -96,7 +96,7 @@ __decorate([
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CourseController.prototype, "deleteCourseById", null);
 __decorate([
     (0, common_1.Get)(':id/lessons'),

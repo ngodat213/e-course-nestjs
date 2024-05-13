@@ -65,7 +65,7 @@ export class CategoryService {
 
     const post = await this.categoryModel
       .findByIdAndUpdate(id, data)
-      .setOptions({ overwrite: true, new: true })
+      .setOptions({ overwrite: true, new: true });
     if (!post) {
       throw new NotFoundException();
     }

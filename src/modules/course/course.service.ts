@@ -1,6 +1,5 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import mongoose, { Model } from 'mongoose';
-import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { COURSE_LESSON_MODEL, COURSE_MODEL } from 'src/processors/database/database.constants';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
@@ -70,22 +69,43 @@ export class CourseService {
 
 
   async updateById(id: string, data: UpdateCourseDTO) {
-    const isValidId = mongoose.isValidObjectId(id);
-    if(!isValidId){
-      throw new BadRequestException('Please enter correct id.');
-    }
+    try{
+      const [fileImage, fileVideo] = data.files;
+      const isValidId = mongoose.isValidObjectId(id);
+      if(!isValidId){
+        throw new BadRequestException('Please enter correct id.');
+      }
 
-    const post = await this.courseModel
-      .findByIdAndUpdate(id, data)
-      .setOptions({ overwrite: true, new: true })
-    if (!post) {
-      throw new NotFoundException();
-    }
-    return post;
-  }
+      const findOneCourse = await this.courseModel.findById(id);
+      if(!findOneCourse){
+        throw new BadRequestException(`Course is not found`);
+      }
 
-  deleteAll(): Promise<any>{
-    return this.courseModel.deleteMany({}).exec();
+      if(fileImage){
+        this.cloudinaryService.destroyFile(findOneCourse.imagePublicId)
+        const updateImage = await this.cloudinaryService.uploadFile(fileImage, FILE_COURSE_THUMB, fileImage.filename, RESOURCE_TYPE_IMAGE);
+        data.imagePublicId = updateImage.public_id;
+        data.imageIntroduce = updateImage.url;
+      }
+
+      if(fileVideo){
+        this.cloudinaryService.destroyFile(findOneCourse.videoPublicId)
+        const updateVideo = await this.cloudinaryService.uploadFile(fileVideo, FILE_COURSE_INTRO, fileVideo.fieldname, RESOURCE_TYPE_VIDEO);
+        data.videoPublicId = updateVideo.public_id;
+        data.videoIntroduce = updateVideo.url;
+      }
+
+      const valueFind = await this.courseModel.findByIdAndUpdate(id, data, { new: true })
+
+      if (!valueFind) {
+        throw new NotFoundException();
+      }
+      console.log(valueFind);
+      return valueFind;
+    }catch(err){
+      console.log(err);
+      throw new Error(err);
+    }
   }
 
   async deleteById(id: string){

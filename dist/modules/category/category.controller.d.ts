@@ -1,3 +1,5 @@
+/// <reference types="mongoose/types/document" />
+/// <reference types="mongoose/types/types" />
 /// <reference types="mongoose/types/aggregate" />
 /// <reference types="mongoose/types/callback" />
 /// <reference types="mongoose/types/collection" />

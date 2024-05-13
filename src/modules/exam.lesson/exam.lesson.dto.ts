@@ -32,10 +32,10 @@ export class CreateExamLessonDTO {
   @IsNumber()
   readonly point: number;
 
-  @ApiProperty({ required: false }) // For optional properties
+  @ApiProperty()
   @IsOptional()
   @IsString()
-  readonly exam?: string;
+  readonly exam: string;
 }
 
 export class UpdateExamLessonDTO {
