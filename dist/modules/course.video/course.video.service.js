@@ -48,10 +48,14 @@ let CourseVideoService = class CourseVideoService {
         const fileVideo = data.file;
         const existing = await this.videoModel.findOne({ title: data.title });
         if (existing) {
-            throw new common_1.BadRequestException('Course already exists');
+            throw new common_1.BadRequestException('Course video already exists');
+        }
+        const existingSelection = await this.videoModel.findOne({ part: data.part });
+        if (existingSelection) {
+            throw new common_1.BadRequestException('Part already exists');
         }
         try {
-            const resultVideo = await this.cloudinaryService.uploadFile(data.file, cloudinary_constants_1.FILE_COURSE_INTRO, fileVideo.fieldname, cloudinary_constants_1.RESOURCE_TYPE_VIDEO);
+            const resultVideo = await this.cloudinaryService.uploadFile(data.file, cloudinary_constants_1.FILE_COURSE_VIDEO, fileVideo.fieldname, cloudinary_constants_1.RESOURCE_TYPE_VIDEO);
             data.videoUrl = resultVideo.url;
             data.videoPublicId = resultVideo.public_id;
             const res = await this.videoModel.create({ ...data });
@@ -73,6 +77,10 @@ let CourseVideoService = class CourseVideoService {
             if (!findOneVideo) {
                 throw new common_1.BadRequestException(`Course video is not found`);
             }
+            const existingSelection = await this.videoModel.findOne({ part: data.part });
+            if (existingSelection) {
+                throw new common_1.BadRequestException('Part already exists');
+            }
             if (fileVideo) {
                 this.cloudinaryService.destroyFile(findOneVideo.videoPublicId);
                 const updateVideo = await this.cloudinaryService.uploadFile(fileVideo, cloudinary_constants_1.FILE_COURSE_VIDEO, fileVideo.fieldname, cloudinary_constants_1.RESOURCE_TYPE_VIDEO);
@@ -92,15 +100,25 @@ let CourseVideoService = class CourseVideoService {
         }
     }
     async deleteById(id) {
-        const isValidId = mongoose_1.default.isValidObjectId(id);
-        if (!isValidId) {
-            throw new common_1.BadRequestException('Please enter correct id.');
+        try {
+            const isValidId = mongoose_1.default.isValidObjectId(id);
+            if (!isValidId) {
+                throw new common_1.BadRequestException('Please enter correct id.');
+            }
+            const findOne = await this.videoModel.findById(id);
+            if (findOne.videoPublicId) {
+                this.cloudinaryService.destroyFile(findOne.videoPublicId);
+            }
+            const valueFind = await this.videoModel.findByIdAndDelete({ _id: id });
+            if (!valueFind) {
+                throw `Course video '${id}' not found`;
+            }
+            return valueFind;
         }
-        const valueFind = await this.videoModel.findByIdAndDelete({ _id: id });
-        if (!valueFind) {
-            throw `Course video '${id}' not found`;
+        catch (err) {
+            console.log(err);
+            throw new common_1.BadRequestException(err);
         }
-        return valueFind;
     }
 };
 exports.CourseVideoService = CourseVideoService;

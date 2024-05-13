@@ -62,7 +62,7 @@ let CourseService = class CourseService {
         }
         catch (err) {
             console.log(`Faill error: ${err}`);
-            throw new Error(`Failed to upload image: ${err}`);
+            throw new common_1.BadRequestException(`Failed to upload image: ${err}`);
         }
     }
     async updateById(id, data) {
@@ -97,19 +97,29 @@ let CourseService = class CourseService {
         }
         catch (err) {
             console.log(err);
-            throw new Error(err);
+            throw new common_1.BadRequestException(err);
         }
     }
     async deleteById(id) {
-        const isValidId = mongoose_1.default.isValidObjectId(id);
-        if (!isValidId) {
-            throw new common_1.BadRequestException('Please enter correct id.');
+        try {
+            const isValidId = mongoose_1.default.isValidObjectId(id);
+            if (!isValidId) {
+                throw new common_1.BadRequestException('Please enter correct id.');
+            }
+            const findOne = await this.courseModel.findById(id);
+            if (findOne.imagePublicId) {
+                this.cloudinaryService.destroyFile(findOne.imagePublicId);
+            }
+            const valueFind = await this.courseModel.findByIdAndDelete({ _id: id });
+            if (!valueFind) {
+                throw `Course '${id}' not found`;
+            }
+            return valueFind;
         }
-        const valueFind = await this.courseModel.findByIdAndDelete({ _id: id });
-        if (!valueFind) {
-            throw `Course '${id}' not found`;
+        catch (err) {
+            console.log(err);
+            throw new common_1.BadRequestException(err);
         }
-        return valueFind;
     }
     lessonsOf(id) {
         const lessons = this.courseLessonModel

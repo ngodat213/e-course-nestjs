@@ -61,7 +61,7 @@ export class ExamService {
       return res;
     }catch(err){
       console.log(`Faill error: ${err}`);
-      throw new Error(`Failed to upload image: ${err}`);
+      throw new BadRequestException(`Failed to upload image: ${err}`);
     }
   }
 
@@ -94,7 +94,7 @@ export class ExamService {
       return valueFind;
     }catch(err){
       console.log(err);
-      throw new Error(err);
+      throw new BadRequestException(err);
     }
   }
 
@@ -103,16 +103,27 @@ export class ExamService {
   }
 
   async deleteById(id: string){
-    const isValidId = mongoose.isValidObjectId(id);
-    if(!isValidId){
-      throw new BadRequestException('Please enter correct id.');
-    }
+    try{
+      const isValidId = mongoose.isValidObjectId(id);
+      if(!isValidId){
+        throw new BadRequestException('Please enter correct id.');
+      }
 
-    const valueFind = await this.examModel.findByIdAndDelete({_id: id})
-    if(!valueFind){
-      throw `Exam '${id}' not found`
+      const findOne = await this.examModel.findById(id);
+
+      if(findOne.imagePublicId){
+        this.cloudinaryService.destroyFile(findOne.imagePublicId);
+      }
+
+      const valueFind = await this.examModel.findByIdAndDelete({_id: id})
+      if(!valueFind){
+        throw `Exam '${id}' not found`
+      }
+      return valueFind;
+    }catch(err){
+      console.log(err);
+      throw new BadRequestException(err);
     }
-    return valueFind;
   }
 
   lessonsOf(id: string): Promise<ExamLesson[]> {

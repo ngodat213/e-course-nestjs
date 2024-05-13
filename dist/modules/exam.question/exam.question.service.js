@@ -71,7 +71,7 @@ let ExamQuestionService = class ExamQuestionService {
             }
             const findOneQuestion = await this.questionModel.findById(id);
             if (!findOneQuestion) {
-                throw new common_1.BadRequestException(`Course is not found`);
+                throw new common_1.BadRequestException(`Question is not found`);
             }
             if (fileImage) {
                 this.cloudinaryService.destroyFile(findOneQuestion.imagePublicId);
@@ -95,6 +95,10 @@ let ExamQuestionService = class ExamQuestionService {
         const isValidId = mongoose_1.default.isValidObjectId(id);
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const findOne = await this.questionModel.findById(id);
+        if (findOne.imagePublicId) {
+            this.cloudinaryService.destroyFile(findOne.imagePublicId);
         }
         const valueFind = await this.questionModel.findByIdAndDelete({ _id: id });
         if (!valueFind) {

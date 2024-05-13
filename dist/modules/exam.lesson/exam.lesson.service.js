@@ -47,6 +47,10 @@ let ExamLessonService = class ExamLessonService {
         if (existing) {
             throw new common_1.BadRequestException('Exam lesson already exists');
         }
+        const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
+        if (existingSelection) {
+            throw new common_1.BadRequestException('Selection already exists');
+        }
         const res = await this.lessonModel.create({ ...data });
         return res;
     }
@@ -54,6 +58,10 @@ let ExamLessonService = class ExamLessonService {
         const isValidId = mongoose_1.default.isValidObjectId(id);
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
+        if (existingSelection) {
+            throw new common_1.BadRequestException('Selection already exists');
         }
         const updated = await this.lessonModel
             .findByIdAndUpdate(id, data)

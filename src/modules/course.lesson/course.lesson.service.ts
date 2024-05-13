@@ -40,10 +40,16 @@ export class CourseLessonService {
   }
 
   async save(data: CreateCourseLessonDTO): Promise<CourseLesson> {
-    const existing = await this.lessonModel.findOne({ title: data.title });
+    const existingTitle = await this.lessonModel.findOne({ title: data.title });
 
-    if (existing) {
+    if (existingTitle) {
         throw new BadRequestException('CourseLesson already exists');
+    }
+
+    const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
+
+    if (existingSelection) {
+        throw new BadRequestException('Selection already exists');
     }
 
     const res = await this.lessonModel.create({...data});
@@ -59,6 +65,12 @@ export class CourseLessonService {
     const existingCategory = await this.lessonModel.findOne({ title: data.title });
     if (existingCategory) {
         throw new BadRequestException('Category already exists');
+    }
+
+    const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
+
+    if (existingSelection) {
+        throw new BadRequestException('Selection already exists');
     }
 
     const post = await this.lessonModel

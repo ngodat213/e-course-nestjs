@@ -73,7 +73,7 @@ export class ExamQuestionService {
 
       const findOneQuestion = await this.questionModel.findById(id);
       if(!findOneQuestion){
-        throw new BadRequestException(`Course is not found`);
+        throw new BadRequestException(`Question is not found`);
       }
 
       if(fileImage){
@@ -101,6 +101,12 @@ export class ExamQuestionService {
     if(!isValidId){
       throw new BadRequestException('Please enter correct id.');
     }
+
+    const findOne = await this.questionModel.findById(id);
+
+      if(findOne.imagePublicId){
+        this.cloudinaryService.destroyFile(findOne.imagePublicId);
+      }
 
     const valueFind = await this.questionModel.findByIdAndDelete({_id: id})
     if(!valueFind){

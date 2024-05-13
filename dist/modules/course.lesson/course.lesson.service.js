@@ -43,9 +43,13 @@ let CourseLessonService = class CourseLessonService {
         return res;
     }
     async save(data) {
-        const existing = await this.lessonModel.findOne({ title: data.title });
-        if (existing) {
+        const existingTitle = await this.lessonModel.findOne({ title: data.title });
+        if (existingTitle) {
             throw new common_1.BadRequestException('CourseLesson already exists');
+        }
+        const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
+        if (existingSelection) {
+            throw new common_1.BadRequestException('Selection already exists');
         }
         const res = await this.lessonModel.create({ ...data });
         return res;
@@ -58,6 +62,10 @@ let CourseLessonService = class CourseLessonService {
         const existingCategory = await this.lessonModel.findOne({ title: data.title });
         if (existingCategory) {
             throw new common_1.BadRequestException('Category already exists');
+        }
+        const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
+        if (existingSelection) {
+            throw new common_1.BadRequestException('Selection already exists');
         }
         const post = await this.lessonModel
             .findByIdAndUpdate(id, data)
