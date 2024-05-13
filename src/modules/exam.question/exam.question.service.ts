@@ -1,12 +1,11 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import mongoose, { Model } from 'mongoose';
-import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { EXAM_QUESTION_MODEL } from 'src/processors/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
-import { FILE_COURSE_INTRO, FILE_EXAM_QUESTION, RESOURCE_TYPE_IMAGE } from 'src/constants/cloudinary.constants';
+import { FILE_EXAM_QUESTION, RESOURCE_TYPE_IMAGE } from 'src/constants/cloudinary.constants';
 import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 
 @Injectable({ scope: Scope.REQUEST })
@@ -59,7 +58,7 @@ export class ExamQuestionService {
       return res;
     }catch(err){
       console.log(`Faill error: ${err}`);
-      throw new Error(`Failed to upload image: ${err}`);
+      throw new BadRequestException(`Failed to upload image: ${err}`);
     }
   }
 
@@ -92,12 +91,13 @@ export class ExamQuestionService {
       return valueFind;
     }catch(err){
       console.log(err);
-      throw new Error(err);
+      throw new BadRequestException(err);
     }
   }
 
   async deleteById(id: string){
-    const isValidId = mongoose.isValidObjectId(id);
+    try{
+      const isValidId = mongoose.isValidObjectId(id);
     if(!isValidId){
       throw new BadRequestException('Please enter correct id.');
     }
@@ -113,5 +113,9 @@ export class ExamQuestionService {
       throw `Lesson '${id}' not found`
     }
     return valueFind;
+    }catch(err){
+      console.log(err);
+      throw new BadRequestException(err);
+    }
   }
 }

@@ -59,7 +59,7 @@ let ExamQuestionService = class ExamQuestionService {
         }
         catch (err) {
             console.log(`Faill error: ${err}`);
-            throw new Error(`Failed to upload image: ${err}`);
+            throw new common_1.BadRequestException(`Failed to upload image: ${err}`);
         }
     }
     async updateById(id, data) {
@@ -88,23 +88,29 @@ let ExamQuestionService = class ExamQuestionService {
         }
         catch (err) {
             console.log(err);
-            throw new Error(err);
+            throw new common_1.BadRequestException(err);
         }
     }
     async deleteById(id) {
-        const isValidId = mongoose_1.default.isValidObjectId(id);
-        if (!isValidId) {
-            throw new common_1.BadRequestException('Please enter correct id.');
+        try {
+            const isValidId = mongoose_1.default.isValidObjectId(id);
+            if (!isValidId) {
+                throw new common_1.BadRequestException('Please enter correct id.');
+            }
+            const findOne = await this.questionModel.findById(id);
+            if (findOne.imagePublicId) {
+                this.cloudinaryService.destroyFile(findOne.imagePublicId);
+            }
+            const valueFind = await this.questionModel.findByIdAndDelete({ _id: id });
+            if (!valueFind) {
+                throw `Lesson '${id}' not found`;
+            }
+            return valueFind;
         }
-        const findOne = await this.questionModel.findById(id);
-        if (findOne.imagePublicId) {
-            this.cloudinaryService.destroyFile(findOne.imagePublicId);
+        catch (err) {
+            console.log(err);
+            throw new common_1.BadRequestException(err);
         }
-        const valueFind = await this.questionModel.findByIdAndDelete({ _id: id });
-        if (!valueFind) {
-            throw `Lesson '${id}' not found`;
-        }
-        return valueFind;
     }
 };
 exports.ExamQuestionService = ExamQuestionService;
