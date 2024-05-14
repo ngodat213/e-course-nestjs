@@ -63,7 +63,7 @@ export class ExamLessonController {
     return this.lessonService.deleteById(id);
   }
 
-  @Get(':id/questions')
+  @Get('questions/:id')
   getAllExamOfLesson(
     @Param('id', ParseObjectIdPipe) id: string,
   ): Promise<ExamQuestion[]>{

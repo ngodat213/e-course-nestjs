@@ -67,7 +67,7 @@ export class ExamController {
     return this.examService.deleteById(id);
   }
 
-  @Get(':id/lessons')
+  @Get('lessons/:id')
   getAllLessonsOfExam(
     @Param('id', ParseObjectIdPipe) id: string,
   ): Promise<ExamLesson[]>{

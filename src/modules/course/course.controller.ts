@@ -86,7 +86,7 @@ export class CourseController {
     return this.courseService.deleteById(id);
   }
 
-  @Get(':id/lessons')
+  @Get('lessons/:id')
   getAllLessonsOfCourse(
     @Param('id', ParseObjectIdPipe) id: string,
   ): Promise<CourseLesson[]> {

@@ -93,7 +93,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CourseLessonController.prototype, "deleteLessonById", null);
 __decorate([
-    (0, common_1.Get)(':id/videos'),
+    (0, common_1.Get)('videos/:id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

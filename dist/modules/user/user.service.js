@@ -36,7 +36,7 @@ let UserService = class UserService {
         return (0, rxjs_1.from)(this.userModel.findOne({ email: email }).exec());
     }
     findOneByEmail(email) {
-        return this.userModel.findOne({ email });
+        return this.userModel.findOne({ email }).select('-password');
     }
     exitsByEmail(email) {
         return (0, rxjs_1.from)(this.userModel.exists({ email }).exec()).pipe((0, rxjs_1.map)((exits) => exits != null));

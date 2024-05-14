@@ -98,7 +98,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ExamController.prototype, "deleteExamById", null);
 __decorate([
-    (0, common_1.Get)(':id/lessons'),
+    (0, common_1.Get)('lessons/:id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

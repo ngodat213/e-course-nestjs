@@ -27,11 +27,11 @@ UserService {
   ){}
 
   findByEmail(email: string): Observable<User | undefined> {
-    return from(this.userModel.findOne({ email: email }).exec());
+    return from(this.userModel.findOne({ email: email }).exec())
   }
 
   findOneByEmail(email: string) : Promise<User>{
-    return this.userModel.findOne({ email });
+    return this.userModel.findOne({ email }).select('-password')
   }
 
   exitsByEmail(email: string): Observable<boolean>{
