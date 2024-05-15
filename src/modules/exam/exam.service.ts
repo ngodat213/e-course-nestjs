@@ -75,7 +75,7 @@ export class ExamService {
 
       const findOneExam = await this.examModel.findById(id);
       if(!findOneExam){
-        throw new BadRequestException(`Course is not found`);
+        throw new BadRequestException(`Exam is not found`);
       }
 
       if(fileImage){
@@ -85,7 +85,7 @@ export class ExamService {
         data.imageUrl = updateImage.url;
       }
 
-      const valueFind = await this.examModel.findByIdAndUpdate(id, data, { new: true })
+      const valueFind = await this.examModel.findByIdAndUpdate(id, data).setOptions({ new: true })
 
       if (!valueFind) {
         throw new NotFoundException();

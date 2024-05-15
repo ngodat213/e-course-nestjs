@@ -49,6 +49,8 @@ export class ExamController {
   @Put(':id')
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('file'), FileToBodyInterceptor)
   updateExam(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() exam: UpdateExamDTO,

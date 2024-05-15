@@ -72,13 +72,11 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateExamDTO.prototype, "category", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateExamDTO.prototype, "imageUrl", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)

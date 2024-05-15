@@ -65,7 +65,7 @@ export class ExamLessonService {
 
     const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
 
-    if (existingSelection) {
+    if (existingSelection.id != id && existingSelection) {
         throw new BadRequestException('Selection already exists');
     }
 

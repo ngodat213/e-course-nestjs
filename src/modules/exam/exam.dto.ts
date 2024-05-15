@@ -48,12 +48,10 @@ export class UpdateExamDTO {
   @IsString()
   readonly category?: string;
 
-  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   imageUrl: string;
 
-  @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
   imagePublicId: string;

@@ -32,8 +32,9 @@ interface CourseVideo extends Document {
     readonly title: string;
     readonly hour: Number;
     readonly minute: Number;
-    readonly videoUrl: string;
-    readonly videoPublicId: string;
+    videoUrl: string;
+    videoPublicId: string;
+    readonly description: string;
     readonly lesson: Partial<CourseLesson>;
 }
 type CourseVideoModel = Model<CourseVideo>;

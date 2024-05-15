@@ -72,7 +72,7 @@ let ExamService = class ExamService {
             }
             const findOneExam = await this.examModel.findById(id);
             if (!findOneExam) {
-                throw new common_1.BadRequestException(`Course is not found`);
+                throw new common_1.BadRequestException(`Exam is not found`);
             }
             if (fileImage) {
                 this.cloudinaryService.destroyFile(findOneExam.imagePublicId);
@@ -80,7 +80,7 @@ let ExamService = class ExamService {
                 data.imagePublicId = updateImage.public_id;
                 data.imageUrl = updateImage.url;
             }
-            const valueFind = await this.examModel.findByIdAndUpdate(id, data, { new: true });
+            const valueFind = await this.examModel.findByIdAndUpdate(id, data).setOptions({ new: true });
             if (!valueFind) {
                 throw new common_1.NotFoundException();
             }

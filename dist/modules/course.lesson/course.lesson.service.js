@@ -64,7 +64,7 @@ let CourseLessonService = class CourseLessonService {
             throw new common_1.BadRequestException('Category already exists');
         }
         const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
-        if (existingSelection) {
+        if (existingSelection.id != id && existingSelection) {
             throw new common_1.BadRequestException('Selection already exists');
         }
         const post = await this.lessonModel

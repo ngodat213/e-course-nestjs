@@ -58,12 +58,10 @@ export class UpdateExamQuestionDTO {
   @IsInt()
   readonly answer?: number;
 
-  @ApiProperty({ required: false })
   @IsOptional()
-  @IsString()
+  @IsUrl()
   imageUrl: string;
 
-  @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
   imagePublicId: string;

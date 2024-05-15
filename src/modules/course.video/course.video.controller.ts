@@ -49,6 +49,8 @@ export class CourseVideoController {
   @Put(':id')
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('file'), FileToBodyInterceptor)
   updateCourseVideo(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() video: UpdateCourseVideoDTO,

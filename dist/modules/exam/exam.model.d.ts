@@ -26,12 +26,13 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
+import { CategoryModel } from '../category/category.model';
 interface Exam extends Document {
     readonly title: string;
     readonly description: string;
-    readonly category: string;
     readonly imageUrl: string;
     readonly imagePublicId: string;
+    readonly category: Partial<CategoryModel>;
 }
 type ExamModel = Model<Exam>;
 declare const createExamModel: (conn: Connection) => ExamModel;

@@ -78,7 +78,7 @@ let CourseVideoService = class CourseVideoService {
                 throw new common_1.BadRequestException(`Course video is not found`);
             }
             const existingSelection = await this.videoModel.findOne({ part: data.part });
-            if (existingSelection) {
+            if (existingSelection.id != id && existingSelection) {
                 throw new common_1.BadRequestException('Part already exists');
             }
             if (fileVideo) {
@@ -87,7 +87,7 @@ let CourseVideoService = class CourseVideoService {
                 data.videoPublicId = updateVideo.public_id;
                 data.videoUrl = updateVideo.url;
             }
-            const valueFind = await this.videoModel.findByIdAndUpdate(id, data, { new: true });
+            const valueFind = await this.videoModel.findByIdAndUpdate(id, data).setOptions({ new: true });
             if (!valueFind) {
                 throw new common_1.NotFoundException();
             }

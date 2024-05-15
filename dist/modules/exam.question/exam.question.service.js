@@ -79,7 +79,7 @@ let ExamQuestionService = class ExamQuestionService {
                 data.imagePublicId = updateImage.public_id;
                 data.imageUrl = updateImage.url;
             }
-            const valueFind = await this.questionModel.findByIdAndUpdate(id, data, { new: true });
+            const valueFind = await this.questionModel.findByIdAndUpdate(id, data).setOptions({ new: true });
             if (!valueFind) {
                 throw new common_1.NotFoundException();
             }

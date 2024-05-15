@@ -17,6 +17,11 @@ export class CreateCourseVideoDTO {
 
   @ApiProperty()
   @IsNotEmpty()
+  @IsString()
+  readonly description: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
   @Type(() => Number)
   @IsInt()
   readonly hour: number;
@@ -56,9 +61,13 @@ export class UpdateCourseVideoDTO {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @Type(() => Number)
-  @IsInt()
+  @IsString()
   readonly title?: string;
+
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsString()
+  readonly description: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
@@ -72,12 +81,10 @@ export class UpdateCourseVideoDTO {
   @IsInt()
   readonly minute?: number;
 
-  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   videoUrl?: string;
 
-  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   videoPublicId?: string;
@@ -85,10 +92,9 @@ export class UpdateCourseVideoDTO {
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
-  readonly lesson?: string ;
+  readonly lesson?: string;
 
   @ApiProperty({ required: false })
-  @IsNotEmpty()
   @IsOptional()
   @ApiFile()
   file: Express.Multer.File;

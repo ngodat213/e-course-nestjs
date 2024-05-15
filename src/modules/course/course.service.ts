@@ -22,7 +22,13 @@ export class CourseService {
   }
     const query = keyword? 
         { title: { $regex: keyword, $options: 'i' } } : {};
-    const res = await this.courseModel.find({...query}).select('-__v').skip(skip).limit(limit).exec()
+    const res = await this.courseModel.find({...query})
+      .select('-__v')
+      .populate('teacher', 'email username photoUrl')
+      .populate('category', '_id category')
+      .skip(skip)
+      .limit(limit)
+      .exec()
     return res;
   }
 
@@ -32,7 +38,10 @@ export class CourseService {
       throw new BadRequestException('Please enter correct id.');
     }
 
-    const res = this.courseModel.findById(id);
+    const res = this.courseModel.findById(id)
+    .select('-__v')
+    .populate('teacher', 'email username photoUrl')
+    .populate('category', '_id category');
 
     if(!res){
       throw new NotFoundException('Course not found.');
@@ -95,7 +104,7 @@ export class CourseService {
         data.videoIntroduce = updateVideo.url;
       }
 
-      const valueFind = await this.courseModel.findByIdAndUpdate(id, data, { new: true })
+      const valueFind = await this.courseModel.findByIdAndUpdate(id, data).setOptions({ new: true })
 
       if (!valueFind) {
         throw new NotFoundException();

@@ -1,13 +1,15 @@
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
 import { CourseLesson } from '../course.lesson/course.lesson.model';
+import { IsOptional } from 'class-validator';
 
 interface CourseVideo extends Document{
   readonly part: Number;
   readonly title: string;
   readonly hour: Number;
   readonly minute: Number;
-  readonly videoUrl: string;
-  readonly videoPublicId: string;
+  videoUrl: string;
+  videoPublicId: string;
+  readonly description: string
   readonly lesson: Partial<CourseLesson>;
 }
 
@@ -21,6 +23,7 @@ const CourseVideoSchema = new Schema<CourseVideo>(
     minute: {type: SchemaTypes.Number, required: true},
     videoUrl: {type: SchemaTypes.String, required: true},
     videoPublicId: {type: SchemaTypes.String, required: true},
+    description: {type: SchemaTypes.String, required: true},
     lesson: { type: SchemaTypes.ObjectId, ref: 'Lesson' },
   },{ timestamps: true }
 );

@@ -30,7 +30,13 @@ let CourseService = class CourseService {
         }
         const query = keyword ?
             { title: { $regex: keyword, $options: 'i' } } : {};
-        const res = await this.courseModel.find({ ...query }).select('-__v').skip(skip).limit(limit).exec();
+        const res = await this.courseModel.find({ ...query })
+            .select('-__v')
+            .populate('teacher', 'email username photoUrl')
+            .populate('category', '_id category')
+            .skip(skip)
+            .limit(limit)
+            .exec();
         return res;
     }
     async findById(id) {
@@ -38,7 +44,10 @@ let CourseService = class CourseService {
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        const res = this.courseModel.findById(id);
+        const res = this.courseModel.findById(id)
+            .select('-__v')
+            .populate('teacher', 'email username photoUrl')
+            .populate('category', '_id category');
         if (!res) {
             throw new common_1.NotFoundException('Course not found.');
         }
@@ -88,7 +97,7 @@ let CourseService = class CourseService {
                 data.videoPublicId = updateVideo.public_id;
                 data.videoIntroduce = updateVideo.url;
             }
-            const valueFind = await this.courseModel.findByIdAndUpdate(id, data, { new: true });
+            const valueFind = await this.courseModel.findByIdAndUpdate(id, data).setOptions({ new: true });
             if (!valueFind) {
                 throw new common_1.NotFoundException();
             }
