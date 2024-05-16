@@ -33,7 +33,7 @@ import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 export declare class ExamController {
     private examService;
     constructor(examService: ExamService);
-    getAllExams(keyword?: string, limit?: number, skip?: number): Promise<Exam[]>;
+    getAllExams(keyword?: string, category?: string, limit?: number, skip?: number): Promise<Exam[]>;
     getExamById(id: string): Promise<Exam>;
     createExam(exam: CreateExamDTO): Promise<Exam>;
     updateExam(id: string, exam: UpdateExamDTO, res: Response): Promise<Exam>;

@@ -78,6 +78,8 @@ exports.UserController = UserController;
 __decorate([
     (0, common_1.Get)(),
     (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'skip', required: false }),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.USER, role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Query)('q')),
@@ -99,7 +101,6 @@ __decorate([
 ], UserController.prototype, "GetCurrentUser", null);
 __decorate([
     (0, common_1.Post)('/login'),
-    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     (0, common_1.UseGuards)(local_auth_guard_1.LocalAuthGuard),
     (0, swagger_1.ApiProperty)(),
     __param(0, (0, common_1.Req)()),
@@ -110,7 +111,6 @@ __decorate([
 ], UserController.prototype, "Login", null);
 __decorate([
     (0, common_1.Post)('/register'),
-    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -144,7 +144,6 @@ __decorate([
 ], UserController.prototype, "updateAvatarUser", null);
 __decorate([
     (0, common_1.Post)('/forgot-password/:email'),
-    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     __param(0, (0, common_1.Param)('email')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

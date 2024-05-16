@@ -16,20 +16,30 @@ export class CourseService {
   ){}
 
   
-  async findAll(keyword?: string, skip: number = 0, limit: number = 10): Promise<Course[]> {
+  async findAll(keyword?: string, category?: string, skip: number = 0, limit: number = 10): Promise<Course[]> {
     if (keyword && keyword.trim() === '') {
       throw new BadRequestException('Do not enter spaces.');
-  }
-    const query = keyword? 
-        { title: { $regex: keyword, $options: 'i' } } : {};
-    const res = await this.courseModel.find({...query})
+    }
+
+    const query: any = {};
+
+    if (keyword) {
+      query.title = { $regex: keyword, $options: 'i' };
+    }
+
+    if (category) {
+      query.category = category;
+    }
+
+    const courses = await this.courseModel.find(query)
       .select('-__v')
       .populate('teacher', 'email username photoUrl')
       .populate('category', '_id category')
       .skip(skip)
       .limit(limit)
-      .exec()
-    return res;
+      .exec();
+      
+    return courses;
   }
 
   async findById(id: string): Promise<Course>{

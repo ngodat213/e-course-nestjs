@@ -27,6 +27,8 @@ export class UserController {
 
   @Get()
   @ApiQuery({ name: 'q', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  @ApiQuery({ name: 'skip', required: false })
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.USER, RoleType.ADMIN, RoleType.TEACHER)
   GetAllUsers(
@@ -46,7 +48,6 @@ export class UserController {
   }
 
   @Post('/login')
-  @ApiConsumes('multipart/form-data')
   @UseGuards(LocalAuthGuard)
   @ApiProperty()
   Login(
@@ -66,7 +67,6 @@ export class UserController {
   }
 
   @Post('/register')
-  @ApiConsumes('multipart/form-data')
   Register(
     @Body() registerDto: RegisterDto,
     @Res() res: Response
@@ -115,7 +115,6 @@ export class UserController {
   }
 
   @Post('/forgot-password/:email')
-  @ApiConsumes('multipart/form-data')
   resetPassword(
     @Param('email') email: string,
   ) {

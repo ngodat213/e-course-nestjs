@@ -28,8 +28,8 @@ let ExamController = class ExamController {
     constructor(examService) {
         this.examService = examService;
     }
-    getAllExams(keyword, limit, skip) {
-        return this.examService.findAll(keyword, skip, limit);
+    getAllExams(keyword, category, limit, skip) {
+        return this.examService.findAll(keyword, category, skip, limit);
     }
     getExamById(id) {
         return this.examService.findById(id);
@@ -51,11 +51,15 @@ exports.ExamController = ExamController;
 __decorate([
     (0, common_1.Get)(''),
     (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'category', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'skip', required: false }),
     __param(0, (0, common_1.Query)('q')),
-    __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
-    __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Query)('category')),
+    __param(2, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
+    __param(3, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, Number]),
+    __metadata("design:paramtypes", [String, String, Number, Number]),
     __metadata("design:returntype", Promise)
 ], ExamController.prototype, "getAllExams", null);
 __decorate([
@@ -100,7 +104,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ExamController.prototype, "deleteExamById", null);
 __decorate([
-    (0, common_1.Get)('lessons/:id'),
+    (0, common_1.Get)('lessonsOf/:id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -109,7 +113,7 @@ __decorate([
 exports.ExamController = ExamController = __decorate([
     (0, swagger_1.ApiTags)('Exam'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.Controller)({ path: 'exams', scope: common_1.Scope.REQUEST }),
+    (0, common_1.Controller)({ path: 'exam', scope: common_1.Scope.REQUEST }),
     __metadata("design:paramtypes", [exam_service_1.ExamService])
 ], ExamController);
 //# sourceMappingURL=exam.controller.js.map

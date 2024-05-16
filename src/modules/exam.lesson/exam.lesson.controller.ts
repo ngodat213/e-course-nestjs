@@ -21,6 +21,8 @@ export class ExamLessonController {
 
   @Get('')
   @ApiQuery({ name: 'q', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  @ApiQuery({ name: 'skip', required: false })
   getAllCourseLessons(
     @Query('q')  keyword?: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
@@ -63,7 +65,7 @@ export class ExamLessonController {
     return this.lessonService.deleteById(id);
   }
 
-  @Get('questions/:id')
+  @Get('questionsOf/:id')
   getAllExamOfLesson(
     @Param('id', ParseObjectIdPipe) id: string,
   ): Promise<ExamQuestion[]>{

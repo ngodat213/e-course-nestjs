@@ -19,14 +19,27 @@ export class ExamService {
     private readonly cloudinaryService: CloudinaryService
   ){}
 
-  async findAll(keyword?: string, skip: number = 0, limit: number = 10): Promise<Exam[]> {
+  async findAll(keyword?: string, category?: string, skip: number = 0, limit: number = 10): Promise<Exam[]> {
     if (keyword && keyword.trim() === '') {
       throw new BadRequestException('Do not enter spaces.');
-  }
-    const query = keyword? 
-        { title: { $regex: keyword, $options: 'i' } } : {};
+    }
 
-    return this.examModel.find({...query}).select('-__v').skip(skip).limit(limit).exec();
+    const query: any = {};
+
+    if (keyword) {
+      query.title = { $regex: keyword, $options: 'i' };
+    }
+
+    if (category) {
+      query.category = category;
+    }
+
+    return this.examModel.find(query)
+    .select('-__v')
+    .populate('category', '_id category')
+    .skip(skip)
+    .limit(limit)
+    .exec();
   }
 
   async findById(id: string): Promise<Exam>{

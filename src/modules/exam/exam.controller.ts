@@ -16,18 +16,22 @@ import { FileToBodyInterceptor } from 'src/decorators/api.file.decorator';
 
 @ApiTags('Exam')
 @ApiBearerAuth()
-@Controller({path: 'exams', scope: Scope.REQUEST})
+@Controller({path: 'exam', scope: Scope.REQUEST})
 export class ExamController {
   constructor(private examService: ExamService){}
 
   @Get('')
   @ApiQuery({ name: 'q', required: false })
+  @ApiQuery({ name: 'category', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  @ApiQuery({ name: 'skip', required: false })
   getAllExams(
     @Query('q')  keyword?: string,
+    @Query('category') category?: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
   ): Promise<Exam[]> {
-    return this.examService.findAll(keyword, skip, limit);
+    return this.examService.findAll(keyword, category, skip, limit);
   }
 
   @Get(':id')
@@ -69,7 +73,7 @@ export class ExamController {
     return this.examService.deleteById(id);
   }
 
-  @Get('lessons/:id')
+  @Get('lessonsOf/:id')
   getAllLessonsOfExam(
     @Param('id', ParseObjectIdPipe) id: string,
   ): Promise<ExamLesson[]>{

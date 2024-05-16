@@ -50,6 +50,8 @@ __decorate([
     (0, common_1.Get)(''),
     (0, swagger_1.ApiQuery)({ name: 'qUser', required: false }),
     (0, swagger_1.ApiQuery)({ name: 'qCourse', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'skip', required: false }),
     __param(0, (0, common_1.Query)('qUser')),
     __param(1, (0, common_1.Query)('qCourse')),
     __param(2, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),

@@ -20,6 +20,8 @@ export class FeedbackController {
   @Get('')
   @ApiQuery({ name: 'qUser', required: false })
   @ApiQuery({ name: 'qCourse', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  @ApiQuery({ name: 'skip', required: false })
   getAllFeedbacks(
     @Query('qUser')  keywordUser?: string,
     @Query('qCourse')  keywordCourse?: string,

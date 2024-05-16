@@ -37,7 +37,7 @@ export declare class ExamService {
     private req;
     private readonly cloudinaryService;
     constructor(examModel: Model<Exam>, lessonModel: Model<ExamLesson>, req: AuthenticatedRequest, cloudinaryService: CloudinaryService);
-    findAll(keyword?: string, skip?: number, limit?: number): Promise<Exam[]>;
+    findAll(keyword?: string, category?: string, skip?: number, limit?: number): Promise<Exam[]>;
     findById(id: string): Promise<Exam>;
     save(data: CreateExamDTO): Promise<Exam>;
     updateById(id: string, data: UpdateExamDTO): Promise<mongoose.Document<unknown, {}, Exam> & Exam & {

@@ -49,6 +49,8 @@ exports.CourseLessonController = CourseLessonController;
 __decorate([
     (0, common_1.Get)(''),
     (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'skip', required: false }),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
@@ -93,7 +95,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CourseLessonController.prototype, "deleteLessonById", null);
 __decorate([
-    (0, common_1.Get)('videos/:id'),
+    (0, common_1.Get)('videosOf/:id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -102,7 +104,7 @@ __decorate([
 exports.CourseLessonController = CourseLessonController = __decorate([
     (0, swagger_1.ApiTags)('Course Lesson'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.Controller)({ path: 'courses/lessons', scope: common_1.Scope.REQUEST }),
+    (0, common_1.Controller)({ path: 'course/lessons', scope: common_1.Scope.REQUEST }),
     __metadata("design:paramtypes", [course_lesson_service_1.CourseLessonService])
 ], CourseLessonController);
 //# sourceMappingURL=course.lesson.controller.js.map

@@ -33,7 +33,7 @@ import { CourseLesson } from '../course.lesson/course.lesson.model';
 export declare class CourseController {
     private courseService;
     constructor(courseService: CourseService);
-    getAllCourses(keyword?: string, limit?: number, skip?: number): Promise<Course[]>;
+    getAllCourses(keyword?: string, category?: string, limit?: number, skip?: number): Promise<Course[]>;
     getCourseById(id: string): Promise<Course>;
     createCourse(body: CreateCourseDTO): Promise<Course>;
     updateCourse(id: string, course: UpdateCourseDTO): Promise<import("mongoose").Document<unknown, {}, Course> & Course & {

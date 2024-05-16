@@ -24,20 +24,25 @@ let CourseService = class CourseService {
         this.courseLessonModel = courseLessonModel;
         this.cloudinaryService = cloudinaryService;
     }
-    async findAll(keyword, skip = 0, limit = 10) {
+    async findAll(keyword, category, skip = 0, limit = 10) {
         if (keyword && keyword.trim() === '') {
             throw new common_1.BadRequestException('Do not enter spaces.');
         }
-        const query = keyword ?
-            { title: { $regex: keyword, $options: 'i' } } : {};
-        const res = await this.courseModel.find({ ...query })
+        const query = {};
+        if (keyword) {
+            query.title = { $regex: keyword, $options: 'i' };
+        }
+        if (category) {
+            query.category = category;
+        }
+        const courses = await this.courseModel.find(query)
             .select('-__v')
             .populate('teacher', 'email username photoUrl')
             .populate('category', '_id category')
             .skip(skip)
             .limit(limit)
             .exec();
-        return res;
+        return courses;
     }
     async findById(id) {
         const isValidId = mongoose_1.default.isValidObjectId(id);

@@ -16,7 +16,6 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { CourseService } from './course.service';
-import { Observable, map } from 'rxjs';
 import { Course } from 'src/modules/course/course.model';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
@@ -36,18 +35,22 @@ import { FilesToBodyInterceptor } from 'src/decorators/api.file.decorator';
 
 @ApiTags('Course')
 @ApiBearerAuth()
-@Controller({ path: 'courses', scope: Scope.REQUEST })
+@Controller({ path: 'course', scope: Scope.REQUEST })
 export class CourseController {
   constructor(private courseService: CourseService) {}
 
   @Get('')
   @ApiQuery({ name: 'q', required: false })
+  @ApiQuery({ name: 'category', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  @ApiQuery({ name: 'skip', required: false })
   getAllCourses(
     @Query('q') keyword?: string,
+    @Query('category') category?: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
     @Query('skip', new DefaultValuePipe(0), ParseIntPipe) skip?: number,
   ): Promise<Course[]> {
-    return this.courseService.findAll(keyword, skip, limit);
+    return this.courseService.findAll(keyword, category, skip, limit);
   }
 
   @Get(':id')
@@ -86,7 +89,7 @@ export class CourseController {
     return this.courseService.deleteById(id);
   }
 
-  @Get('lessons/:id')
+  @Get('lessonsOf/:id')
   getAllLessonsOfCourse(
     @Param('id', ParseObjectIdPipe) id: string,
   ): Promise<CourseLesson[]> {

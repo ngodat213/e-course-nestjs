@@ -14,12 +14,14 @@ import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Course Lesson')
 @ApiBearerAuth()
-@Controller({path: 'courses/lessons', scope: Scope.REQUEST})
+@Controller({path: 'course/lessons', scope: Scope.REQUEST})
 export class CourseLessonController {
   constructor(private lessonService: CourseLessonService){}
 
   @Get('')
   @ApiQuery({ name: 'q', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  @ApiQuery({ name: 'skip', required: false })
   getAllCourseLessons(
     @Query('q')  keyword?: string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
@@ -62,7 +64,7 @@ export class CourseLessonController {
     return this.lessonService.deleteById(id);
   }
 
-  @Get('videos/:id')
+  @Get('videosOf/:id')
   getAllLessonsOfCourse(  
     @Param('id', ParseObjectIdPipe) id: string,
   ): Promise<CourseVideo[]>{

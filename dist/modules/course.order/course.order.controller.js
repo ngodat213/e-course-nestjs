@@ -47,6 +47,8 @@ __decorate([
     (0, common_1.Get)(''),
     (0, swagger_1.ApiQuery)({ name: 'qUser', required: false }),
     (0, swagger_1.ApiQuery)({ name: 'qCourse', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'skip', required: false }),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Query)('qUser')),

@@ -49,6 +49,8 @@ exports.ExamLessonController = ExamLessonController;
 __decorate([
     (0, common_1.Get)(''),
     (0, swagger_1.ApiQuery)({ name: 'q', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'limit', required: false }),
+    (0, swagger_1.ApiQuery)({ name: 'skip', required: false }),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
@@ -93,7 +95,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ExamLessonController.prototype, "deleteLessonById", null);
 __decorate([
-    (0, common_1.Get)('questions/:id'),
+    (0, common_1.Get)('questionsOf/:id'),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

@@ -21,6 +21,8 @@ export class CourseOrderController {
   @Get('')
   @ApiQuery({ name: 'qUser', required: false })
   @ApiQuery({ name: 'qCourse', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  @ApiQuery({ name: 'skip', required: false })
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   getAllCourseOrders(

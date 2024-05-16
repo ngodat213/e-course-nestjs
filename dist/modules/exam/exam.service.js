@@ -26,13 +26,23 @@ let ExamService = class ExamService {
         this.req = req;
         this.cloudinaryService = cloudinaryService;
     }
-    async findAll(keyword, skip = 0, limit = 10) {
+    async findAll(keyword, category, skip = 0, limit = 10) {
         if (keyword && keyword.trim() === '') {
             throw new common_1.BadRequestException('Do not enter spaces.');
         }
-        const query = keyword ?
-            { title: { $regex: keyword, $options: 'i' } } : {};
-        return this.examModel.find({ ...query }).select('-__v').skip(skip).limit(limit).exec();
+        const query = {};
+        if (keyword) {
+            query.title = { $regex: keyword, $options: 'i' };
+        }
+        if (category) {
+            query.category = category;
+        }
+        return this.examModel.find(query)
+            .select('-__v')
+            .populate('category', '_id category')
+            .skip(skip)
+            .limit(limit)
+            .exec();
     }
     async findById(id) {
         const isValidId = mongoose_1.default.isValidObjectId(id);

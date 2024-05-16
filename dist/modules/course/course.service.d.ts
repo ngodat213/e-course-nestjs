@@ -35,7 +35,7 @@ export declare class CourseService {
     private courseLessonModel;
     private readonly cloudinaryService;
     constructor(courseModel: Model<Course>, courseLessonModel: Model<CourseLesson>, cloudinaryService: CloudinaryService);
-    findAll(keyword?: string, skip?: number, limit?: number): Promise<Course[]>;
+    findAll(keyword?: string, category?: string, skip?: number, limit?: number): Promise<Course[]>;
     findById(id: string): Promise<Course>;
     save(data: CreateCourseDTO): Promise<Course>;
     updateById(id: string, data: UpdateCourseDTO): Promise<mongoose.Document<unknown, {}, Course> & Course & {
