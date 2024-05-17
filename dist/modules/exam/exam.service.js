@@ -129,7 +129,7 @@ let ExamService = class ExamService {
     lessonsOf(id) {
         const lessons = this.lessonModel
             .find({
-            Exam: { _id: id },
+            exam: { _id: id },
         })
             .select('-exam')
             .exec();

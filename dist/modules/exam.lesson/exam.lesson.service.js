@@ -27,9 +27,15 @@ let ExamLessonService = class ExamLessonService {
         if (keyword && keyword.trim() === '') {
             throw new common_1.BadRequestException('Do not enter spaces.');
         }
-        const query = keyword ?
-            { title: { $regex: keyword, $options: 'i' } } : {};
-        return this.lessonModel.find({ ...query }).select('-__v').skip(skip).limit(limit).exec();
+        const query = {};
+        if (keyword) {
+            query.title = { $regex: keyword, $options: 'i' };
+        }
+        return this.lessonModel.find(query)
+            .select('-__v')
+            .skip(skip)
+            .limit(limit)
+            .exec();
     }
     async findById(id) {
         const isValidId = mongoose_1.default.isValidObjectId(id);
@@ -85,7 +91,7 @@ let ExamLessonService = class ExamLessonService {
     questionsOf(id) {
         const lessons = this.questionModel
             .find({
-            lesson: { _id: id },
+            lesson: { _id: id }
         })
             .select('-exam')
             .exec();

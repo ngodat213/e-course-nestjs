@@ -15,7 +15,7 @@ import { FileToBodyInterceptor } from 'src/decorators/api.file.decorator';
 
 @ApiTags('Exam question')
 @ApiBearerAuth()
-@Controller({path: 'exam/questions', scope: Scope.REQUEST})
+@Controller({path: 'exam_questions', scope: Scope.REQUEST})
 export class ExamQuestionController {
   constructor(private questionService: ExamQuestionService){}
 

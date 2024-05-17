@@ -101,7 +101,7 @@ __decorate([
 exports.ExamQuestionController = ExamQuestionController = __decorate([
     (0, swagger_1.ApiTags)('Exam question'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.Controller)({ path: 'exam/questions', scope: common_1.Scope.REQUEST }),
+    (0, common_1.Controller)({ path: 'exam_questions', scope: common_1.Scope.REQUEST }),
     __metadata("design:paramtypes", [exam_question_service_1.ExamQuestionService])
 ], ExamQuestionController);
 //# sourceMappingURL=exam.question.controller.js.map

@@ -11,6 +11,6 @@ const ExamLessonSchema = new mongoose_1.Schema({
     point: { type: mongoose_1.SchemaTypes.Number, required: true },
     exam: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Exam' },
 }, { timestamps: true });
-const createExamLessonModel = (connection) => connection.model('ExamLesson', ExamLessonSchema, 'ExamLesson');
+const createExamLessonModel = (connection) => connection.model('ExamLesson', ExamLessonSchema, 'ExamLessons');
 exports.createExamLessonModel = createExamLessonModel;
 //# sourceMappingURL=exam.lesson.model.js.map

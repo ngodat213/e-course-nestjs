@@ -19,11 +19,19 @@ export class ExamLessonService {
   async findAll(keyword?: string, skip: number = 0, limit: number = 10): Promise<ExamLesson[]> {
     if (keyword && keyword.trim() === '') {
       throw new BadRequestException('Do not enter spaces.');
-  }
-    const query = keyword? 
-        { title: { $regex: keyword, $options: 'i' } } : {};
+    }
 
-    return this.lessonModel.find({...query}).select('-__v').skip(skip).limit(limit).exec();
+    const query: any = {};
+
+    if (keyword) {
+      query.title = { $regex: keyword, $options: 'i' };
+    }
+
+    return this.lessonModel.find(query)
+    .select('-__v')
+    .skip(skip)
+    .limit(limit)
+    .exec();
   }
 
   async findById(id: string): Promise<ExamLesson>{
@@ -94,7 +102,7 @@ export class ExamLessonService {
   questionsOf(id: string): Promise<ExamQuestion[]> {
     const lessons = this.questionModel
     .find({
-      lesson: {_id: id},
+      lesson: {_id: id}
     })
     .select('-exam')
     .exec();

@@ -16,7 +16,7 @@ import { FileToBodyInterceptor } from 'src/decorators/api.file.decorator';
 
 @ApiTags('Course Video')
 @ApiBearerAuth()
-@Controller({path: 'course/videos', scope: Scope.REQUEST})
+@Controller({path: 'course_videos', scope: Scope.REQUEST})
 export class CourseVideoController {
   constructor(private videoService: CourseVideoService){}
 

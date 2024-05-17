@@ -42,7 +42,7 @@ let CourseLessonController = class CourseLessonController {
         return this.lessonService.deleteById(id);
     }
     getAllLessonsOfCourse(id) {
-        return this.lessonService.lessonsOf(id);
+        return this.lessonService.videosOf(id);
     }
 };
 exports.CourseLessonController = CourseLessonController;
@@ -104,7 +104,7 @@ __decorate([
 exports.CourseLessonController = CourseLessonController = __decorate([
     (0, swagger_1.ApiTags)('Course Lesson'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.Controller)({ path: 'course/lessons', scope: common_1.Scope.REQUEST }),
+    (0, common_1.Controller)({ path: 'course_lessons', scope: common_1.Scope.REQUEST }),
     __metadata("design:paramtypes", [course_lesson_service_1.CourseLessonService])
 ], CourseLessonController);
 //# sourceMappingURL=course.lesson.controller.js.map

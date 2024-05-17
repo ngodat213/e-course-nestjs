@@ -6,7 +6,6 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 import { CreateCourseLessonDTO, UpdateCourseLessonDTO } from './course.lesson.dto';
-import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CourseLessonService {
@@ -19,7 +18,7 @@ export class CourseLessonService {
   async findAll(keyword?: string, skip: number = 0, limit: number = 10): Promise<CourseLesson[]> {
     if (keyword && keyword.trim() === '') {
       throw new BadRequestException('Do not enter spaces.');
-  }
+    }
     const query = keyword? 
         { title: { $regex: keyword, $options: 'i' } } : {};
 
@@ -95,7 +94,7 @@ export class CourseLessonService {
     return valueFind;
   }
 
-  lessonsOf(id: string): Promise<CourseVideo[]> {
+  videosOf(id: string): Promise<CourseVideo[]> {
     const lessons = this.videoModel
     .find({
       lesson: {_id: id},

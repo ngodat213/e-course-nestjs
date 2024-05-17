@@ -86,7 +86,7 @@ let CourseLessonService = class CourseLessonService {
         }
         return valueFind;
     }
-    lessonsOf(id) {
+    videosOf(id) {
         const lessons = this.videoModel
             .find({
             lesson: { _id: id },

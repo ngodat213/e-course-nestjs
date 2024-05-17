@@ -142,7 +142,7 @@ export class ExamService {
   lessonsOf(id: string): Promise<ExamLesson[]> {
     const lessons = this.lessonModel
     .find({
-      Exam: {_id: id},
+      exam: {_id: id},
     })
     .select('-exam')
     .exec();

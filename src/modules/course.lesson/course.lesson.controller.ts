@@ -14,7 +14,7 @@ import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Course Lesson')
 @ApiBearerAuth()
-@Controller({path: 'course/lessons', scope: Scope.REQUEST})
+@Controller({path: 'course_lessons', scope: Scope.REQUEST})
 export class CourseLessonController {
   constructor(private lessonService: CourseLessonService){}
 
@@ -68,6 +68,6 @@ export class CourseLessonController {
   getAllLessonsOfCourse(  
     @Param('id', ParseObjectIdPipe) id: string,
   ): Promise<CourseVideo[]>{
-    return this.lessonService.lessonsOf(id);
+    return this.lessonService.videosOf(id);
   }
 }

@@ -1,4 +1,4 @@
-import { Body, ConflictException, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Put, Query, Req, Request, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ConflictException, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Put, Query, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { Observable, map, mergeMap } from 'rxjs';

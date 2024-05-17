@@ -1,13 +1,11 @@
 import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { Observable, map } from 'rxjs';
 import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 import { ExamLessonService } from './exam.lesson.service';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateExamLessonDTO, UpdateExamLessonDTO } from './exam.lesson.dto';
 import { Response } from 'express';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
-import { Responser } from 'src/decorators/responser.decorator';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { RoleType } from 'src/shared/enum/role.type.enum';
@@ -15,7 +13,7 @@ import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 
 @ApiTags('Exam Lesson')
 @ApiBearerAuth()
-@Controller({path: 'exam/lessons', scope: Scope.REQUEST})
+@Controller({path: 'exam_lessons', scope: Scope.REQUEST})
 export class ExamLessonController {
   constructor(private lessonService: ExamLessonService){}
 

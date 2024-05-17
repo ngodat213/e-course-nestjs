@@ -44,5 +44,5 @@ export declare class CourseLessonService {
     deleteById(id: string): Promise<mongoose.Document<unknown, {}, CourseLesson> & CourseLesson & {
         _id: mongoose.Types.ObjectId;
     }>;
-    lessonsOf(id: string): Promise<CourseVideo[]>;
+    videosOf(id: string): Promise<CourseVideo[]>;
 }
