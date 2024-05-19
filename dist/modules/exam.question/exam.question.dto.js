@@ -24,10 +24,10 @@ __decorate([
     __metadata("design:type", String)
 ], CreateExamQuestionDTO.prototype, "question", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({ type: [String] }),
     (0, class_validator_1.IsArray)(),
-    (0, class_validator_1.IsString)({ each: true }),
+    (0, class_validator_1.IsNotEmpty)({ each: true }),
+    (0, class_transformer_1.Type)(() => String),
     __metadata("design:type", Array)
 ], CreateExamQuestionDTO.prototype, "options", void 0);
 __decorate([
@@ -39,7 +39,7 @@ __decorate([
 ], CreateExamQuestionDTO.prototype, "answer", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsUrl)(),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateExamQuestionDTO.prototype, "imageUrl", void 0);
 __decorate([

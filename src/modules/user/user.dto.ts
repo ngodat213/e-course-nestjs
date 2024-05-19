@@ -37,42 +37,47 @@ export class UserDto {
 }
 
 export class UpdateUserDTO {
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   readonly username?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsEmail()
   readonly email?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @MinLength(8, { message: "The min length of password is 8" })
-  readonly password?: string;
+  password?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @MinLength(8, { message: "The min length of password is 8" })
+  newPassword?: string;
+
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsUrl()
   readonly photoUrl?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   readonly roles?: RoleType[];
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   readonly courses?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   readonly favouritesCourses?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   readonly favouritesExams?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   readonly finishedExams?: string;
 }

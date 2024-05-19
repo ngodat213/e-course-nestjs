@@ -1,5 +1,5 @@
 import { BadRequestException, HttpException, HttpStatus, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { EMPTY, Observable, find, from, map, mergeMap, of, throwIfEmpty } from 'rxjs';
+import { EMPTY, Observable, find, firstValueFrom, from, map, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { FORGOT_PASSWORD_MODEL, USER_MODEL } from '../../processors/database/database.constants';
 import { User, UserModel } from 'src/modules/user/user.model';
 import { ChangeAvatarDTO, RegisterDto, ResetPasswordDTO, UpdateUserDTO } from './user.dto';
@@ -15,6 +15,7 @@ import { ForgotPassword, ForgotPasswordModel } from './forgot.password.model';
 import { EmailService } from 'src/processors/helper/helper.service.email';
 import { hash } from 'bcrypt'
 import * as APP_CONFIG from '../../app.config';
+import { boolean } from '@hapi/joi';
 @Injectable()
 export class 
 UserService {
@@ -238,6 +239,21 @@ UserService {
       if(userByEmail){
         throw new BadRequestException('Email already exist');
       }
+    }
+
+    if (requestBody.password) {
+      await firstValueFrom(
+        user.comparePassword(requestBody.password).pipe(
+          mergeMap(async (isMatch) => {
+            if (isMatch) {
+              requestBody.password = await hash(requestBody.newPassword, 12);
+              return true;
+            } else {
+              throw new UnauthorizedException('Password is not matched');
+            }
+          })
+        )
+      );
     }
 
     Permission.check(id, currentUser);

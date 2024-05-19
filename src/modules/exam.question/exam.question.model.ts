@@ -1,13 +1,13 @@
 import { Connection, Document, Model, Schema, SchemaTypes } from 'mongoose';
-import { ExamLesson } from '../exam.lesson/exam.lesson.model';
+import { ExamLessonModel } from '../exam.lesson/exam.lesson.model';
 
 interface ExamQuestion extends Document{
     readonly question: string;
-    readonly options: [{string}];
+    readonly options: string[];
     readonly answer: number;
     readonly imageUrl: string;
     readonly imagePublicId: string;
-    readonly lesson: Partial<ExamLesson>
+    readonly lesson: Partial<ExamLessonModel>
 }
 
 type ExamQuestionModel = Model<ExamQuestion>;

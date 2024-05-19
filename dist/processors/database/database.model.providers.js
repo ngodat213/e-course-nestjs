@@ -14,6 +14,7 @@ const feedback_model_1 = require("../../modules/feedback/feedback.model");
 const category_model_1 = require("../../modules/category/category.model");
 const contact_model_1 = require("../../modules/contact/contact.model");
 const forgot_password_model_1 = require("../../modules/user/forgot.password.model");
+const exam_question_model_1 = require("../../modules/exam.question/exam.question.model");
 exports.databaseModelsProviders = [
     {
         provide: database_constants_1.COURSE_MODEL,
@@ -47,7 +48,7 @@ exports.databaseModelsProviders = [
     },
     {
         provide: database_constants_1.EXAM_QUESTION_MODEL,
-        useFactory: (connection) => (0, exam_lesson_model_1.createExamLessonModel)(connection),
+        useFactory: (connection) => (0, exam_question_model_1.createExamQuestionModel)(connection),
         inject: [database_constants_1.DATABASE_CONNECTION]
     },
     {

@@ -1,8 +1,6 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
-import { REQUEST } from '@nestjs/core';
 import mongoose, { Model } from 'mongoose';
 import { EXAM_QUESTION_MODEL } from 'src/processors/database/database.constants';
-import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
 import { FILE_EXAM_QUESTION, RESOURCE_TYPE_IMAGE } from 'src/constants/cloudinary.constants';
@@ -12,7 +10,6 @@ import { CloudinaryService } from 'src/processors/helper/helper.service.clouldin
 export class ExamQuestionService {
   constructor(
     @Inject(EXAM_QUESTION_MODEL) private questionModel: Model<ExamQuestion>,
-    @Inject(REQUEST) private req: AuthenticatedRequest,
     private readonly cloudinaryService: CloudinaryService
   ){}
 
@@ -43,11 +40,7 @@ export class ExamQuestionService {
 
   async save(data: CreateExamQuestionDTO): Promise<ExamQuestion> {
     const fileImage = data.file;
-    const existing = await this.questionModel.findOne({ question: data.question });
-
-    if (existing) {
-        throw new BadRequestException('Question already exists');
-    }
+    
     try{
       const resultImage = await this.cloudinaryService.uploadFile(data.file, FILE_EXAM_QUESTION, fileImage.fieldname, RESOURCE_TYPE_IMAGE);
 
@@ -58,7 +51,7 @@ export class ExamQuestionService {
       return res;
     }catch(err){
       console.log(`Faill error: ${err}`);
-      throw new BadRequestException(`Failed to upload image: ${err}`);
+      throw new BadRequestException(`Fail error: ${err}`);
     }
   }
 
@@ -98,21 +91,21 @@ export class ExamQuestionService {
   async deleteById(id: string){
     try{
       const isValidId = mongoose.isValidObjectId(id);
-    if(!isValidId){
-      throw new BadRequestException('Please enter correct id.');
-    }
+      if(!isValidId){
+        throw new BadRequestException('Please enter correct id.');
+      }
 
-    const findOne = await this.questionModel.findById(id);
+      const findOne = await this.questionModel.findById(id);
 
       if(findOne.imagePublicId){
         this.cloudinaryService.destroyFile(findOne.imagePublicId);
       }
 
-    const valueFind = await this.questionModel.findByIdAndDelete({_id: id})
-    if(!valueFind){
-      throw `Lesson '${id}' not found`
-    }
-    return valueFind;
+      const valueFind = await this.questionModel.findByIdAndDelete({_id: id})
+      if(!valueFind){
+        throw `Question '${id}' not found`
+      }
+      return valueFind;
     }catch(err){
       console.log(err);
       throw new BadRequestException(err);

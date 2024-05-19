@@ -205,6 +205,17 @@ let UserService = class UserService {
                 throw new common_1.BadRequestException('Email already exist');
             }
         }
+        if (requestBody.password) {
+            await (0, rxjs_1.firstValueFrom)(user.comparePassword(requestBody.password).pipe((0, rxjs_1.mergeMap)(async (isMatch) => {
+                if (isMatch) {
+                    requestBody.password = await (0, bcrypt_1.hash)(requestBody.newPassword, 12);
+                    return true;
+                }
+                else {
+                    throw new common_1.UnauthorizedException('Password is not matched');
+                }
+            })));
+        }
         checkPermission_helper_1.Permission.check(id, currentUser);
         user.set(requestBody);
         const updatedUser = await this.userModel.findByIdAndUpdate(id, user);

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsInt, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsInt, IsNotEmpty, IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
 import { ApiFile } from 'src/decorators/api.file.decorator';
 
 export class CreateExamQuestionDTO {
@@ -9,10 +9,10 @@ export class CreateExamQuestionDTO {
   @IsString()
   readonly question: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
+  @ApiProperty({ type: [String] })
   @IsArray()
-  @IsString({ each: true })
+  @IsNotEmpty({ each: true })
+  @Type(() => String)
   readonly options: string[];
 
   @ApiProperty()
@@ -22,7 +22,7 @@ export class CreateExamQuestionDTO {
   readonly answer: number;
 
   @IsString()
-  @IsUrl()
+  @IsOptional()
   imageUrl: string;
 
   @IsString()

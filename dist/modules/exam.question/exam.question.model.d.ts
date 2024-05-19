@@ -26,16 +26,14 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
-import { ExamLesson } from '../exam.lesson/exam.lesson.model';
+import { ExamLessonModel } from '../exam.lesson/exam.lesson.model';
 interface ExamQuestion extends Document {
     readonly question: string;
-    readonly options: [{
-        string: any;
-    }];
+    readonly options: string[];
     readonly answer: number;
     readonly imageUrl: string;
     readonly imagePublicId: string;
-    readonly lesson: Partial<ExamLesson>;
+    readonly lesson: Partial<ExamLessonModel>;
 }
 type ExamQuestionModel = Model<ExamQuestion>;
 declare const createExamQuestionModel: (conn: Connection) => ExamQuestionModel;

@@ -3,7 +3,6 @@ import { ApiBearerAuth, ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ExamQuestionService } from './exam.question.service';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
-import { Observable, map } from 'rxjs';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
 import { RolesGuard } from 'src/auth/guard/roles.guard';

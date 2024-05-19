@@ -6,7 +6,6 @@ import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.inter
 import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 import { Exam} from 'src/modules/exam/exam.model';
 import { CreateExamDTO, UpdateExamDTO } from './exam.dto';
-import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { FILE_COURSE_INTRO, FILE_EXAM_THUMB, RESOURCE_TYPE_IMAGE } from 'src/constants/cloudinary.constants';
 import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 

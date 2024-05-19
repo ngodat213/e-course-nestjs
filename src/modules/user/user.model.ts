@@ -13,10 +13,10 @@ interface User extends Document{
   photoUrl: string;
   photoPublicId: string;
   readonly roles?: RoleType[];
-  readonly courses: Partial<CourseModel>;
-  readonly favouritesCourses: Partial<CourseModel>;
-  readonly favouritesExams: Partial<ExamModel>;
-  readonly finishedExams: Partial<ExamModel>;
+  courses: Partial<CourseModel>;
+  favouritesCourses: Partial<CourseModel>;
+  favouritesExams: Partial<ExamModel>;
+  finishedExams: Partial<ExamModel>;
 }
 
 type UserModel = Model<User>;

@@ -12,6 +12,7 @@ import { createFeedbackModel } from 'src/modules/feedback/feedback.model';
 import { createCategoryModel } from 'src/modules/category/category.model';
 import { createContactModel } from 'src/modules/contact/contact.model';
 import { createForgotPasswordModel } from 'src/modules/user/forgot.password.model';
+import { createExamQuestionModel } from 'src/modules/exam.question/exam.question.model';
 
   export const databaseModelsProviders = [
     // course
@@ -48,7 +49,7 @@ import { createForgotPasswordModel } from 'src/modules/user/forgot.password.mode
     },
     {
       provide: EXAM_QUESTION_MODEL,
-      useFactory: (connection: Connection) => createExamLessonModel(connection),
+      useFactory: (connection: Connection) => createExamQuestionModel(connection),
       inject: [DATABASE_CONNECTION]
     },
     {

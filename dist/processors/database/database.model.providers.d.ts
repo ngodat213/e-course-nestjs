@@ -49,6 +49,10 @@ export declare const databaseModelsProviders: ({
     inject: string[];
 } | {
     provide: string;
+    useFactory: (connection: Connection) => import("src/modules/exam.question/exam.question.model").ExamQuestionModel;
+    inject: string[];
+} | {
+    provide: string;
     useFactory: (connection: Connection) => import("src/modules/exam.history/exam.history.model").ExamHistoryModel;
     inject: string[];
 } | {
