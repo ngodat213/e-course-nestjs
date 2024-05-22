@@ -49,7 +49,9 @@ let ExamService = class ExamService {
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        const res = this.examModel.findById(id);
+        const res = this.examModel
+            .findById(id)
+            .populate('category', '_id category');
         if (!res) {
             throw new common_1.NotFoundException('Exam not found.');
         }

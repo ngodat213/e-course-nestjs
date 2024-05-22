@@ -235,7 +235,7 @@ UserService {
     }
 
     if(user.email != requestBody.email && requestBody.email != null){
-      const userByEmail = this.findByEmail(requestBody.email);
+      const userByEmail = await this.userModel.findOne({email: requestBody.email});
       if(userByEmail){
         throw new BadRequestException('Email already exist');
       }

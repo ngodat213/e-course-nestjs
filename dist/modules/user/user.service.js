@@ -200,7 +200,7 @@ let UserService = class UserService {
             throw new common_1.NotFoundException('User does not exist');
         }
         if (user.email != requestBody.email && requestBody.email != null) {
-            const userByEmail = this.findByEmail(requestBody.email);
+            const userByEmail = await this.userModel.findOne({ email: requestBody.email });
             if (userByEmail) {
                 throw new common_1.BadRequestException('Email already exist');
             }

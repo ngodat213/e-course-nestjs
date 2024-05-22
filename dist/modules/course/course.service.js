@@ -67,10 +67,10 @@ let CourseService = class CourseService {
         try {
             const resultImage = await this.cloudinaryService.uploadFile(fileImage, cloudinary_constants_1.FILE_COURSE_THUMB, fileImage.filename, cloudinary_constants_1.RESOURCE_TYPE_IMAGE);
             const resultVideo = await this.cloudinaryService.uploadFile(fileVideo, cloudinary_constants_1.FILE_COURSE_INTRO, fileVideo.fieldname, cloudinary_constants_1.RESOURCE_TYPE_VIDEO);
-            data.imagePublicId = resultImage.public_id;
             data.imageIntroduce = resultImage.url;
-            data.videoIntroduce = resultVideo.public_id;
-            data.videoPublicId = resultVideo.url;
+            data.imagePublicId = resultImage.public_id;
+            data.videoIntroduce = resultVideo.url;
+            data.videoPublicId = resultVideo.public_id;
             const res = await this.courseModel.create({ ...data });
             return res;
         }

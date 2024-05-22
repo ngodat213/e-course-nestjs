@@ -73,10 +73,10 @@ export class CourseService {
       const resultImage = await this.cloudinaryService.uploadFile(fileImage, FILE_COURSE_THUMB, fileImage.filename, RESOURCE_TYPE_IMAGE);
       const resultVideo = await this.cloudinaryService.uploadFile(fileVideo, FILE_COURSE_INTRO, fileVideo.fieldname, RESOURCE_TYPE_VIDEO);
 
-      data.imagePublicId = resultImage.public_id;
       data.imageIntroduce = resultImage.url;
-      data.videoIntroduce = resultVideo.public_id;
-      data.videoPublicId = resultVideo.url;
+      data.imagePublicId = resultImage.public_id;
+      data.videoIntroduce = resultVideo.url;
+      data.videoPublicId = resultVideo.public_id;
 
       const res = await this.courseModel.create({...data});
       return res;
