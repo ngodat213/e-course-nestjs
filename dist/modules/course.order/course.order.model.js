@@ -8,6 +8,7 @@ const CourseOrderSchema = new mongoose_1.Schema({
     totalPrice: { type: mongoose_1.SchemaTypes.Number, required: true },
     payment: { type: mongoose_1.SchemaTypes.String, required: true },
     paymentStatus: { type: mongoose_1.SchemaTypes.String, required: true },
+    deleteAt: { type: mongoose_1.SchemaTypes.Date, default: null },
 }, { timestamps: true });
 const createCourseOrderModel = (connection) => connection.model('CourseOrder', CourseOrderSchema, 'CourseOrders');
 exports.createCourseOrderModel = createCourseOrderModel;

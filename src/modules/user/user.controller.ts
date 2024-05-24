@@ -69,24 +69,8 @@ export class UserController {
   @Post('/register')
   Register(
     @Body() registerDto: RegisterDto,
-    @Res() res: Response
-  ): Observable<Response> {
-    const email = registerDto.email;
-    return this.userService.exitsByEmail(email).pipe(
-      mergeMap(exits => {
-        if(exits){
-          throw new ConflictException(`email: ${email} is existed`);
-        }else{
-          return this.userService.register(registerDto).pipe(
-            map(user => 
-              res.location('/users/' + user.id)
-              .status(201)
-              .send()
-            )
-          );
-        }
-      })
-    );
+  ){
+    return this.userService.register(registerDto)
   }
 
   @Put('/:id')

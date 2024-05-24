@@ -7,6 +7,7 @@ interface Exam extends Document{
   readonly imageUrl:  string
   readonly imagePublicId: string
   readonly category: Partial<CategoryModel>
+  deleteAt: Date
 }
 
 type ExamModel = Model<Exam>;
@@ -18,6 +19,7 @@ const ExamSchema = new Schema<Exam>(
     imageUrl: {type: String, required: true},
     imagePublicId: {type: String, required: true},
     category: {type: SchemaTypes.ObjectId, ref: 'Category'},
+    deleteAt:{type: SchemaTypes.Date, default: null},
   },{ timestamps: true }
 );
 

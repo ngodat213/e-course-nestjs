@@ -29,7 +29,6 @@ import mongoose, { Model } from 'mongoose';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Feedback } from 'src/modules/feedback/feedback.model';
 import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';
-import { Observable } from 'rxjs';
 export declare class FeedbackService {
     private feedbackModel;
     private req;
@@ -40,5 +39,10 @@ export declare class FeedbackService {
     updateById(id: string, data: UpdateFeedbackDTO): Promise<mongoose.Document<unknown, {}, Feedback> & Feedback & {
         _id: mongoose.Types.ObjectId;
     }>;
-    deleteById(id: string): Observable<Feedback>;
+    deleteById(id: string): Promise<mongoose.Document<unknown, {}, Feedback> & Feedback & {
+        _id: mongoose.Types.ObjectId;
+    }>;
+    softRemove(value: Feedback): Promise<mongoose.Document<unknown, {}, Feedback> & Feedback & {
+        _id: mongoose.Types.ObjectId;
+    }>;
 }

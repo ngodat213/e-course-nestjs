@@ -40,7 +40,7 @@ let CourseController = class CourseController {
     updateCourse(id, course) {
         return this.courseService.updateById(id, course);
     }
-    deleteCourseById(id, res) {
+    deleteCourseById(id) {
         return this.courseService.deleteById(id);
     }
     getAllLessonsOfCourse(id) {
@@ -97,9 +97,8 @@ __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], CourseController.prototype, "deleteCourseById", null);
 __decorate([

@@ -10,6 +10,7 @@ import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { HasRoles } from 'src/auth/guard/has-roles.decorator';
 import { RoleType } from 'src/shared/enum/role.type.enum';
+import { Responser } from 'src/decorators/responser.decorator';
 
 @ApiTags('Contact')
 @ApiBearerAuth()
@@ -51,17 +52,16 @@ export class ContactController {
   updateContact(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() contact: UpdateContactDTO,
-    @Res() res: Response, 
   ) :Promise<Contact>{
     return this.contactSerivce.updateById(id, contact);
   }
 
   @Delete(':id')
+  @Responser.handle('Delete contact')
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteContactById(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Res() res: Response,
   ){
     return this.contactSerivce.deleteById(id);
   }

@@ -8,6 +8,7 @@ interface CourseOrder extends Document{
   readonly totalPrice: Number,
   readonly payment: string,
   readonly paymentStatus: string,
+  deleteAt: Date
 }
 
 type CourseOrderModel = Model<CourseOrder>;
@@ -19,6 +20,7 @@ const CourseOrderSchema = new Schema<CourseOrder>(
     totalPrice: {type: SchemaTypes.Number, required: true},
     payment: {type: SchemaTypes.String, required: true},
     paymentStatus: {type: SchemaTypes.String, required: true},
+    deleteAt:{type: SchemaTypes.Date, default: null},
   },{ timestamps: true }
 );
 

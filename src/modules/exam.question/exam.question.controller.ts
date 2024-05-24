@@ -54,7 +54,6 @@ export class ExamQuestionController {
   updateExam(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() exam: UpdateExamQuestionDTO,
-    @Res() res: Response, 
   ) :Promise<ExamQuestion>{
     return this.questionService.updateById(id, exam);
   }
@@ -64,7 +63,6 @@ export class ExamQuestionController {
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteQuestionById(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Res() res: Response,
   ){
     return this.questionService.deleteById(id);
   }

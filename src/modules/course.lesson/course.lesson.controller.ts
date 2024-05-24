@@ -1,7 +1,6 @@
 import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Res, Scope, UseGuards } from '@nestjs/common';
 import { CourseLessonService } from './course.lesson.service';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
-import { Observable, map } from 'rxjs';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { CreateCourseLessonDTO, UpdateCourseLessonDTO } from './course.lesson.dto';
 import { Response } from 'express';
@@ -59,7 +58,6 @@ export class CourseLessonController {
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteLessonById(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Res() res: Response,
   ) {
     return this.lessonService.deleteById(id);
   }

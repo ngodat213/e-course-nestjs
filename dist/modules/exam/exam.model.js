@@ -8,6 +8,7 @@ const ExamSchema = new mongoose_1.Schema({
     imageUrl: { type: String, required: true },
     imagePublicId: { type: String, required: true },
     category: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Category' },
+    deleteAt: { type: mongoose_1.SchemaTypes.Date, default: null },
 }, { timestamps: true });
 const createExamModel = (connection) => connection.model('Exam', ExamSchema, 'Exams');
 exports.createExamModel = createExamModel;

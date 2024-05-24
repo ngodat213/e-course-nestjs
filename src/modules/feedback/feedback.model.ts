@@ -7,16 +7,18 @@ interface Feedback extends Document{
   readonly course: Partial<CourseModel>,
   readonly title: string,
   readonly rating: Number,
+  deleteAt: Date
 }
 
 type FeedbackModel = Model<Feedback>;
 
 const FeedbackSchema = new Schema<Feedback>(
   {
-    user: {type: SchemaTypes.ObjectId, ref: 'User', required: true},
-    course: {type: SchemaTypes.ObjectId, ref: 'Course', required: true},
+    user: {type: SchemaTypes.ObjectId, ref: 'User'},
+    course: {type: SchemaTypes.ObjectId, ref: 'Course'},
     title: {type: SchemaTypes.String, required: true},
     rating: {type: SchemaTypes.Number, required: true},
+    deleteAt:{type: SchemaTypes.Date, default: null},
   },{ timestamps: true }
 );
 

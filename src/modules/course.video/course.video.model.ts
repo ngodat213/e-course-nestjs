@@ -11,6 +11,7 @@ interface CourseVideo extends Document{
   videoPublicId: string;
   readonly description: string
   readonly lesson: Partial<CourseLesson>;
+  deleteAt: Date
 }
 
 type CourseVideoModel = Model<CourseVideo>;
@@ -25,6 +26,7 @@ const CourseVideoSchema = new Schema<CourseVideo>(
     videoPublicId: {type: SchemaTypes.String, required: true},
     description: {type: SchemaTypes.String, required: true},
     lesson: { type: SchemaTypes.ObjectId, ref: 'Lesson' },
+    deleteAt:{type: SchemaTypes.Date, default: null},
   },{ timestamps: true }
 );
 

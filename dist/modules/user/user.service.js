@@ -41,12 +41,16 @@ let UserService = class UserService {
     exitsByEmail(email) {
         return (0, rxjs_1.from)(this.userModel.exists({ email }).exec()).pipe((0, rxjs_1.map)((exits) => exits != null));
     }
-    register(data) {
-        const created = this.userModel.create({
+    async register(data) {
+        const existingUser = await this.userModel.findOne({ email: data.email });
+        if (existingUser) {
+            throw new common_1.BadRequestException('Email was exitsed');
+        }
+        const created = await this.userModel.create({
             ...data,
             roles: [role_type_enum_1.RoleType.USER],
         });
-        return (0, rxjs_1.from)(created);
+        return created;
     }
     login(user) {
         const payload = {

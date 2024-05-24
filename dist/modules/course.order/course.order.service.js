@@ -71,11 +71,20 @@ let CourseOrderService = class CourseOrderService {
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        const valueFind = await this.orderModel.findByIdAndDelete({ _id: id });
-        if (!valueFind) {
-            throw `Order '${id}' not found`;
+        const value = await this.orderModel.findById(id);
+        return this.softRemove(value);
+    }
+    async softRemove(value) {
+        if (value.deleteAt != null) {
+            value.deleteAt = null;
         }
-        return valueFind;
+        else {
+            value.deleteAt = new Date();
+        }
+        const deleted = await this.orderModel
+            .findByIdAndUpdate(value.id, value)
+            .setOptions({ overwrite: true, new: true });
+        return deleted;
     }
 };
 exports.CourseOrderService = CourseOrderService;

@@ -6,6 +6,7 @@ interface ExamHistory extends Document{
   readonly user: Partial<UserModel>,
   readonly exam: Partial<ExamModel>,
   readonly point: Number,
+  deleteAt: Date
 }
 
 type ExamHistoryModel = Model<ExamHistory>;
@@ -15,6 +16,7 @@ const ExamHistorySchema = new Schema<ExamHistory>(
     user:{ type: SchemaTypes.ObjectId, ref: 'User' },
     exam:{ type: SchemaTypes.ObjectId, ref: 'Exam' },
     point: {type: SchemaTypes.Number, required: true},
+    deleteAt:{type: SchemaTypes.Date, default: null},
   },{ timestamps: true }
 );
 

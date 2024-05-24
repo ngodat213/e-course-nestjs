@@ -78,10 +78,20 @@ export class CategoryService {
       throw new BadRequestException('Please enter correct id.');
     }
 
-    const category = await this.categoryModel.findByIdAndDelete({_id: id})
-    if(!category){
-      throw `Vote '${id}' not found`
+    const value = await this.categoryModel.findById(id)
+    return this.softRemove(value)
+  }
+
+  async softRemove(value: Category){
+    if(value.deleteAt != null){
+      value.deleteAt = null;
+    }else{
+      value.deleteAt = new Date()
     }
-    return category;
+    const post = await this.categoryModel
+      .findByIdAndUpdate(value.id, value)
+      .setOptions({ overwrite: true, new: true })
+      
+    return post
   }
 }

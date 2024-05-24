@@ -42,4 +42,7 @@ export declare class CourseVideoService {
         _id: mongoose.Types.ObjectId;
     }>;
     deleteById(id: string): Promise<CourseVideo>;
+    softRemove(value: CourseVideo): Promise<mongoose.Document<unknown, {}, CourseVideo> & CourseVideo & {
+        _id: mongoose.Types.ObjectId;
+    }>;
 }

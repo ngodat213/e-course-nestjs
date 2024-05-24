@@ -10,6 +10,7 @@ const ExamLessonSchema = new mongoose_1.Schema({
     selection: { type: mongoose_1.SchemaTypes.Number, required: true },
     point: { type: mongoose_1.SchemaTypes.Number, required: true },
     exam: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Exam' },
+    deleteAt: { type: mongoose_1.SchemaTypes.Date, default: null },
 }, { timestamps: true });
 const createExamLessonModel = (connection) => connection.model('ExamLesson', ExamLessonSchema, 'ExamLessons');
 exports.createExamLessonModel = createExamLessonModel;

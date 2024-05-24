@@ -34,6 +34,7 @@ interface ExamQuestion extends Document {
     readonly imageUrl: string;
     readonly imagePublicId: string;
     readonly lesson: Partial<ExamLessonModel>;
+    deleteAt: Date;
 }
 type ExamQuestionModel = Model<ExamQuestion>;
 declare const createExamQuestionModel: (conn: Connection) => ExamQuestionModel;

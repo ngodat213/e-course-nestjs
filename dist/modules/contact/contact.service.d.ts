@@ -42,4 +42,7 @@ export declare class ContactService {
     deleteById(id: string): Promise<mongoose.Document<unknown, {}, Contact> & Contact & {
         _id: mongoose.Types.ObjectId;
     }>;
+    softRemove(value: Contact): Promise<mongoose.Document<unknown, {}, Contact> & Contact & {
+        _id: mongoose.Types.ObjectId;
+    }>;
 }

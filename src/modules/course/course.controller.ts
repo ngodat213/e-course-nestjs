@@ -84,7 +84,6 @@ export class CourseController {
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteCourseById(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Res() res: Response,
   ): Promise<Course> {
     return this.courseService.deleteById(id);
   }

@@ -31,6 +31,7 @@ interface CourseLesson extends Document {
     readonly title: string;
     readonly selection: Number;
     readonly course: Partial<CourseModel>;
+    deleteAt: Date;
 }
 type CourseLessonModel = Model<CourseLesson>;
 declare const createCourseLessonModel: (conn: Connection) => CourseLessonModel;

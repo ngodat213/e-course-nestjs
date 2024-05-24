@@ -36,11 +36,11 @@ let CategoryController = class CategoryController {
     createCategory(category) {
         return this.categoryService.save(category);
     }
-    updateCategory(id, category) {
-        return this.categoryService.updateById(id, category);
+    async updateCategory(id, category) {
+        return await this.categoryService.updateById(id, category);
     }
-    deleteCategoryById(id) {
-        return this.categoryService.deleteById(id);
+    async deleteCategoryById(id) {
+        return await this.categoryService.deleteById(id);
     }
 };
 exports.CategoryController = CategoryController;
@@ -80,7 +80,7 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, category_dto_1.UpdateCategoryDTO]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "updateCategory", null);
 __decorate([
     (0, common_1.Delete)(':id'),
@@ -90,7 +90,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CategoryController.prototype, "deleteCategoryById", null);
 exports.CategoryController = CategoryController = __decorate([
     (0, swagger_1.ApiTags)('Category'),

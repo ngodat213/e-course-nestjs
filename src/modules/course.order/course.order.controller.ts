@@ -54,7 +54,6 @@ export class CourseOrderController {
   updateCourseOrder(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() courseOrder: UpdateCourseOrderDTO,
-    @Res() res: Response, 
   ) :Promise<CourseOrder>{
     return this.orderService.updateById(id, courseOrder);
   }
@@ -64,7 +63,6 @@ export class CourseOrderController {
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteCourseOrderById(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Res() res: Response,
   ){
     return this.orderService.deleteById(id);
   }

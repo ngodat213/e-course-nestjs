@@ -37,10 +37,10 @@ let ExamQuestionController = class ExamQuestionController {
     createExam(exam) {
         return this.questionService.save(exam);
     }
-    updateExam(id, exam, res) {
+    updateExam(id, exam) {
         return this.questionService.updateById(id, exam);
     }
-    deleteQuestionById(id, res) {
+    deleteQuestionById(id) {
         return this.questionService.deleteById(id);
     }
 };
@@ -83,9 +83,8 @@ __decorate([
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file'), api_file_decorator_1.FileToBodyInterceptor),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, exam_question_dto_1.UpdateExamQuestionDTO, Object]),
+    __metadata("design:paramtypes", [String, exam_question_dto_1.UpdateExamQuestionDTO]),
     __metadata("design:returntype", Promise)
 ], ExamQuestionController.prototype, "updateExam", null);
 __decorate([
@@ -93,9 +92,8 @@ __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ExamQuestionController.prototype, "deleteQuestionById", null);
 exports.ExamQuestionController = ExamQuestionController = __decorate([

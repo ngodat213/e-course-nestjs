@@ -9,6 +9,7 @@ interface ExamLesson extends Document {
   readonly selection: Number,
   readonly point: Number,
   readonly exam: Partial<ExamModel>,
+  deleteAt: Date
 }
 
 type ExamLessonModel = Model<ExamLesson>;
@@ -22,6 +23,8 @@ const ExamLessonSchema = new Schema<ExamLesson>(
     selection: {type: SchemaTypes.Number, required: true },
     point: {type: SchemaTypes.Number, required: true },
     exam:{ type: SchemaTypes.ObjectId, ref: 'Exam' },
+    deleteAt:{type: SchemaTypes.Date, default: null},
+
   },{ timestamps: true }
 );
 

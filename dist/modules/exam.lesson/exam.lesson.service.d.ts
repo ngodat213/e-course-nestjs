@@ -44,5 +44,8 @@ export declare class ExamLessonService {
     deleteById(id: string): Promise<mongoose.Document<unknown, {}, ExamLesson> & ExamLesson & {
         _id: mongoose.Types.ObjectId;
     }>;
+    softRemove(value: ExamLesson): Promise<mongoose.Document<unknown, {}, ExamLesson> & ExamLesson & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     questionsOf(id: string): Promise<ExamQuestion[]>;
 }

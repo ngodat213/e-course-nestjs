@@ -80,11 +80,20 @@ let CourseLessonService = class CourseLessonService {
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        const valueFind = await this.lessonModel.findByIdAndDelete({ _id: id });
-        if (!valueFind) {
-            throw `Lesson '${id}' not found`;
+        const value = await this.lessonModel.findById(id);
+        return this.softRemove(value);
+    }
+    async softRemove(value) {
+        if (value.deleteAt != null) {
+            value.deleteAt = null;
         }
-        return valueFind;
+        else {
+            value.deleteAt = new Date();
+        }
+        const deleted = await this.lessonModel
+            .findByIdAndUpdate(value.id, value)
+            .setOptions({ overwrite: true, new: true });
+        return deleted;
     }
     videosOf(id) {
         const lessons = this.videoModel

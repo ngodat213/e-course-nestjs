@@ -73,10 +73,20 @@ export class CourseOrderService {
       throw new BadRequestException('Please enter correct id.');
     }
 
-    const valueFind = await this.orderModel.findByIdAndDelete({_id: id})
-    if(!valueFind){
-      throw `Order '${id}' not found`
+    const value = await this.orderModel.findById(id)
+    return this.softRemove(value)
+  }
+
+  async softRemove(value: CourseOrder){
+    if(value.deleteAt != null){
+      value.deleteAt = null;
+    }else{
+      value.deleteAt = new Date()
     }
-    return valueFind;
+    const deleted = await this.orderModel
+      .findByIdAndUpdate(value.id, value)
+      .setOptions({ overwrite: true, new: true })
+      
+    return deleted
   }
 }

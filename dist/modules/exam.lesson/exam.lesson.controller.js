@@ -38,7 +38,7 @@ let ExamLessonController = class ExamLessonController {
     updateCourseLesson(id, lesson) {
         return this.lessonService.updateById(id, lesson);
     }
-    deleteLessonById(id, res) {
+    deleteLessonById(id) {
         return this.lessonService.deleteById(id);
     }
     getAllExamOfLesson(id) {
@@ -89,9 +89,8 @@ __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ExamLessonController.prototype, "deleteLessonById", null);
 __decorate([

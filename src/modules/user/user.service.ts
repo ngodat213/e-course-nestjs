@@ -41,12 +41,16 @@ UserService {
     );
   }
 
-  register(data: RegisterDto): Observable<User>{
-    const created = this.userModel.create({
+  async register(data: RegisterDto) {
+    const existingUser = await this.userModel.findOne({ email: data.email });
+    if(existingUser){
+      throw new BadRequestException('Email was exitsed')
+    }
+    const created = await this.userModel.create({
       ...data,
       roles: [RoleType.USER],
     });
-    return from(created);
+    return created;
   }
 
   login(user: UserPrincipal): Observable<TokenResult>{

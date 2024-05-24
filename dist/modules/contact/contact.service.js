@@ -63,11 +63,20 @@ let ContactService = class ContactService {
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        const valueFind = await this.contactModel.findByIdAndDelete({ _id: id });
-        if (!valueFind) {
-            throw `Contact '${id}' not found`;
+        const contact = await this.contactModel.findById(id);
+        return this.softRemove(contact);
+    }
+    async softRemove(value) {
+        if (value.deleteAt != null) {
+            value.deleteAt = null;
         }
-        return valueFind;
+        else {
+            value.deleteAt = new Date();
+        }
+        const contact = await this.contactModel
+            .findByIdAndUpdate(value.id, value)
+            .setOptions({ overwrite: true, new: true });
+        return contact;
     }
 };
 exports.ContactService = ContactService;

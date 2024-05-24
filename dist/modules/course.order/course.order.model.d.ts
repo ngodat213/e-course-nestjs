@@ -34,6 +34,7 @@ interface CourseOrder extends Document {
     readonly totalPrice: Number;
     readonly payment: string;
     readonly paymentStatus: string;
+    deleteAt: Date;
 }
 type CourseOrderModel = Model<CourseOrder>;
 declare const createCourseOrderModel: (conn: Connection) => CourseOrderModel;

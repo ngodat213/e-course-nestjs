@@ -36,6 +36,7 @@ interface CourseVideo extends Document {
     videoPublicId: string;
     readonly description: string;
     readonly lesson: Partial<CourseLesson>;
+    deleteAt: Date;
 }
 type CourseVideoModel = Model<CourseVideo>;
 declare const createCourseVideoModel: (conn: Connection) => CourseVideoModel;

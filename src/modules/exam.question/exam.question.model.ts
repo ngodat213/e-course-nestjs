@@ -8,6 +8,7 @@ interface ExamQuestion extends Document{
     readonly imageUrl: string;
     readonly imagePublicId: string;
     readonly lesson: Partial<ExamLessonModel>
+    deleteAt: Date
 }
 
 type ExamQuestionModel = Model<ExamQuestion>;
@@ -20,6 +21,7 @@ const ExamQuestionSchema = new Schema<ExamQuestion>(
     imageUrl:{type: SchemaTypes.String, required: true},
     imagePublicId:{type: SchemaTypes.String, required: true},
     lesson: {type: SchemaTypes.ObjectId, ref: 'ExamLesson'},
+    deleteAt:{type: SchemaTypes.Date, default: null},
   },{ timestamps: true }
 );
 

@@ -8,6 +8,7 @@ const ContactSchema = new mongoose_1.Schema({
     text: { type: mongoose_1.SchemaTypes.String, required: true },
     topic: { type: mongoose_1.SchemaTypes.String, required: true },
     watched: { type: mongoose_1.SchemaTypes.Boolean, default: false },
+    deleteAt: { type: mongoose_1.SchemaTypes.Date, default: null },
 }, { timestamps: true });
 const createContactModel = (connection) => connection.model('Contact', ContactSchema, 'Contacts');
 exports.createContactModel = createContactModel;

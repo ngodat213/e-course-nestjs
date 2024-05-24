@@ -40,4 +40,7 @@ export declare class ExamHistoryService {
         _id: mongoose.Types.ObjectId;
     }>;
     deleteById(id: string): Promise<ExamHistory>;
+    softRemove(value: ExamHistory): Promise<mongoose.Document<unknown, {}, ExamHistory> & ExamHistory & {
+        _id: mongoose.Types.ObjectId;
+    }>;
 }

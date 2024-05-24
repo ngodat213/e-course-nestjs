@@ -77,9 +77,11 @@ let CourseVideoService = class CourseVideoService {
             if (!findOneVideo) {
                 throw new common_1.BadRequestException(`Course video is not found`);
             }
-            const existingSelection = await this.videoModel.findOne({ part: data.part });
-            if (existingSelection.id != id && existingSelection) {
-                throw new common_1.BadRequestException('Part already exists');
+            if (data.part != null) {
+                const existingSelection = await this.videoModel.findOne({ part: data.part });
+                if (existingSelection.id != id && existingSelection) {
+                    throw new common_1.BadRequestException('Part already exists');
+                }
             }
             if (fileVideo) {
                 this.cloudinaryService.destroyFile(findOneVideo.videoPublicId);
@@ -105,20 +107,25 @@ let CourseVideoService = class CourseVideoService {
             if (!isValidId) {
                 throw new common_1.BadRequestException('Please enter correct id.');
             }
-            const findOne = await this.videoModel.findById(id);
-            if (findOne.videoPublicId) {
-                this.cloudinaryService.destroyFile(findOne.videoPublicId);
-            }
-            const valueFind = await this.videoModel.findByIdAndDelete({ _id: id });
-            if (!valueFind) {
-                throw `Course video '${id}' not found`;
-            }
-            return valueFind;
+            const value = await this.videoModel.findById(id);
+            return this.softRemove(value);
         }
         catch (err) {
             console.log(err);
             throw new common_1.BadRequestException(err);
         }
+    }
+    async softRemove(value) {
+        if (value.deleteAt != null) {
+            value.deleteAt = null;
+        }
+        else {
+            value.deleteAt = new Date();
+        }
+        const deleted = await this.videoModel
+            .findByIdAndUpdate(value.id, value)
+            .setOptions({ overwrite: true, new: true });
+        return deleted;
     }
 };
 exports.CourseVideoService = CourseVideoService;

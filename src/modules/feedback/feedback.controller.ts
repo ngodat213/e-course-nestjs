@@ -53,7 +53,6 @@ export class FeedbackController {
   updateFeedback(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() value: UpdateFeedbackDTO,
-    @Res() res: Response, 
   ) :Promise<Feedback>{
     return this.feedbackService.updateById(id, value);
   }
@@ -63,12 +62,7 @@ export class FeedbackController {
   @HasRoles(RoleType.ADMIN, RoleType.USER, RoleType.TEACHER)
   deleteFeedbackById(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Res() res: Response,
-  ): Observable<Response>{
-    return this.feedbackService.deleteById(id).pipe(
-      map((feedback) => {
-        return res.status(204).send();
-      }),
-    );
+  ) {
+    return this.feedbackService.deleteById(id);
   }
 }

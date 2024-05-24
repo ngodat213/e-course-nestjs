@@ -42,4 +42,7 @@ export declare class CategoryService {
     deleteById(id: string): Promise<mongoose.Document<unknown, {}, Category> & Category & {
         _id: mongoose.Types.ObjectId;
     }>;
+    softRemove(value: Category): Promise<mongoose.Document<unknown, {}, Category> & Category & {
+        _id: mongoose.Types.ObjectId;
+    }>;
 }

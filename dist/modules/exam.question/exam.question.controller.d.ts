@@ -25,7 +25,6 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Response } from 'express';
 import { ExamQuestionService } from './exam.question.service';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 import { CreateExamQuestionDTO, UpdateExamQuestionDTO } from './exam.question.dto';
@@ -35,8 +34,8 @@ export declare class ExamQuestionController {
     getAllExams(keyword?: string, limit?: number, skip?: number): Promise<ExamQuestion[]>;
     getExamById(id: string): Promise<ExamQuestion>;
     createExam(exam: CreateExamQuestionDTO): Promise<ExamQuestion>;
-    updateExam(id: string, exam: UpdateExamQuestionDTO, res: Response): Promise<ExamQuestion>;
-    deleteQuestionById(id: string, res: Response): Promise<import("mongoose").Document<unknown, {}, ExamQuestion> & ExamQuestion & {
+    updateExam(id: string, exam: UpdateExamQuestionDTO): Promise<ExamQuestion>;
+    deleteQuestionById(id: string): Promise<import("mongoose").Document<unknown, {}, ExamQuestion> & ExamQuestion & {
         _id: import("mongoose").Types.ObjectId;
     }>;
 }

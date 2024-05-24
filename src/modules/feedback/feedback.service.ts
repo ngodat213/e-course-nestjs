@@ -39,7 +39,9 @@ export class FeedbackService {
       throw new BadRequestException('Please enter correct id.');
     }
 
-    const res = this.feedbackModel.findById(id);
+    const res = this.feedbackModel
+      .findById(id)
+      .populate('user', 'email username photoUrl');
     if(!res){
       throw new NotFoundException('Category not found.');
     }
@@ -66,10 +68,31 @@ export class FeedbackService {
     return updated;
   }
   
-  deleteById(id: string) : Observable<Feedback>{
-    return from(this.feedbackModel.findOneAndDelete({_id: id}).exec()).pipe(
-      mergeMap((p) => (p? of(p): EMPTY)),
-      throwIfEmpty(() => new NotFoundException(`feedback: $id was not found`)),
-    );
+  async deleteById(id: string) {
+    try{
+      const isValidId = mongoose.isValidObjectId(id);
+      if(!isValidId){
+        throw new BadRequestException('Please enter correct id.');
+      }
+
+      const value = await this.feedbackModel.findById(id)
+      return this.softRemove(value)
+    }catch(err){
+      console.log(err);
+      throw new BadRequestException(err);
+    }
+  }
+
+  async softRemove(value: Feedback){
+    if(value.deleteAt != null){
+      value.deleteAt = null;
+    }else{
+      value.deleteAt = new Date()
+    }
+    const deleted = await this.feedbackModel
+      .findByIdAndUpdate(value.id, value)
+      .setOptions({ overwrite: true, new: true })
+      
+    return deleted
   }
 }

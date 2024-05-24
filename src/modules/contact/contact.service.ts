@@ -64,10 +64,21 @@ export class ContactService {
       throw new BadRequestException('Please enter correct id.');
     }
 
-    const valueFind = await this.contactModel.findByIdAndDelete({_id: id})
-    if(!valueFind){
-      throw `Contact '${id}' not found`
+    const contact = await this.contactModel.findById(id)
+    return this.softRemove(contact)
+  }
+
+  
+  async softRemove(value: Contact){
+    if(value.deleteAt != null){
+      value.deleteAt = null;
+    }else{
+      value.deleteAt = new Date()
     }
-    return valueFind;
+    const contact = await this.contactModel
+      .findByIdAndUpdate(value.id, value)
+      .setOptions({ overwrite: true, new: true })
+      
+    return contact
   }
 }

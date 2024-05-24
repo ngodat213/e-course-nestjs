@@ -25,7 +25,6 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Response } from 'express';
 import { CourseService } from './course.service';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
@@ -39,6 +38,6 @@ export declare class CourseController {
     updateCourse(id: string, course: UpdateCourseDTO): Promise<import("mongoose").Document<unknown, {}, Course> & Course & {
         _id: import("mongoose").Types.ObjectId;
     }>;
-    deleteCourseById(id: string, res: Response): Promise<Course>;
+    deleteCourseById(id: string): Promise<Course>;
     getAllLessonsOfCourse(id: string): Promise<CourseLesson[]>;
 }

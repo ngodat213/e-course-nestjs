@@ -47,19 +47,19 @@ export class CategoryController {
   @Put(':id')
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
-  updateCategory(
+  async updateCategory(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() category: UpdateCategoryDTO,
   ) {
-    return this.categoryService.updateById(id, category);
+    return await this.categoryService.updateById(id, category);
   }
 
   @Delete(':id')
   @Responser.handle('Delete category')
   @UseGuards(AuthGuard, RolesGuard)
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
-  deleteCategoryById(
+  async deleteCategoryById(
     @Param('id', ParseObjectIdPipe) id: string ){
-    return this.categoryService.deleteById(id);
+    return await this.categoryService.deleteById(id);
   }
 }

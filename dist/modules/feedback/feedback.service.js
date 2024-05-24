@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
 const database_constants_1 = require("../../processors/database/database.constants");
-const rxjs_1 = require("rxjs");
 let FeedbackService = class FeedbackService {
     constructor(feedbackModel, req) {
         this.feedbackModel = feedbackModel;
@@ -44,7 +43,9 @@ let FeedbackService = class FeedbackService {
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        const res = this.feedbackModel.findById(id);
+        const res = this.feedbackModel
+            .findById(id)
+            .populate('user', 'email username photoUrl');
         if (!res) {
             throw new common_1.NotFoundException('Category not found.');
         }
@@ -67,8 +68,31 @@ let FeedbackService = class FeedbackService {
         }
         return updated;
     }
-    deleteById(id) {
-        return (0, rxjs_1.from)(this.feedbackModel.findOneAndDelete({ _id: id }).exec()).pipe((0, rxjs_1.mergeMap)((p) => (p ? (0, rxjs_1.of)(p) : rxjs_1.EMPTY)), (0, rxjs_1.throwIfEmpty)(() => new common_1.NotFoundException(`feedback: $id was not found`)));
+    async deleteById(id) {
+        try {
+            const isValidId = mongoose_1.default.isValidObjectId(id);
+            if (!isValidId) {
+                throw new common_1.BadRequestException('Please enter correct id.');
+            }
+            const value = await this.feedbackModel.findById(id);
+            return this.softRemove(value);
+        }
+        catch (err) {
+            console.log(err);
+            throw new common_1.BadRequestException(err);
+        }
+    }
+    async softRemove(value) {
+        if (value.deleteAt != null) {
+            value.deleteAt = null;
+        }
+        else {
+            value.deleteAt = new Date();
+        }
+        const deleted = await this.feedbackModel
+            .findByIdAndUpdate(value.id, value)
+            .setOptions({ overwrite: true, new: true });
+        return deleted;
     }
 };
 exports.FeedbackService = FeedbackService;

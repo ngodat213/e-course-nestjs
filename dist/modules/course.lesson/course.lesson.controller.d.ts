@@ -28,7 +28,6 @@
 import { CourseLessonService } from './course.lesson.service';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
 import { CreateCourseLessonDTO, UpdateCourseLessonDTO } from './course.lesson.dto';
-import { Response } from 'express';
 import { CourseVideo } from 'src/modules/course.video/course.video.model';
 export declare class CourseLessonController {
     private lessonService;
@@ -37,7 +36,7 @@ export declare class CourseLessonController {
     getCourseLessonById(id: string): Promise<CourseLesson>;
     createCourseLesson(lesson: CreateCourseLessonDTO): Promise<CourseLesson>;
     updateCourseLesson(id: string, lesson: UpdateCourseLessonDTO): Promise<CourseLesson>;
-    deleteLessonById(id: string, res: Response): Promise<import("mongoose").Document<unknown, {}, CourseLesson> & CourseLesson & {
+    deleteLessonById(id: string): Promise<import("mongoose").Document<unknown, {}, CourseLesson> & CourseLesson & {
         _id: import("mongoose").Types.ObjectId;
     }>;
     getAllLessonsOfCourse(id: string): Promise<CourseVideo[]>;

@@ -6,6 +6,7 @@ const ExamHistorySchema = new mongoose_1.Schema({
     user: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'User' },
     exam: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Exam' },
     point: { type: mongoose_1.SchemaTypes.Number, required: true },
+    deleteAt: { type: mongoose_1.SchemaTypes.Date, default: null },
 }, { timestamps: true });
 const createExamHistoryModel = (connection) => connection.model('ExamHistory', ExamHistorySchema, 'ExamHistorys');
 exports.createExamHistoryModel = createExamHistoryModel;

@@ -16,6 +16,7 @@ const CourseSchema = new mongoose_1.Schema({
     language: { type: mongoose_1.SchemaTypes.String, required: true },
     teacher: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'User' },
     category: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Category' },
+    deleteAt: { type: mongoose_1.SchemaTypes.Date, default: null },
 }, { timestamps: true });
 const createCourseModel = (connection) => connection.model('Course', CourseSchema, 'Courses');
 exports.createCourseModel = createCourseModel;

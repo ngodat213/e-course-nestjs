@@ -40,10 +40,9 @@ interface Course extends Document {
     readonly videoPublicId: string;
     readonly time: Number;
     readonly language: string;
-    readonly updateAt: Date;
-    readonly createAt: Date;
     readonly teacher: Partial<User>;
     readonly category: Partial<CategoryModel>;
+    deleteAt: Date;
 }
 type CourseModel = Model<Course>;
 declare const createCourseModel: (conn: Connection) => CourseModel;

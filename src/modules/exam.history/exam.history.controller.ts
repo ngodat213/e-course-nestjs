@@ -54,7 +54,6 @@ export class ExamHistoryController {
   updateExamHistory(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() courseOrder: UpdateExamHistoryDTO,
-    @Res() res: Response, 
   ) :Promise<ExamHistory>{
     return this.historyService.updateById(id, courseOrder);
   }
@@ -64,7 +63,6 @@ export class ExamHistoryController {
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteExamHistoryById(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Res() res: Response,
   ){
     return this.historyService.deleteById(id);
   }

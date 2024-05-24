@@ -14,10 +14,9 @@ interface Course extends Document{
   readonly videoPublicId: string;
 	readonly time: Number;
   readonly language: string;
-  readonly updateAt: Date;
-  readonly createAt: Date;
 	readonly teacher: Partial<User>;
 	readonly category: Partial<CategoryModel>;
+  deleteAt: Date
 }
 
 type CourseModel = Model<Course>;
@@ -37,6 +36,7 @@ const CourseSchema = new Schema<Course>(
     language: {type: SchemaTypes.String, required: true},
     teacher: {type: SchemaTypes.ObjectId, ref: 'User'},
 		category: {type: SchemaTypes.ObjectId, ref: 'Category'},
+		deleteAt:{type: SchemaTypes.Date, default: null},
 	},{ timestamps: true }
 );
 

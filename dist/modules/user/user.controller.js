@@ -48,18 +48,8 @@ let UserController = class UserController {
                 .send();
         }));
     }
-    Register(registerDto, res) {
-        const email = registerDto.email;
-        return this.userService.exitsByEmail(email).pipe((0, rxjs_1.mergeMap)(exits => {
-            if (exits) {
-                throw new common_1.ConflictException(`email: ${email} is existed`);
-            }
-            else {
-                return this.userService.register(registerDto).pipe((0, rxjs_1.map)(user => res.location('/users/' + user.id)
-                    .status(201)
-                    .send()));
-            }
-        }));
+    Register(registerDto) {
+        return this.userService.register(registerDto);
     }
     updateUser(id, requestBody, currentUser) {
         return this.userService.updateById(id, requestBody, currentUser);
@@ -112,10 +102,9 @@ __decorate([
 __decorate([
     (0, common_1.Post)('/register'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_dto_1.RegisterDto, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:paramtypes", [user_dto_1.RegisterDto]),
+    __metadata("design:returntype", void 0)
 ], UserController.prototype, "Register", null);
 __decorate([
     (0, common_1.Put)('/:id'),

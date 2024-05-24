@@ -35,6 +35,7 @@ interface ExamLesson extends Document {
     readonly selection: Number;
     readonly point: Number;
     readonly exam: Partial<ExamModel>;
+    deleteAt: Date;
 }
 type ExamLessonModel = Model<ExamLesson>;
 declare const createExamLessonModel: (conn: Connection) => ExamLessonModel;

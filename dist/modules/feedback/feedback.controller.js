@@ -16,7 +16,6 @@ exports.FeedbackController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const feedback_service_1 = require("./feedback.service");
-const rxjs_1 = require("rxjs");
 const parse_object_id_pipe_1 = require("../../shared/pipe/parse.object.id.pipe");
 const feedback_dto_1 = require("./feedback.dto");
 const roles_guard_1 = require("../../auth/guard/roles.guard");
@@ -36,13 +35,11 @@ let FeedbackController = class FeedbackController {
     createFeedback(value) {
         return this.feedbackService.save(value);
     }
-    updateFeedback(id, value, res) {
+    updateFeedback(id, value) {
         return this.feedbackService.updateById(id, value);
     }
-    deleteFeedbackById(id, res) {
-        return this.feedbackService.deleteById(id).pipe((0, rxjs_1.map)((feedback) => {
-            return res.status(204).send();
-        }));
+    deleteFeedbackById(id) {
+        return this.feedbackService.deleteById(id);
     }
 };
 exports.FeedbackController = FeedbackController;
@@ -83,9 +80,8 @@ __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, feedback_dto_1.UpdateFeedbackDTO, Object]),
+    __metadata("design:paramtypes", [String, feedback_dto_1.UpdateFeedbackDTO]),
     __metadata("design:returntype", Promise)
 ], FeedbackController.prototype, "updateFeedback", null);
 __decorate([
@@ -93,10 +89,9 @@ __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.USER, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", rxjs_1.Observable)
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
 ], FeedbackController.prototype, "deleteFeedbackById", null);
 exports.FeedbackController = FeedbackController = __decorate([
     (0, swagger_1.ApiTags)('Feedback'),

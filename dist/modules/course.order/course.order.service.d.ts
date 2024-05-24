@@ -42,4 +42,7 @@ export declare class CourseOrderService {
     deleteById(id: string): Promise<mongoose.Document<unknown, {}, CourseOrder> & CourseOrder & {
         _id: mongoose.Types.ObjectId;
     }>;
+    softRemove(value: CourseOrder): Promise<mongoose.Document<unknown, {}, CourseOrder> & CourseOrder & {
+        _id: mongoose.Types.ObjectId;
+    }>;
 }

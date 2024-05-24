@@ -27,7 +27,6 @@
 /// <reference types="mongoose/types/inferschematype" />
 import { CourseOrderService } from './course.order.service';
 import { CourseOrder } from './course.order.model';
-import { Response } from 'express';
 import { CreateCourseOrderDTO, UpdateCourseOrderDTO } from './course.order.dto';
 export declare class CourseOrderController {
     private orderService;
@@ -35,8 +34,8 @@ export declare class CourseOrderController {
     getAllCourseOrders(keywordUser?: string, keywordCourse?: string, limit?: number, skip?: number): Promise<CourseOrder[]>;
     getCourseOrderById(id: string): Promise<CourseOrder>;
     createCourseOrder(courseOrder: CreateCourseOrderDTO): Promise<CourseOrder>;
-    updateCourseOrder(id: string, courseOrder: UpdateCourseOrderDTO, res: Response): Promise<CourseOrder>;
-    deleteCourseOrderById(id: string, res: Response): Promise<import("mongoose").Document<unknown, {}, CourseOrder> & CourseOrder & {
+    updateCourseOrder(id: string, courseOrder: UpdateCourseOrderDTO): Promise<CourseOrder>;
+    deleteCourseOrderById(id: string): Promise<import("mongoose").Document<unknown, {}, CourseOrder> & CourseOrder & {
         _id: import("mongoose").Types.ObjectId;
     }>;
 }

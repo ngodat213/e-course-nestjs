@@ -95,20 +95,24 @@ export class ExamQuestionService {
         throw new BadRequestException('Please enter correct id.');
       }
 
-      const findOne = await this.questionModel.findById(id);
-
-      if(findOne.imagePublicId){
-        this.cloudinaryService.destroyFile(findOne.imagePublicId);
-      }
-
-      const valueFind = await this.questionModel.findByIdAndDelete({_id: id})
-      if(!valueFind){
-        throw `Question '${id}' not found`
-      }
-      return valueFind;
+      const value = await this.questionModel.findById(id)
+      return this.softRemove(value)
     }catch(err){
       console.log(err);
       throw new BadRequestException(err);
     }
+  }
+
+  async softRemove(value: ExamQuestion){
+    if(value.deleteAt != null){
+      value.deleteAt = null;
+    }else{
+      value.deleteAt = new Date()
+    }
+    const deleted = await this.questionModel
+      .findByIdAndUpdate(value.id, value)
+      .setOptions({ overwrite: true, new: true })
+      
+    return deleted
   }
 }

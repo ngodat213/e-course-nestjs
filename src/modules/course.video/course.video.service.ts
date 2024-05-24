@@ -80,12 +80,14 @@ export class CourseVideoService {
       if(!findOneVideo){
         throw new BadRequestException(`Course video is not found`);
       }
+      if(data.part != null){
+        const existingSelection = await this.videoModel.findOne({ part: data.part });
 
-      const existingSelection = await this.videoModel.findOne({ part: data.part });
-
-      if (existingSelection.id != id && existingSelection) {
-          throw new BadRequestException('Part already exists');
+        if (existingSelection.id != id && existingSelection) {
+            throw new BadRequestException('Part already exists');
+        }
       }
+
 
       if(fileVideo){
         this.cloudinaryService.destroyFile(findOneVideo.videoPublicId)
@@ -114,20 +116,24 @@ export class CourseVideoService {
         throw new BadRequestException('Please enter correct id.');
       }
 
-      const findOne = await this.videoModel.findById(id);
-
-      if(findOne.videoPublicId){
-        this.cloudinaryService.destroyFile(findOne.videoPublicId);
-      }
-
-      const valueFind = await this.videoModel.findByIdAndDelete({_id: id})
-      if(!valueFind){
-        throw `Course video '${id}' not found`
-      }
-      return valueFind;
+      const value = await this.videoModel.findById(id)
+      return this.softRemove(value)
     }catch(err){
       console.log(err);
       throw new BadRequestException(err);
     }
+  }
+
+  async softRemove(value: CourseVideo){
+    if(value.deleteAt != null){
+      value.deleteAt = null;
+    }else{
+      value.deleteAt = new Date()
+    }
+    const deleted = await this.videoModel
+      .findByIdAndUpdate(value.id, value)
+      .setOptions({ overwrite: true, new: true })
+      
+    return deleted
   }
 }

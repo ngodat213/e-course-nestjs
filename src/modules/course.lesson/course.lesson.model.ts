@@ -5,6 +5,7 @@ interface CourseLesson extends Document{
   readonly title: string;
   readonly selection: Number,
   readonly course: Partial<CourseModel>
+  deleteAt: Date
 }
 
 type CourseLessonModel = Model<CourseLesson>;
@@ -14,6 +15,7 @@ const CourseLessonSchema = new Schema<CourseLesson>(
     title: {type: SchemaTypes.String, required: true},
     selection: {type: SchemaTypes.Number, required: true},
     course: { type: SchemaTypes.ObjectId, ref: 'Course' },
+		deleteAt:{type: SchemaTypes.Date, default: null},
   }
 )
 

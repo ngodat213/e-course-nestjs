@@ -73,10 +73,20 @@ export class ExamHistoryService {
       throw new BadRequestException('Please enter correct id.');
     }
 
-    const valueFind = await this.historyModel.findByIdAndDelete({_id: id})
-    if(!valueFind){
-      throw `Exam history '${id}' not found`
+    const value = await this.historyModel.findById(id)
+    return this.softRemove(value)
+  }
+
+  async softRemove(value: ExamHistory){
+    if(value.deleteAt != null){
+      value.deleteAt = null;
+    }else{
+      value.deleteAt = new Date()
     }
-    return valueFind;
+    const deleted = await this.historyModel
+      .findByIdAndUpdate(value.id, value)
+      .setOptions({ overwrite: true, new: true })
+      
+    return deleted
   }
 }

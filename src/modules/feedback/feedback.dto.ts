@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsDate, IsNumber, IsOptional, IsMongoId } from 'class-validator';
 import { PartialType } from '@nestjs/mapped-types';
+import { Type } from 'class-transformer';
 
 export class CreateFeedbackDTO {
   @ApiProperty()

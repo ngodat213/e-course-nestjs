@@ -32,6 +32,7 @@ interface ExamHistory extends Document {
     readonly user: Partial<UserModel>;
     readonly exam: Partial<ExamModel>;
     readonly point: Number;
+    deleteAt: Date;
 }
 type ExamHistoryModel = Model<ExamHistory>;
 declare const createExamHistoryModel: (conn: Connection) => ExamHistoryModel;

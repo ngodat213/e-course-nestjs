@@ -35,10 +35,10 @@ let CourseOrderController = class CourseOrderController {
     createCourseOrder(courseOrder) {
         return this.orderService.save(courseOrder);
     }
-    updateCourseOrder(id, courseOrder, res) {
+    updateCourseOrder(id, courseOrder) {
         return this.orderService.updateById(id, courseOrder);
     }
-    deleteCourseOrderById(id, res) {
+    deleteCourseOrderById(id) {
         return this.orderService.deleteById(id);
     }
 };
@@ -81,9 +81,8 @@ __decorate([
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, course_order_dto_1.UpdateCourseOrderDTO, Object]),
+    __metadata("design:paramtypes", [String, course_order_dto_1.UpdateCourseOrderDTO]),
     __metadata("design:returntype", Promise)
 ], CourseOrderController.prototype, "updateCourseOrder", null);
 __decorate([
@@ -91,9 +90,8 @@ __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], CourseOrderController.prototype, "deleteCourseOrderById", null);
 exports.CourseOrderController = CourseOrderController = __decorate([

@@ -33,6 +33,7 @@ interface Feedback extends Document {
     readonly course: Partial<CourseModel>;
     readonly title: string;
     readonly rating: Number;
+    deleteAt: Date;
 }
 type FeedbackModel = Model<Feedback>;
 declare const createFeedbackModel: (conn: Connection) => FeedbackModel;

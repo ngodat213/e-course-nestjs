@@ -6,6 +6,7 @@ interface Contact extends Document{
   readonly text: string,
   readonly topic: string,
   readonly watched: Boolean,
+  deleteAt: Date;
 }
 
 type ContactModel = Model<Contact>;
@@ -17,6 +18,7 @@ const ContactSchema = new Schema<Contact>(
     text: {type: SchemaTypes.String, required: true},
     topic: {type: SchemaTypes.String, required: true},
     watched: {type: SchemaTypes.Boolean, default: false},
+		deleteAt:{type: SchemaTypes.Date, default: null},
   },{ timestamps: true }
 )
 

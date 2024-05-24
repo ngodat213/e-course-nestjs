@@ -123,21 +123,25 @@ export class ExamService {
         throw new BadRequestException('Please enter correct id.');
       }
 
-      const findOne = await this.examModel.findById(id);
-
-      if(findOne.imagePublicId){
-        this.cloudinaryService.destroyFile(findOne.imagePublicId);
-      }
-
-      const valueFind = await this.examModel.findByIdAndDelete({_id: id})
-      if(!valueFind){
-        throw `Exam '${id}' not found`
-      }
-      return valueFind;
+      const value = await this.examModel.findById(id)
+      return this.softRemove(value)
     }catch(err){
       console.log(err);
       throw new BadRequestException(err);
     }
+  }
+
+  async softRemove(value: Exam){
+    if(value.deleteAt != null){
+      value.deleteAt = null;
+    }else{
+      value.deleteAt = new Date()
+    }
+    const deleted = await this.examModel
+      .findByIdAndUpdate(value.id, value)
+      .setOptions({ overwrite: true, new: true })
+      
+    return deleted
   }
 
   lessonsOf(id: string): Promise<ExamLesson[]> {

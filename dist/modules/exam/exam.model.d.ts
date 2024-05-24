@@ -33,6 +33,7 @@ interface Exam extends Document {
     readonly imageUrl: string;
     readonly imagePublicId: string;
     readonly category: Partial<CategoryModel>;
+    deleteAt: Date;
 }
 type ExamModel = Model<Exam>;
 declare const createExamModel: (conn: Connection) => ExamModel;

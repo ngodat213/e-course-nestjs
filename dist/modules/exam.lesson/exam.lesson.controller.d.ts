@@ -28,7 +28,6 @@
 import { ExamLesson } from 'src/modules/exam.lesson/exam.lesson.model';
 import { ExamLessonService } from './exam.lesson.service';
 import { CreateExamLessonDTO, UpdateExamLessonDTO } from './exam.lesson.dto';
-import { Response } from 'express';
 import { ExamQuestion } from 'src/modules/exam.question/exam.question.model';
 export declare class ExamLessonController {
     private lessonService;
@@ -37,7 +36,7 @@ export declare class ExamLessonController {
     getCourseLessonById(id: string): Promise<ExamLesson>;
     createCourseLesson(lesson: CreateExamLessonDTO): Promise<ExamLesson>;
     updateCourseLesson(id: string, lesson: UpdateExamLessonDTO): Promise<ExamLesson>;
-    deleteLessonById(id: string, res: Response): Promise<import("mongoose").Document<unknown, {}, ExamLesson> & ExamLesson & {
+    deleteLessonById(id: string): Promise<import("mongoose").Document<unknown, {}, ExamLesson> & ExamLesson & {
         _id: import("mongoose").Types.ObjectId;
     }>;
     getAllExamOfLesson(id: string): Promise<ExamQuestion[]>;

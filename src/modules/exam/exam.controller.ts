@@ -58,7 +58,6 @@ export class ExamController {
   updateExam(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() exam: UpdateExamDTO,
-    @Res() res: Response, 
   ) :Promise<Exam>{
     return this.examService.updateById(id, exam);
   }
@@ -68,7 +67,6 @@ export class ExamController {
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteExamById(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Res() res: Response,
   ) {
     return this.examService.deleteById(id);
   }

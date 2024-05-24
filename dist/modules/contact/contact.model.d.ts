@@ -32,6 +32,7 @@ interface Contact extends Document {
     readonly text: string;
     readonly topic: string;
     readonly watched: Boolean;
+    deleteAt: Date;
 }
 type ContactModel = Model<Contact>;
 declare const createContactModel: (conn: Connection) => ContactModel;

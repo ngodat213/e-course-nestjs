@@ -22,6 +22,7 @@ const roles_guard_1 = require("../../auth/guard/roles.guard");
 const auth_guard_1 = require("../../auth/guard/auth.guard");
 const has_roles_decorator_1 = require("../../auth/guard/has-roles.decorator");
 const role_type_enum_1 = require("../../shared/enum/role.type.enum");
+const responser_decorator_1 = require("../../decorators/responser.decorator");
 let ContactController = class ContactController {
     constructor(contactSerivce) {
         this.contactSerivce = contactSerivce;
@@ -35,10 +36,10 @@ let ContactController = class ContactController {
     createContact(contact) {
         return this.contactSerivce.save(contact);
     }
-    updateContact(id, contact, res) {
+    updateContact(id, contact) {
         return this.contactSerivce.updateById(id, contact);
     }
-    deleteContactById(id, res) {
+    deleteContactById(id) {
         return this.contactSerivce.deleteById(id);
     }
 };
@@ -79,19 +80,18 @@ __decorate([
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
     __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, contact_dto_1.UpdateContactDTO, Object]),
+    __metadata("design:paramtypes", [String, contact_dto_1.UpdateContactDTO]),
     __metadata("design:returntype", Promise)
 ], ContactController.prototype, "updateContact", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    responser_decorator_1.Responser.handle('Delete contact'),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
     (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
     __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
-    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ContactController.prototype, "deleteContactById", null);
 exports.ContactController = ContactController = __decorate([
