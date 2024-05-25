@@ -1,6 +1,6 @@
 export declare class CreateFeedbackDTO {
-    readonly userId: string;
-    readonly courseId: string;
+    readonly user: string;
+    readonly course: string;
     readonly title: string;
     readonly rating: number;
 }

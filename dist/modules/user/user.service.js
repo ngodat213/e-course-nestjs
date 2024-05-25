@@ -111,20 +111,14 @@ let UserService = class UserService {
         }
     }
     async createForgotPasswordToken(email) {
-        var forgottenPassword = await this.forgotPwModel.findOne({ email: email });
-        if (forgottenPassword && (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 < 15) {
-            throw new common_1.HttpException("RESET.PASSWORD.EMAIL_SENDED_RECENTLY", common_1.HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        else {
-            var forgottenPasswordModel = await this.forgotPwModel.findOneAndUpdate({ email: email }, { email: email,
-                newPasswordToken: this.passwordTokenRandom(),
-                timestamp: new Date(),
-            }, {
-                upsert: true,
-                new: true,
-            });
-            return forgottenPasswordModel;
-        }
+        var forgottenPasswordModel = await this.forgotPwModel.findOneAndUpdate({ email: email }, { email: email,
+            newPasswordToken: this.passwordTokenRandom(),
+            timestamp: new Date(),
+        }, {
+            upsert: true,
+            new: true,
+        });
+        return forgottenPasswordModel;
     }
     async changedPassword(body) {
         try {

@@ -31,12 +31,17 @@ let FeedbackService = class FeedbackService {
         }
         const query = {};
         if (keywordUser) {
-            query.user = { $regex: keywordUser, $options: 'i' };
+            query.user = keywordUser;
         }
         if (keywordCourse) {
-            query.course = { $regex: keywordCourse, $options: 'i' };
+            query.course = keywordCourse;
         }
-        return this.feedbackModel.find({ ...query }).select('-__v').skip(skip).limit(limit).exec();
+        return this.feedbackModel.find(query)
+            .select('-__v')
+            .skip(skip)
+            .limit(limit)
+            .populate('user', 'email username photoUrl')
+            .exec();
     }
     async findById(id) {
         const isValidId = mongoose_1.default.isValidObjectId(id);

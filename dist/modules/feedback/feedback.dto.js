@@ -20,12 +20,12 @@ __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], CreateFeedbackDTO.prototype, "userId", void 0);
+], CreateFeedbackDTO.prototype, "user", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], CreateFeedbackDTO.prototype, "courseId", void 0);
+], CreateFeedbackDTO.prototype, "course", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),

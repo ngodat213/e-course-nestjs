@@ -6,11 +6,11 @@ import { Type } from 'class-transformer';
 export class CreateFeedbackDTO {
   @ApiProperty()
   @IsString()
-  readonly userId: string;
+  readonly user: string;
 
   @ApiProperty()
   @IsString()
-  readonly courseId: string;
+  readonly course: string;
 
   @ApiProperty()
   @IsString()

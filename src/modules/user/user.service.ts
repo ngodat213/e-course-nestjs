@@ -124,27 +124,18 @@ UserService {
   }
 
   async createForgotPasswordToken(email: string): Promise<ForgotPassword> {
-    var  forgottenPassword = await this.forgotPwModel.findOne({email: email});
-    
-    if(forgottenPassword && (new Date().getTime() - forgottenPassword.timestamp.getTime()) / 60000 < 15){
-      throw new HttpException(
-        "RESET.PASSWORD.EMAIL_SENDED_RECENTLY",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }else{
-      var forgottenPasswordModel = await this.forgotPwModel.findOneAndUpdate(
-        {email: email},
-        {email: email,
-          newPasswordToken: this.passwordTokenRandom(),
-          timestamp: new Date(),
-        },
-        {
-          upsert: true,
-          new: true,
-        }
-      );
-      return forgottenPasswordModel;
-    }
+    var forgottenPasswordModel = await this.forgotPwModel.findOneAndUpdate(
+      {email: email},
+      {email: email,
+        newPasswordToken: this.passwordTokenRandom(),
+        timestamp: new Date(),
+      },
+      {
+        upsert: true,
+        new: true,
+      }
+    );
+    return forgottenPasswordModel;
   }
 
   async changedPassword(body: ResetPasswordDTO){
