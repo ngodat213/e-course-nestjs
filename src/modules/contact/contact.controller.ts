@@ -52,7 +52,7 @@ export class ContactController {
   updateContact(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() contact: UpdateContactDTO,
-  ) :Promise<Contact>{
+  ) {
     return this.contactSerivce.updateById(id, contact);
   }
 

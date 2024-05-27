@@ -49,7 +49,7 @@ export class CourseLessonController {
   updateCourseLesson(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() lesson: UpdateCourseLessonDTO,
-  ) :Promise<CourseLesson>{
+  ){
     return this.lessonService.updateById(id, lesson);
   }
 

@@ -83,7 +83,7 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, course_order_dto_1.UpdateCourseOrderDTO]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], CourseOrderController.prototype, "updateCourseOrder", null);
 __decorate([
     (0, common_1.Delete)(':id'),

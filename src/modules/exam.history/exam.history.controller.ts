@@ -54,7 +54,7 @@ export class ExamHistoryController {
   updateExamHistory(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() courseOrder: UpdateExamHistoryDTO,
-  ) :Promise<ExamHistory>{
+  ) {
     return this.historyService.updateById(id, courseOrder);
   }
 

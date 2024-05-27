@@ -90,7 +90,7 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, exam_dto_1.UpdateExamDTO]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], ExamController.prototype, "updateExam", null);
 __decorate([
     (0, common_1.Delete)(':id'),

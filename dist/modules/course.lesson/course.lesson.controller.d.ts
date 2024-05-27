@@ -35,7 +35,9 @@ export declare class CourseLessonController {
     getAllCourseLessons(keyword?: string, limit?: number, skip?: number): Promise<CourseLesson[]>;
     getCourseLessonById(id: string): Promise<CourseLesson>;
     createCourseLesson(lesson: CreateCourseLessonDTO): Promise<CourseLesson>;
-    updateCourseLesson(id: string, lesson: UpdateCourseLessonDTO): Promise<CourseLesson>;
+    updateCourseLesson(id: string, lesson: UpdateCourseLessonDTO): Promise<import("mongoose").Document<unknown, {}, CourseLesson> & CourseLesson & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
     deleteLessonById(id: string): Promise<import("mongoose").Document<unknown, {}, CourseLesson> & CourseLesson & {
         _id: import("mongoose").Types.ObjectId;
     }>;

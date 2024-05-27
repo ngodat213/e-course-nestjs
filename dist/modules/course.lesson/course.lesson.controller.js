@@ -82,7 +82,7 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, course_lesson_dto_1.UpdateCourseLessonDTO]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], CourseLessonController.prototype, "updateCourseLesson", null);
 __decorate([
     (0, common_1.Delete)(':id'),

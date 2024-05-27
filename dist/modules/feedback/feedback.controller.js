@@ -82,7 +82,7 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, feedback_dto_1.UpdateFeedbackDTO]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], FeedbackController.prototype, "updateFeedback", null);
 __decorate([
     (0, common_1.Delete)(':id'),

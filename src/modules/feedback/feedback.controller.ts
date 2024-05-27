@@ -53,7 +53,7 @@ export class FeedbackController {
   updateFeedback(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() value: UpdateFeedbackDTO,
-  ) :Promise<Feedback>{
+  ) {
     return this.feedbackService.updateById(id, value);
   }
 

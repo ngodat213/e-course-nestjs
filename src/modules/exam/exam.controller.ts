@@ -58,7 +58,7 @@ export class ExamController {
   updateExam(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() exam: UpdateExamDTO,
-  ) :Promise<Exam>{
+  ) {
     return this.examService.updateById(id, exam);
   }
 

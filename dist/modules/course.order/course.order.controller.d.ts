@@ -34,7 +34,9 @@ export declare class CourseOrderController {
     getAllCourseOrders(keywordUser?: string, keywordCourse?: string, limit?: number, skip?: number): Promise<CourseOrder[]>;
     getCourseOrderById(id: string): Promise<CourseOrder>;
     createCourseOrder(courseOrder: CreateCourseOrderDTO): Promise<CourseOrder>;
-    updateCourseOrder(id: string, courseOrder: UpdateCourseOrderDTO): Promise<CourseOrder>;
+    updateCourseOrder(id: string, courseOrder: UpdateCourseOrderDTO): Promise<import("mongoose").Document<unknown, {}, CourseOrder> & CourseOrder & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
     deleteCourseOrderById(id: string): Promise<import("mongoose").Document<unknown, {}, CourseOrder> & CourseOrder & {
         _id: import("mongoose").Types.ObjectId;
     }>;

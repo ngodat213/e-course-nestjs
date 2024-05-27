@@ -58,7 +58,7 @@ export class ExamLessonController {
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   deleteLessonById(
     @Param('id', ParseObjectIdPipe) id: string,
-  ){
+  ) {
     return this.lessonService.deleteById(id);
   }
 

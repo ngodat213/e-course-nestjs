@@ -34,7 +34,9 @@ export declare class FeedbackController {
     getAllFeedbacks(keywordUser?: string, keywordCourse?: string, limit?: number, skip?: number): Promise<Feedback[]>;
     getFeedbackById(id: string): Promise<Feedback>;
     createFeedback(value: CreateFeedbackDTO): Promise<Feedback>;
-    updateFeedback(id: string, value: UpdateFeedbackDTO): Promise<Feedback>;
+    updateFeedback(id: string, value: UpdateFeedbackDTO): Promise<import("mongoose").Document<unknown, {}, Feedback> & Feedback & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
     deleteFeedbackById(id: string): Promise<import("mongoose").Document<unknown, {}, Feedback> & Feedback & {
         _id: import("mongoose").Types.ObjectId;
     }>;

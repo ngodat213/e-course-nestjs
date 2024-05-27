@@ -35,7 +35,9 @@ export declare class ExamController {
     getAllExams(keyword?: string, category?: string, limit?: number, skip?: number): Promise<Exam[]>;
     getExamById(id: string): Promise<Exam>;
     createExam(exam: CreateExamDTO): Promise<Exam>;
-    updateExam(id: string, exam: UpdateExamDTO): Promise<Exam>;
+    updateExam(id: string, exam: UpdateExamDTO): Promise<import("mongoose").Document<unknown, {}, Exam> & Exam & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
     deleteExamById(id: string): Promise<import("mongoose").Document<unknown, {}, Exam> & Exam & {
         _id: import("mongoose").Types.ObjectId;
     }>;

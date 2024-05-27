@@ -38,6 +38,8 @@ export declare class CourseController {
     updateCourse(id: string, course: UpdateCourseDTO): Promise<import("mongoose").Document<unknown, {}, Course> & Course & {
         _id: import("mongoose").Types.ObjectId;
     }>;
-    deleteCourseById(id: string): Promise<Course>;
+    deleteCourseById(id: string): Promise<import("mongoose").Document<unknown, {}, Course> & Course & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
     getAllLessonsOfCourse(id: string): Promise<CourseLesson[]>;
 }

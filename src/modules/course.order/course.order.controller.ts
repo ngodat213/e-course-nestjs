@@ -54,7 +54,7 @@ export class CourseOrderController {
   updateCourseOrder(
     @Param('id', ParseObjectIdPipe)id : string,
     @Body() courseOrder: UpdateCourseOrderDTO,
-  ) :Promise<CourseOrder>{
+  ) {
     return this.orderService.updateById(id, courseOrder);
   }
 

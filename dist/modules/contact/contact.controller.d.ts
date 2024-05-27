@@ -34,7 +34,9 @@ export declare class ContactController {
     getAllContacts(keyword?: string, limit?: number, skip?: number): Promise<Contact[]>;
     getContactById(id: string): Promise<Contact>;
     createContact(contact: CreateContactDTO): Promise<Contact>;
-    updateContact(id: string, contact: UpdateContactDTO): Promise<Contact>;
+    updateContact(id: string, contact: UpdateContactDTO): Promise<import("mongoose").Document<unknown, {}, Contact> & Contact & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
     deleteContactById(id: string): Promise<import("mongoose").Document<unknown, {}, Contact> & Contact & {
         _id: import("mongoose").Types.ObjectId;
     }>;
