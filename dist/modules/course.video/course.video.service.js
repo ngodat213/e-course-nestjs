@@ -79,8 +79,10 @@ let CourseVideoService = class CourseVideoService {
             }
             if (data.part != null) {
                 const existingSelection = await this.videoModel.findOne({ part: data.part });
-                if (existingSelection.id != id && existingSelection) {
-                    throw new common_1.BadRequestException('Part already exists');
+                if (existingSelection) {
+                    if (existingSelection.id != id) {
+                        throw new common_1.BadRequestException('Part already exists');
+                    }
                 }
             }
             if (fileVideo) {
