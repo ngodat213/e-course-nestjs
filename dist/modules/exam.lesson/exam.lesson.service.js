@@ -66,8 +66,10 @@ let ExamLessonService = class ExamLessonService {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
         const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
-        if (existingSelection.id != id && existingSelection) {
-            throw new common_1.BadRequestException('Selection already exists');
+        if (existingSelection) {
+            if (existingSelection.id != id) {
+                throw new common_1.BadRequestException('Selection already exists');
+            }
         }
         const updated = await this.lessonModel
             .findByIdAndUpdate(id, data)

@@ -39,13 +39,13 @@ export class CourseLessonService {
   }
 
   async save(data: CreateCourseLessonDTO): Promise<CourseLesson> {
-    const existingTitle = await this.lessonModel.findOne({ title: data.title });
+    const existingTitle = await this.lessonModel.findOne({ title: data.title , course: data.course});
 
     if (existingTitle) {
-        throw new BadRequestException('CourseLesson already exists');
+        throw new BadRequestException('Title already exists');
     }
 
-    const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
+    const existingSelection = await this.lessonModel.findOne({ selection: data.selection, course: data.course });
 
     if (existingSelection) {
         throw new BadRequestException('Selection already exists');
@@ -62,15 +62,17 @@ export class CourseLessonService {
       throw new BadRequestException('Please enter correct id.');
     }
     
-    const existingTitle = await this.lessonModel.findOne({ title: data.title });
+    const existingTitle = await this.lessonModel.findOne({ title: data.title, course: data.course });
     if (existingTitle) {
       throw new BadRequestException('Title already exists');
     }
     
-    const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
+    const existingSelection = await this.lessonModel.findOne({ selection: data.selection, course: data.course });
     
-    if (existingSelection.id != id && existingSelection) {
-      throw new BadRequestException('Selection already exists');
+    if (existingSelection) {
+      if(existingSelection.id != id){
+        throw new BadRequestException('Selection already exists');
+      }
     }
 
     const updateCourseLesson = await this.lessonModel

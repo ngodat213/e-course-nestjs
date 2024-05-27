@@ -43,11 +43,11 @@ let CourseLessonService = class CourseLessonService {
         return res;
     }
     async save(data) {
-        const existingTitle = await this.lessonModel.findOne({ title: data.title });
+        const existingTitle = await this.lessonModel.findOne({ title: data.title, course: data.course });
         if (existingTitle) {
-            throw new common_1.BadRequestException('CourseLesson already exists');
+            throw new common_1.BadRequestException('Title already exists');
         }
-        const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
+        const existingSelection = await this.lessonModel.findOne({ selection: data.selection, course: data.course });
         if (existingSelection) {
             throw new common_1.BadRequestException('Selection already exists');
         }
@@ -59,13 +59,15 @@ let CourseLessonService = class CourseLessonService {
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        const existingTitle = await this.lessonModel.findOne({ title: data.title });
+        const existingTitle = await this.lessonModel.findOne({ title: data.title, course: data.course });
         if (existingTitle) {
             throw new common_1.BadRequestException('Title already exists');
         }
-        const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
-        if (existingSelection.id != id && existingSelection) {
-            throw new common_1.BadRequestException('Selection already exists');
+        const existingSelection = await this.lessonModel.findOne({ selection: data.selection, course: data.course });
+        if (existingSelection) {
+            if (existingSelection.id != id) {
+                throw new common_1.BadRequestException('Selection already exists');
+            }
         }
         const updateCourseLesson = await this.lessonModel
             .findByIdAndUpdate(id, data)
