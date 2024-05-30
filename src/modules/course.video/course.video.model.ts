@@ -9,7 +9,6 @@ interface CourseVideo extends Document{
   readonly minute: Number;
   videoUrl: string;
   videoPublicId: string;
-  readonly description: string
   readonly lesson: Partial<CourseLesson>;
   deleteAt: Date
 }

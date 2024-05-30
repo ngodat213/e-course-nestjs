@@ -2,7 +2,6 @@
 export declare class CreateCourseVideoDTO {
     readonly part: number;
     readonly title: string;
-    readonly description: string;
     readonly hour: number;
     readonly minute: number;
     videoUrl: string;
@@ -13,7 +12,6 @@ export declare class CreateCourseVideoDTO {
 export declare class UpdateCourseVideoDTO {
     readonly part?: number;
     readonly title?: string;
-    readonly description: string;
     readonly hour?: number;
     readonly minute?: number;
     videoUrl?: string;

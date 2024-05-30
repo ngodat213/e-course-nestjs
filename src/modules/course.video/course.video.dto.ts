@@ -17,11 +17,6 @@ export class CreateCourseVideoDTO {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsString()
-  readonly description: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
   @Type(() => Number)
   @IsInt()
   readonly hour: number;
@@ -63,11 +58,6 @@ export class UpdateCourseVideoDTO {
   @IsOptional()
   @IsString()
   readonly title?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  readonly description: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
