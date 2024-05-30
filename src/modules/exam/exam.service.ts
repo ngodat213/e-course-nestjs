@@ -144,13 +144,24 @@ export class ExamService {
     return deleted
   }
 
-  lessonsOf(id: string): Promise<ExamLesson[]> {
-    const lessons = this.lessonModel
-    .find({
-      exam: {_id: id},
-    })
-    .select('-exam')
-    .exec();
+  async lessonsOf(id: string): Promise<ExamLesson[]> {
+    const objectId = new mongoose.Types.ObjectId(id);
+    const lessons = await this.lessonModel.aggregate([
+      {
+        $match: {
+          "exam": objectId,
+          "deleteAt": null,
+        },
+      },
+      {
+        $lookup: {
+          from: 'ExamQuestions',
+          localField: '_id',
+          foreignField: 'lesson',
+          as: 'questions',
+        },
+      },
+    ]).exec();
     return lessons;
   }
 }

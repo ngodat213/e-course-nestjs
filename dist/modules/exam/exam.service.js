@@ -133,13 +133,24 @@ let ExamService = class ExamService {
             .setOptions({ overwrite: true, new: true });
         return deleted;
     }
-    lessonsOf(id) {
-        const lessons = this.lessonModel
-            .find({
-            exam: { _id: id },
-        })
-            .select('-exam')
-            .exec();
+    async lessonsOf(id) {
+        const objectId = new mongoose_1.default.Types.ObjectId(id);
+        const lessons = await this.lessonModel.aggregate([
+            {
+                $match: {
+                    "exam": objectId,
+                    "deleteAt": null,
+                },
+            },
+            {
+                $lookup: {
+                    from: 'ExamQuestions',
+                    localField: '_id',
+                    foreignField: 'lesson',
+                    as: 'questions',
+                },
+            },
+        ]).exec();
         return lessons;
     }
 };
