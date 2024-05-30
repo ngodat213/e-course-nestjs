@@ -34,8 +34,8 @@ const CourseSchema = new Schema<Course>(
 		videoPublicId:{type: SchemaTypes.String, required: true},
 		time: {type: SchemaTypes.Number, required: true},
     language: {type: SchemaTypes.String, required: true},
-    teacher: {type: SchemaTypes.ObjectId, ref: 'User'},
-		category: {type: SchemaTypes.ObjectId, ref: 'Category'},
+    teacher: {type: SchemaTypes.ObjectId, ref: 'User', required: true},
+		category: {type: SchemaTypes.ObjectId, ref: 'Category', required: true},
 		deleteAt:{type: SchemaTypes.Date, default: null},
 	},{ timestamps: true }
 );

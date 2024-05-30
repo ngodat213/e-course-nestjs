@@ -7,7 +7,7 @@ const ExamSchema = new mongoose_1.Schema({
     description: { type: String, required: true },
     imageUrl: { type: String, required: true },
     imagePublicId: { type: String, required: true },
-    category: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Category' },
+    category: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Category', required: true },
     deleteAt: { type: mongoose_1.SchemaTypes.Date, default: null },
 }, { timestamps: true });
 const createExamModel = (connection) => connection.model('Exam', ExamSchema, 'Exams');

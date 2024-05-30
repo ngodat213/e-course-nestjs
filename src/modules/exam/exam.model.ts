@@ -18,7 +18,7 @@ const ExamSchema = new Schema<Exam>(
     description: {type: String, required: true},
     imageUrl: {type: String, required: true},
     imagePublicId: {type: String, required: true},
-    category: {type: SchemaTypes.ObjectId, ref: 'Category'},
+    category: {type: SchemaTypes.ObjectId, ref: 'Category', required: true},
     deleteAt:{type: SchemaTypes.Date, default: null},
   },{ timestamps: true }
 );

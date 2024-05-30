@@ -14,8 +14,8 @@ const CourseSchema = new mongoose_1.Schema({
     videoPublicId: { type: mongoose_1.SchemaTypes.String, required: true },
     time: { type: mongoose_1.SchemaTypes.Number, required: true },
     language: { type: mongoose_1.SchemaTypes.String, required: true },
-    teacher: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'User' },
-    category: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Category' },
+    teacher: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'User', required: true },
+    category: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Category', required: true },
     deleteAt: { type: mongoose_1.SchemaTypes.Date, default: null },
 }, { timestamps: true });
 const createCourseModel = (connection) => connection.model('Course', CourseSchema, 'Courses');
