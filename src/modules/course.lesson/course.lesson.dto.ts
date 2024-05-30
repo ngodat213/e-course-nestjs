@@ -16,7 +16,7 @@ export class CreateCourseLessonDTO {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  readonly course?: string;
+  readonly course: string;
 }
 
 export class UpdateCourseLessonDTO{

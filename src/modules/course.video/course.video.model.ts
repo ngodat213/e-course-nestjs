@@ -23,7 +23,7 @@ const CourseVideoSchema = new Schema<CourseVideo>(
     minute: {type: SchemaTypes.Number, required: true},
     videoUrl: {type: SchemaTypes.String, required: true},
     videoPublicId: {type: SchemaTypes.String, required: true},
-    lesson: { type: SchemaTypes.ObjectId, ref: 'Lesson' },
+    lesson: { type: SchemaTypes.ObjectId, ref: 'Lesson' , required: true},
     deleteAt:{type: SchemaTypes.Date, default: null},
   },{ timestamps: true }
 );
