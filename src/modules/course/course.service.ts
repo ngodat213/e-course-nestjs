@@ -1,11 +1,12 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import mongoose, { Model } from 'mongoose';
-import { COURSE_LESSON_MODEL, COURSE_MODEL } from 'src/processors/database/database.constants';
+import { COURSE_LESSON_MODEL, COURSE_MODEL, COURSE_VIDEO_MODEL } from 'src/processors/database/database.constants';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
 import { FILE_COURSE_INTRO, FILE_COURSE_THUMB, RESOURCE_TYPE_IMAGE, RESOURCE_TYPE_VIDEO } from 'src/constants/cloudinary.constants';
 import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
+import { CourseVideo } from '../course.video/course.video.model';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CourseService {
@@ -155,13 +156,24 @@ export class CourseService {
     return deleted
   }
 
-  lessonsOf(id: string): Promise<CourseLesson[]> {
-    const lessons = this.courseLessonModel
-    .find({
-      course: {_id: id},
-    })
-    .select('-course')
-    .exec();
+  async lessonsOf(id: string): Promise<CourseLesson[]> {
+    const objectId = new mongoose.Types.ObjectId(id);
+    const lessons = await this.courseLessonModel.aggregate([
+      {
+        $match: {
+          "course": objectId,
+          "deleteAt": null,
+        },
+      },
+      {
+        $lookup: {
+          from: 'CourseVideos',
+          localField: '_id',
+          foreignField: 'lesson',
+          as: 'videos',
+        },
+      },
+    ]).exec();
     return lessons;
   }
 }

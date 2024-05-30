@@ -140,13 +140,24 @@ let CourseService = class CourseService {
             .setOptions({ overwrite: true, new: true });
         return deleted;
     }
-    lessonsOf(id) {
-        const lessons = this.courseLessonModel
-            .find({
-            course: { _id: id },
-        })
-            .select('-course')
-            .exec();
+    async lessonsOf(id) {
+        const objectId = new mongoose_1.default.Types.ObjectId(id);
+        const lessons = await this.courseLessonModel.aggregate([
+            {
+                $match: {
+                    "course": objectId,
+                    "deleteAt": null,
+                },
+            },
+            {
+                $lookup: {
+                    from: 'CourseVideos',
+                    localField: '_id',
+                    foreignField: 'lesson',
+                    as: 'videos',
+                },
+            },
+        ]).exec();
         return lessons;
     }
 };
