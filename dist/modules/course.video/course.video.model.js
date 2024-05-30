@@ -9,7 +9,6 @@ const CourseVideoSchema = new mongoose_1.Schema({
     minute: { type: mongoose_1.SchemaTypes.Number, required: true },
     videoUrl: { type: mongoose_1.SchemaTypes.String, required: true },
     videoPublicId: { type: mongoose_1.SchemaTypes.String, required: true },
-    description: { type: mongoose_1.SchemaTypes.String, required: true },
     lesson: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'Lesson' },
     deleteAt: { type: mongoose_1.SchemaTypes.Date, default: null },
 }, { timestamps: true });
