@@ -34,10 +34,9 @@ export class CreateExamQuestionDTO {
   @IsString()
   readonly lesson: string;
 
-  @IsNotEmpty()
   @IsOptional()
   @ApiFile()
-  file: Express.Multer.File;
+  file?: Express.Multer.File = null;
 }
 
 export class UpdateExamQuestionDTO {
@@ -74,5 +73,5 @@ export class UpdateExamQuestionDTO {
   @ApiProperty({ required: false })
   @IsOptional()
   @ApiFile()
-  file: Express.Multer.File;
+  file?: Express.Multer.File;
 }

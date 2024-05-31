@@ -18,8 +18,8 @@ const ExamQuestionSchema = new Schema<ExamQuestion>(
     question: {type: SchemaTypes.String, required: true},
     options: [{type: SchemaTypes.String, required: true}],
     answer: {type: SchemaTypes.Number, required: true},
-    imageUrl:{type: SchemaTypes.String, required: true},
-    imagePublicId:{type: SchemaTypes.String, required: true},
+    imageUrl:{type: SchemaTypes.String},
+    imagePublicId:{type: SchemaTypes.String},
     lesson: {type: SchemaTypes.ObjectId, ref: 'ExamLesson'},
     deleteAt:{type: SchemaTypes.Date, default: null},
   },{ timestamps: true }

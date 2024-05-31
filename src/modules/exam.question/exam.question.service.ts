@@ -42,10 +42,12 @@ export class ExamQuestionService {
     const fileImage = data.file;
     
     try{
-      const resultImage = await this.cloudinaryService.uploadFile(data.file, FILE_EXAM_QUESTION, fileImage.fieldname, RESOURCE_TYPE_IMAGE);
-
-      data.imageUrl = resultImage.url;
-      data.imagePublicId = resultImage.public_id;
+      if(fileImage){
+        const resultImage = await this.cloudinaryService.uploadFile(data.file, FILE_EXAM_QUESTION, fileImage.fieldname, RESOURCE_TYPE_IMAGE);
+  
+        data.imageUrl = resultImage.url;
+        data.imagePublicId = resultImage.public_id;
+      }
       
       const res = await this.questionModel.create({...data});
       return res;

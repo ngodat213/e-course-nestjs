@@ -6,7 +6,7 @@ export declare class CreateExamQuestionDTO {
     imageUrl: string;
     imagePublicId: string;
     readonly lesson: string;
-    file: Express.Multer.File;
+    file?: Express.Multer.File;
 }
 export declare class UpdateExamQuestionDTO {
     readonly question?: string;
@@ -15,5 +15,5 @@ export declare class UpdateExamQuestionDTO {
     imageUrl: string;
     imagePublicId: string;
     readonly lesson?: string;
-    file: Express.Multer.File;
+    file?: Express.Multer.File;
 }

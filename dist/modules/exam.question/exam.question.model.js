@@ -6,8 +6,8 @@ const ExamQuestionSchema = new mongoose_1.Schema({
     question: { type: mongoose_1.SchemaTypes.String, required: true },
     options: [{ type: mongoose_1.SchemaTypes.String, required: true }],
     answer: { type: mongoose_1.SchemaTypes.Number, required: true },
-    imageUrl: { type: mongoose_1.SchemaTypes.String, required: true },
-    imagePublicId: { type: mongoose_1.SchemaTypes.String, required: true },
+    imageUrl: { type: mongoose_1.SchemaTypes.String },
+    imagePublicId: { type: mongoose_1.SchemaTypes.String },
     lesson: { type: mongoose_1.SchemaTypes.ObjectId, ref: 'ExamLesson' },
     deleteAt: { type: mongoose_1.SchemaTypes.Date, default: null },
 }, { timestamps: true });

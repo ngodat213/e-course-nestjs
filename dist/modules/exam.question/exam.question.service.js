@@ -45,9 +45,11 @@ let ExamQuestionService = class ExamQuestionService {
     async save(data) {
         const fileImage = data.file;
         try {
-            const resultImage = await this.cloudinaryService.uploadFile(data.file, cloudinary_constants_1.FILE_EXAM_QUESTION, fileImage.fieldname, cloudinary_constants_1.RESOURCE_TYPE_IMAGE);
-            data.imageUrl = resultImage.url;
-            data.imagePublicId = resultImage.public_id;
+            if (fileImage) {
+                const resultImage = await this.cloudinaryService.uploadFile(data.file, cloudinary_constants_1.FILE_EXAM_QUESTION, fileImage.fieldname, cloudinary_constants_1.RESOURCE_TYPE_IMAGE);
+                data.imageUrl = resultImage.url;
+                data.imagePublicId = resultImage.public_id;
+            }
             const res = await this.questionModel.create({ ...data });
             return res;
         }
