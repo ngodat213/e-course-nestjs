@@ -4,18 +4,28 @@ import { IsNumber, IsMongoId, IsOptional, IsNotEmpty } from 'class-validator';
 export class CreateExamHistoryDTO {
   @ApiProperty()
   @IsNotEmpty()
-  @IsMongoId()
   readonly userId: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsMongoId()  
-  readonly examId: string;
+  readonly lesson: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsNumber()
-  readonly point: Number;
+  readonly examSubmit: ExamSubmit[];
+
+  point: number = 0;
+  correct: number = 0;
+  incorrect: number = 0;
+}
+
+export class ExamSubmit{
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly id: string;
+  @ApiProperty()
+  @IsNotEmpty()
+  readonly answer: Number;
 }
 
 export class UpdateExamHistoryDTO {
@@ -27,10 +37,9 @@ export class UpdateExamHistoryDTO {
   @ApiProperty({ required: false })
   @IsOptional()
   @IsMongoId()  
-  readonly examId?: string;
+  readonly lesson?: string;
 
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsNumber()
-  readonly point?: Number;
+  point: number = 0;
+  correct: number = 0;
+  incorrect: number = 0;
 }

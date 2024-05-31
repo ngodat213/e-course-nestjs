@@ -18,8 +18,10 @@ const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
 const database_constants_1 = require("../../processors/database/database.constants");
 let ExamHistoryService = class ExamHistoryService {
-    constructor(historyModel, req) {
+    constructor(historyModel, questionModel, lessonModel, req) {
         this.historyModel = historyModel;
+        this.questionModel = questionModel;
+        this.lessonModel = lessonModel;
         this.req = req;
     }
     async findAll(keywordUser, keywordExam, skip = 0, limit = 10) {
@@ -50,6 +52,17 @@ let ExamHistoryService = class ExamHistoryService {
         return res;
     }
     async save(data) {
+        const lesson = await this.lessonModel.findById(data.lesson);
+        for (const element of data.examSubmit) {
+            const question = await this.questionModel.findById(element.id);
+            if (question.answer === element.answer) {
+                data.correct++;
+            }
+            else {
+                data.incorrect++;
+            }
+        }
+        data.point = data.correct * (lesson.point / data.examSubmit.length);
         const res = await this.historyModel.create({ ...data });
         return res;
     }
@@ -91,7 +104,11 @@ exports.ExamHistoryService = ExamHistoryService;
 exports.ExamHistoryService = ExamHistoryService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, common_1.Inject)(database_constants_1.EXAM_HISTORY_MODEL)),
-    __param(1, (0, common_1.Inject)(core_1.REQUEST)),
-    __metadata("design:paramtypes", [mongoose_1.Model, Object])
+    __param(1, (0, common_1.Inject)(database_constants_1.EXAM_QUESTION_MODEL)),
+    __param(2, (0, common_1.Inject)(database_constants_1.EXAM_LESSON_MODEL)),
+    __param(3, (0, common_1.Inject)(core_1.REQUEST)),
+    __metadata("design:paramtypes", [mongoose_1.Model,
+        mongoose_1.Model,
+        mongoose_1.Model, Object])
 ], ExamHistoryService);
 //# sourceMappingURL=exam.history.service.js.map

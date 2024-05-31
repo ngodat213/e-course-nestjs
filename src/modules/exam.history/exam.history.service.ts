@@ -2,15 +2,19 @@ import { BadRequestException, Inject, Injectable, NotFoundException } from '@nes
 import { REQUEST } from '@nestjs/core';
 import mongoose, { Model } from 'mongoose';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
-import { EXAM_HISTORY_MODEL } from 'src/processors/database/database.constants';
+import { EXAM_HISTORY_MODEL, EXAM_LESSON_MODEL, EXAM_QUESTION_MODEL } from 'src/processors/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { ExamHistory } from './exam.history.model';
 import { CreateExamHistoryDTO, UpdateExamHistoryDTO } from './exam.history.dto';
+import { ExamQuestion } from '../exam.question/exam.question.model';
+import { ExamLesson } from '../exam.lesson/exam.lesson.model';
 
 @Injectable()
 export class ExamHistoryService {
   constructor(
     @Inject(EXAM_HISTORY_MODEL) private historyModel: Model<ExamHistory>,
+    @Inject(EXAM_QUESTION_MODEL) private questionModel: Model<ExamQuestion>,
+    @Inject(EXAM_LESSON_MODEL) private lessonModel: Model<ExamLesson>,
     @Inject(REQUEST) private req: AuthenticatedRequest,
   ){}
 
@@ -46,7 +50,17 @@ export class ExamHistoryService {
     return res;
   }
 
-  async save(data: CreateExamHistoryDTO): Promise<ExamHistory> {
+  async save(data: CreateExamHistoryDTO) {
+    const lesson = await this.lessonModel.findById(data.lesson);
+    for (const element of data.examSubmit) {
+      const question = await this.questionModel.findById(element.id);
+      if (question.answer === element.answer) {
+        data.correct++;
+      } else {
+        data.incorrect++;
+      }
+    }
+    data.point = data.correct * (lesson.point/ data.examSubmit.length);
     const res = await this.historyModel.create({...data});
     return res;
   }

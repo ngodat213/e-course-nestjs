@@ -26,12 +26,14 @@
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Connection, Document, Model } from 'mongoose';
-import { ExamModel } from '../exam/exam.model';
 import { UserModel } from '../user/user.model';
+import { ExamLessonModel } from '../exam.lesson/exam.lesson.model';
 interface ExamHistory extends Document {
     readonly user: Partial<UserModel>;
-    readonly exam: Partial<ExamModel>;
+    readonly lesson: Partial<ExamLessonModel>;
     readonly point: Number;
+    readonly correct: Number;
+    readonly incorrect: Number;
     deleteAt: Date;
 }
 type ExamHistoryModel = Model<ExamHistory>;

@@ -1,10 +1,19 @@
 export declare class CreateExamHistoryDTO {
     readonly userId: string;
-    readonly examId: string;
-    readonly point: Number;
+    readonly lesson: string;
+    readonly examSubmit: ExamSubmit[];
+    point: number;
+    correct: number;
+    incorrect: number;
+}
+export declare class ExamSubmit {
+    readonly id: string;
+    readonly answer: Number;
 }
 export declare class UpdateExamHistoryDTO {
     readonly userId?: string;
-    readonly examId?: string;
-    readonly point?: Number;
+    readonly lesson?: string;
+    point: number;
+    correct: number;
+    incorrect: number;
 }

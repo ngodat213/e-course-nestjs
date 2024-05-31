@@ -33,7 +33,7 @@ interface ExamLesson extends Document {
     readonly minute: Number;
     readonly second: Number;
     readonly selection: Number;
-    readonly point: Number;
+    readonly point: number;
     readonly exam: Partial<ExamModel>;
     deleteAt: Date;
 }

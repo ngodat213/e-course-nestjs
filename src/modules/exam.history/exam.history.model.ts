@@ -1,11 +1,14 @@
 import { Connection, Document, Model, Schema, SchemaType, SchemaTypes, connection } from 'mongoose';
 import { ExamModel } from '../exam/exam.model';
 import { UserModel } from '../user/user.model';
+import { ExamLessonModel } from '../exam.lesson/exam.lesson.model';
 
 interface ExamHistory extends Document{
   readonly user: Partial<UserModel>,
-  readonly exam: Partial<ExamModel>,
+  readonly lesson: Partial<ExamLessonModel>,
   readonly point: Number,
+  readonly correct: Number,
+  readonly incorrect: Number,
   deleteAt: Date
 }
 
@@ -14,8 +17,10 @@ type ExamHistoryModel = Model<ExamHistory>;
 const ExamHistorySchema = new Schema<ExamHistory>(
   {
     user:{ type: SchemaTypes.ObjectId, ref: 'User' },
-    exam:{ type: SchemaTypes.ObjectId, ref: 'Exam' },
+    lesson:{ type: SchemaTypes.ObjectId, ref: 'ExamLesson' },
     point: {type: SchemaTypes.Number, required: true},
+    correct: {type: SchemaTypes.Number, required: true},
+    incorrect: {type: SchemaTypes.Number, required: true},
     deleteAt:{type: SchemaTypes.Date, default: null},
   },{ timestamps: true }
 );

@@ -70,7 +70,7 @@ export class ExamLessonService {
       throw new BadRequestException('Please enter correct id.');
     }
 
-    const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
+    const existingSelection = await this.lessonModel.findOne({ selection: data.selection , exam: data.exam});
 
     if (existingSelection) {
       if(existingSelection.id != id){
