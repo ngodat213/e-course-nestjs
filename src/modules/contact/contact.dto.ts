@@ -18,7 +18,6 @@ export class CreateContactDTO {
   @IsString()
   topic: string;
 
-  @ApiProperty()
   @IsBoolean()
   watched?: boolean = false;
 }
