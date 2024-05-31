@@ -162,7 +162,6 @@ export class CourseService {
       {
         $match: {
           "course": objectId,
-          "deleteAt": null,
         },
       },
       {

@@ -146,7 +146,6 @@ let CourseService = class CourseService {
             {
                 $match: {
                     "course": objectId,
-                    "deleteAt": null,
                 },
             },
             {

@@ -150,7 +150,6 @@ export class ExamService {
       {
         $match: {
           "exam": objectId,
-          "deleteAt": null,
         },
       },
       {
