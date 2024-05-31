@@ -48,9 +48,9 @@ export class CourseVideoService {
         throw new BadRequestException('Course video already exists');
     }
 
-    const existingSelection = await this.videoModel.findOne({ part: data.part , lesson: data.lesson});
+    const existingPart = await this.videoModel.findOne({ part: data.part , lesson: data.lesson});
 
-    if (existingSelection) {
+    if (existingPart) {
         throw new BadRequestException('Part already exists');
     }
 

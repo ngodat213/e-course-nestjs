@@ -53,9 +53,9 @@ export class ExamLessonService {
         throw new BadRequestException('Exam lesson already exists');
     }
 
-    const existingSelection = await this.lessonModel.findOne({ selection: data.selection });
+    const existingPart = await this.lessonModel.findOne({ selection: data.selection , exam: data.exam});
 
-    if (existingSelection) {
+    if (existingPart) {
         throw new BadRequestException('Selection already exists');
     }
 
