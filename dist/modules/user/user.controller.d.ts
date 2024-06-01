@@ -52,4 +52,7 @@ export declare class UserController {
     }>;
     resetPassword(email: string): Promise<boolean>;
     setNewPassword(requestBody: ResetPasswordDTO): Promise<boolean>;
+    deleteFeedbackById(id: string): Promise<import("mongoose").Document<unknown, {}, User> & User & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
 }

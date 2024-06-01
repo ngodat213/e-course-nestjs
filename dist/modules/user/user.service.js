@@ -24,6 +24,7 @@ const helper_service_clouldinary_1 = require("../../processors/helper/helper.ser
 const helper_service_email_1 = require("../../processors/helper/helper.service.email");
 const bcrypt_1 = require("bcrypt");
 const APP_CONFIG = require("../../app.config");
+const mongoose_1 = require("mongoose");
 let UserService = class UserService {
     constructor(userModel, forgotPwModel, jwtService, cloudinaryService, emailService) {
         this.userModel = userModel;
@@ -222,6 +223,29 @@ let UserService = class UserService {
             photoUrl: updatedUser.photoUrl,
             email: updatedUser.email,
         };
+    }
+    async lockById(id) {
+        const isValidId = mongoose_1.default.isValidObjectId(id);
+        if (!isValidId) {
+            throw new common_1.BadRequestException('Please enter correct id.');
+        }
+        const value = await this.userModel.findById(id);
+        if (value.roles.includes(role_type_enum_1.RoleType.ADMIN)) {
+            throw new common_1.BadRequestException('Can\'t lock ADMIN.');
+        }
+        return this.softRemove(value);
+    }
+    async softRemove(value) {
+        if (value.lockAt != null) {
+            value.lockAt = null;
+        }
+        else {
+            value.lockAt = new Date();
+        }
+        const deleted = await this.userModel
+            .findByIdAndUpdate(value.id, value)
+            .setOptions({ overwrite: true, new: true });
+        return deleted;
     }
 };
 exports.UserService = UserService;

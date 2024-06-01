@@ -63,6 +63,9 @@ let UserController = class UserController {
     setNewPassword(requestBody) {
         return this.userService.changedPassword(requestBody);
     }
+    deleteFeedbackById(id) {
+        return this.userService.lockById(id);
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -71,7 +74,7 @@ __decorate([
     (0, swagger_1.ApiQuery)({ name: 'limit', required: false }),
     (0, swagger_1.ApiQuery)({ name: 'skip', required: false }),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
-    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.USER, role_type_enum_1.RoleType.ADMIN, role_type_enum_1.RoleType.TEACHER),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN),
     __param(0, (0, common_1.Query)('q')),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('skip', new common_1.DefaultValuePipe(0), common_1.ParseIntPipe)),
@@ -145,6 +148,15 @@ __decorate([
     __metadata("design:paramtypes", [user_dto_1.ResetPasswordDTO]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "setNewPassword", null);
+__decorate([
+    (0, common_1.Delete)('/lock/:id'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, has_roles_decorator_1.HasRoles)(role_type_enum_1.RoleType.ADMIN),
+    __param(0, (0, common_1.Param)('id', parse_object_id_pipe_1.ParseObjectIdPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "deleteFeedbackById", null);
 exports.UserController = UserController = __decorate([
     (0, swagger_1.ApiTags)('Auth'),
     (0, swagger_1.ApiBearerAuth)(),

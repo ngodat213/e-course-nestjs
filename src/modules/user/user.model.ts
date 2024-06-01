@@ -17,6 +17,7 @@ interface User extends Document{
   favouritesCourses: Partial<CourseModel>;
   favouritesExams: Partial<ExamModel>;
   finishedExams: Partial<ExamModel>;
+  lockAt: Date
 }
 
 type UserModel = Model<User>;
@@ -33,6 +34,7 @@ const UserSchema = new Schema<User>(
     favouritesCourses:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Course' }] },
     favouritesExams:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Exam' }] },
     finishedExams:{ type: [{ type: SchemaTypes.ObjectId, ref: 'Exam' }] },
+    lockAt:{type: SchemaTypes.Date, default: null},
   },{ timestamps: true }
 );
 

@@ -23,7 +23,6 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
 import { Observable } from 'rxjs';
 import { User, UserModel } from 'src/modules/user/user.model';
@@ -34,6 +33,7 @@ import { TokenResult } from 'src/interfaces/auth.interface';
 import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 import { ForgotPassword, ForgotPasswordModel } from './forgot.password.model';
 import { EmailService } from 'src/processors/helper/helper.service.email';
+import mongoose from 'mongoose';
 export declare class UserService {
     private userModel;
     private forgotPwModel;
@@ -44,8 +44,8 @@ export declare class UserService {
     findByEmail(email: string): Observable<User | undefined>;
     findOneByEmail(email: string): Promise<User>;
     exitsByEmail(email: string): Observable<boolean>;
-    register(data: RegisterDto): Promise<import("mongoose").Document<unknown, {}, User> & User & {
-        _id: import("mongoose").Types.ObjectId;
+    register(data: RegisterDto): Promise<mongoose.Document<unknown, {}, User> & User & {
+        _id: mongoose.Types.ObjectId;
     }>;
     login(user: UserPrincipal): Observable<TokenResult>;
     validateUser(email: string, pass: string): Observable<UserPrincipal>;
@@ -64,5 +64,11 @@ export declare class UserService {
         username: string;
         photoUrl: string;
         email: string;
+    }>;
+    lockById(id: string): Promise<mongoose.Document<unknown, {}, User> & User & {
+        _id: mongoose.Types.ObjectId;
+    }>;
+    softRemove(value: User): Promise<mongoose.Document<unknown, {}, User> & User & {
+        _id: mongoose.Types.ObjectId;
     }>;
 }

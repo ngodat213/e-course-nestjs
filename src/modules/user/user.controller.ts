@@ -1,4 +1,4 @@
-import { Body, ConflictException, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Put, Query, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, ConflictException, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ParseObjectIdPipe } from 'src/shared/pipe/parse.object.id.pipe';
 import { Observable, map, mergeMap } from 'rxjs';
@@ -30,7 +30,7 @@ export class UserController {
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'skip', required: false })
   @UseGuards(AuthGuard, RolesGuard)
-  @HasRoles(RoleType.USER, RoleType.ADMIN, RoleType.TEACHER)
+  @HasRoles(RoleType.ADMIN)
   GetAllUsers(
     @Query('q') keyword? :string,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
@@ -110,5 +110,14 @@ export class UserController {
     @Body() requestBody: ResetPasswordDTO
   ) {
     return this.userService.changedPassword(requestBody);
+  }
+
+  @Delete('/lock/:id')
+  @UseGuards(AuthGuard, RolesGuard)
+  @HasRoles(RoleType.ADMIN)
+  deleteFeedbackById(
+    @Param('id', ParseObjectIdPipe) id: string,
+  ) {
+    return this.userService.lockById(id);
   }
 }

@@ -16,6 +16,7 @@ import { EmailService } from 'src/processors/helper/helper.service.email';
 import { hash } from 'bcrypt'
 import * as APP_CONFIG from '../../app.config';
 import { boolean } from '@hapi/joi';
+import mongoose from 'mongoose';
 @Injectable()
 export class 
 UserService {
@@ -262,5 +263,31 @@ UserService {
       photoUrl: updatedUser.photoUrl,
       email: updatedUser.email,
     }
+  }
+
+  async lockById(id: string) {
+    const isValidId = mongoose.isValidObjectId(id);
+    if(!isValidId){
+      throw new BadRequestException('Please enter correct id.');
+    }
+    const value = await this.userModel.findById(id)
+    if(value.roles.includes(RoleType.ADMIN)){
+      throw new BadRequestException('Can\'t lock ADMIN.');
+    }
+    return this.softRemove(value)
+  }
+
+
+  async softRemove(value: User){
+    if(value.lockAt != null){
+      value.lockAt = null;
+    }else{
+      value.lockAt = new Date()
+    }
+    const deleted = await this.userModel
+      .findByIdAndUpdate(value.id, value)
+      .setOptions({ overwrite: true, new: true })
+      
+    return deleted
   }
 }

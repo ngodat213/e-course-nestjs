@@ -15,6 +15,7 @@ const UserSchema = new mongoose_1.Schema({
     favouritesCourses: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Course' }] },
     favouritesExams: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Exam' }] },
     finishedExams: { type: [{ type: mongoose_1.SchemaTypes.ObjectId, ref: 'Exam' }] },
+    lockAt: { type: mongoose_1.SchemaTypes.Date, default: null },
 }, { timestamps: true });
 exports.UserSchema = UserSchema;
 async function preSaveHook(next) {

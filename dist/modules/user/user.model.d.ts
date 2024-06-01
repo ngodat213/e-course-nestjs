@@ -45,6 +45,7 @@ interface User extends Document {
     favouritesCourses: Partial<CourseModel>;
     favouritesExams: Partial<ExamModel>;
     finishedExams: Partial<ExamModel>;
+    lockAt: Date;
 }
 type UserModel = Model<User>;
 declare const UserSchema: Schema<User, Model<User, any, any, any, Document<unknown, any, User> & User & {
