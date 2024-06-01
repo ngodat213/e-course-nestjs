@@ -14,9 +14,9 @@ export class CreateExamHistoryDTO {
   @IsNotEmpty()
   readonly examSubmit: ExamSubmit[];
 
-  point: number = 0;
-  correct: number = 0;
-  incorrect: number = 0;
+  point?: number = 0;
+  correct?: string[] = [];
+  questions?: string[] = [];
 }
 
 export class ExamSubmit{

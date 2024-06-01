@@ -2,9 +2,9 @@ export declare class CreateExamHistoryDTO {
     readonly userId: string;
     readonly lesson: string;
     readonly examSubmit: ExamSubmit[];
-    point: number;
-    correct: number;
-    incorrect: number;
+    point?: number;
+    correct?: string[];
+    questions?: string[];
 }
 export declare class ExamSubmit {
     readonly id: string;

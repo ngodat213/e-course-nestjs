@@ -45,7 +45,7 @@ let ExamHistoryService = class ExamHistoryService {
         if (!isValidId) {
             throw new common_1.BadRequestException('Please enter correct id.');
         }
-        const res = this.historyModel.findById(id);
+        const res = this.historyModel.findById(id).populate('correct').populate('questions');
         if (!res) {
             throw new common_1.NotFoundException('CourseOrder not found.');
         }
@@ -56,15 +56,14 @@ let ExamHistoryService = class ExamHistoryService {
         for (const element of data.examSubmit) {
             const question = await this.questionModel.findById(element.id);
             if (question.answer === element.answer) {
-                data.correct++;
+                data.correct.push(element.id);
             }
-            else {
-                data.incorrect++;
-            }
+            data.questions.push(question.id);
         }
-        data.point = data.correct * (lesson.point / data.examSubmit.length);
+        data.point = data.correct.length * (lesson.point / data.examSubmit.length);
         const res = await this.historyModel.create({ ...data });
-        return res;
+        const populatedRes = await this.historyModel.findById(res._id).populate('correct').populate('questions');
+        return populatedRes;
     }
     async updateById(id, data) {
         const isValidId = mongoose_1.default.isValidObjectId(id);

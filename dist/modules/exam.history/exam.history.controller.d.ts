@@ -33,10 +33,10 @@ export declare class ExamHistoryController {
     constructor(historyService: ExamHistoryService);
     getAllExamHistorys(keywordUser?: string, keywordExam?: string, limit?: number, skip?: number): Promise<ExamHistory[]>;
     getExamHistoryById(id: string): Promise<ExamHistory>;
-    createExamHistory(courseOrder: CreateExamHistoryDTO): Promise<import("mongoose").Document<unknown, {}, ExamHistory> & ExamHistory & {
+    createExamHistory(history: CreateExamHistoryDTO): Promise<import("mongoose").Document<unknown, {}, ExamHistory> & ExamHistory & {
         _id: import("mongoose").Types.ObjectId;
     }>;
-    updateExamHistory(id: string, courseOrder: UpdateExamHistoryDTO): Promise<import("mongoose").Document<unknown, {}, ExamHistory> & ExamHistory & {
+    updateExamHistory(id: string, history: UpdateExamHistoryDTO): Promise<import("mongoose").Document<unknown, {}, ExamHistory> & ExamHistory & {
         _id: import("mongoose").Types.ObjectId;
     }>;
     deleteExamHistoryById(id: string): Promise<ExamHistory>;

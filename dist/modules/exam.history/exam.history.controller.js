@@ -32,11 +32,11 @@ let ExamHistoryController = class ExamHistoryController {
     getExamHistoryById(id) {
         return this.historyService.findById(id);
     }
-    createExamHistory(courseOrder) {
-        return this.historyService.save(courseOrder);
+    createExamHistory(history) {
+        return this.historyService.save(history);
     }
-    updateExamHistory(id, courseOrder) {
-        return this.historyService.updateById(id, courseOrder);
+    updateExamHistory(id, history) {
+        return this.historyService.updateById(id, history);
     }
     deleteExamHistoryById(id) {
         return this.historyService.deleteById(id);

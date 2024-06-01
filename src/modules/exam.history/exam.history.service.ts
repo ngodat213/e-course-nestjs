@@ -43,7 +43,7 @@ export class ExamHistoryService {
       throw new BadRequestException('Please enter correct id.');
     }
 
-    const res = this.historyModel.findById(id);
+    const res = this.historyModel.findById(id).populate('correct').populate('questions');
     if(!res){
       throw new NotFoundException('CourseOrder not found.');
     }
@@ -55,14 +55,14 @@ export class ExamHistoryService {
     for (const element of data.examSubmit) {
       const question = await this.questionModel.findById(element.id);
       if (question.answer === element.answer) {
-        data.correct++;
-      } else {
-        data.incorrect++;
+        data.correct.push(element.id);
       }
+      data.questions.push(question.id);
     }
-    data.point = data.correct * (lesson.point/ data.examSubmit.length);
+    data.point = data.correct.length * (lesson.point/ data.examSubmit.length);
     const res = await this.historyModel.create({...data});
-    return res;
+    const populatedRes = await this.historyModel.findById(res._id).populate('correct').populate('questions');
+    return populatedRes;
   }
 
 

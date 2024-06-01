@@ -15,8 +15,8 @@ const class_validator_1 = require("class-validator");
 class CreateExamHistoryDTO {
     constructor() {
         this.point = 0;
-        this.correct = 0;
-        this.incorrect = 0;
+        this.correct = [];
+        this.questions = [];
     }
 }
 exports.CreateExamHistoryDTO = CreateExamHistoryDTO;

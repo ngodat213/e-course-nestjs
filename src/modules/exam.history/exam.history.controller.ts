@@ -43,9 +43,9 @@ export class ExamHistoryController {
 
   @Post('')
   createExamHistory(
-    @Body() courseOrder: CreateExamHistoryDTO,
+    @Body() history: CreateExamHistoryDTO,
   ) {
-    return this.historyService.save(courseOrder);
+    return this.historyService.save(history);
   }
 
   @Put(':id')
@@ -53,9 +53,9 @@ export class ExamHistoryController {
   @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   updateExamHistory(
     @Param('id', ParseObjectIdPipe)id : string,
-    @Body() courseOrder: UpdateExamHistoryDTO,
+    @Body() history: UpdateExamHistoryDTO,
   ) {
-    return this.historyService.updateById(id, courseOrder);
+    return this.historyService.updateById(id, history);
   }
 
   @Delete(':id')
