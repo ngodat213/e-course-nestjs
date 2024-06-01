@@ -36,7 +36,6 @@ export class ExamHistoryController {
 
   @Get(':id')
   @UseGuards(AuthGuard, RolesGuard)
-  @HasRoles(RoleType.ADMIN, RoleType.TEACHER)
   getExamHistoryById(@Param('id', ParseObjectIdPipe)id : string) : Promise<ExamHistory>{
     return this.historyService.findById(id);
   }
