@@ -18,8 +18,9 @@ const database_constants_1 = require("../../processors/database/database.constan
 const mongoose_1 = require("mongoose");
 const core_1 = require("@nestjs/core");
 let CourseOrderService = class CourseOrderService {
-    constructor(orderModel, req) {
+    constructor(orderModel, courseModel, req) {
         this.orderModel = orderModel;
+        this.courseModel = courseModel;
         this.req = req;
     }
     async findAll(keywordUser, keywordCourse, skip = 0, limit = 10) {
@@ -50,6 +51,9 @@ let CourseOrderService = class CourseOrderService {
         return res;
     }
     async save(data) {
+        const courseFindOne = await this.courseModel.findById(data.course);
+        courseFindOne.register++;
+        await this.courseModel.findByIdAndUpdate(courseFindOne);
         const res = await this.orderModel.create({ ...data });
         return res;
     }
@@ -91,7 +95,9 @@ exports.CourseOrderService = CourseOrderService;
 exports.CourseOrderService = CourseOrderService = __decorate([
     (0, common_1.Injectable)({ scope: common_1.Scope.REQUEST }),
     __param(0, (0, common_1.Inject)(database_constants_1.COURSE_ORDER_MODEL)),
-    __param(1, (0, common_1.Inject)(core_1.REQUEST)),
-    __metadata("design:paramtypes", [mongoose_1.Model, Object])
+    __param(1, (0, common_1.Inject)(database_constants_1.COURSE_MODEL)),
+    __param(2, (0, common_1.Inject)(core_1.REQUEST)),
+    __metadata("design:paramtypes", [mongoose_1.Model,
+        mongoose_1.Model, Object])
 ], CourseOrderService);
 //# sourceMappingURL=course.order.service.js.map

@@ -1,16 +1,17 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
-import { COURSE_ORDER_MODEL } from 'src/processors/database/database.constants';
+import { COURSE_MODEL, COURSE_ORDER_MODEL } from 'src/processors/database/database.constants';
 import { CourseOrder } from './course.order.model';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import mongoose, { Model } from 'mongoose';
 import { REQUEST } from '@nestjs/core';
-import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
 import { CreateCourseOrderDTO, UpdateCourseOrderDTO } from './course.order.dto';
+import { Course} from '../course/course.model';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CourseOrderService {
   constructor(
     @Inject(COURSE_ORDER_MODEL) private orderModel: Model<CourseOrder>,
+    @Inject(COURSE_MODEL) private courseModel: Model<Course>,
     @Inject(REQUEST) private req: AuthenticatedRequest,
   ){}
 
@@ -47,6 +48,10 @@ export class CourseOrderService {
   }
 
   async save(data: CreateCourseOrderDTO): Promise<CourseOrder> {
+    const courseFindOne = await this.courseModel.findById(data.course);
+    courseFindOne.register++;
+
+    await this.courseModel.findByIdAndUpdate(courseFindOne);
     const res = await this.orderModel.create({...data});
     return res;
   }

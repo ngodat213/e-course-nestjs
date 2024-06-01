@@ -1,16 +1,18 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import mongoose, { Model } from 'mongoose';
-import { FEEDBACK_MODEL } from 'src/processors/database/database.constants';
+import { COURSE_MODEL, FEEDBACK_MODEL } from 'src/processors/database/database.constants';
 import { AuthenticatedRequest } from 'src/interfaces/authenticated.request.interface';
 import { Feedback } from 'src/modules/feedback/feedback.model';
 import { CreateFeedbackDTO, UpdateFeedbackDTO } from './feedback.dto';
 import { EMPTY, Observable, from, mergeMap, of, throwIfEmpty } from 'rxjs';
+import { Course } from '../course/course.model';
 
 @Injectable({ scope: Scope.REQUEST })
 export class FeedbackService {
   constructor(
     @Inject(FEEDBACK_MODEL) private feedbackModel: Model<Feedback>,
+    @Inject(COURSE_MODEL) private courseModel: Model<Course>,
     @Inject(REQUEST) private req: AuthenticatedRequest,
   ){}
   
@@ -54,7 +56,19 @@ export class FeedbackService {
   }
 
   async save(data: CreateFeedbackDTO): Promise<Feedback> {
-    const res = await this.feedbackModel.create({...data});
+    const courseFindOne = await this.courseModel.findById(data.course);
+    
+    if (!courseFindOne) {
+        throw new Error("Course not found");
+    }
+
+    courseFindOne.rating = (courseFindOne.rating * courseFindOne.reviews + data.rating) / (courseFindOne.reviews + 1);
+    courseFindOne.reviews++;
+
+    await courseFindOne.save();
+
+    const res = await this.feedbackModel.create({ ...data });
+
     return res;
   }
 

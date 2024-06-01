@@ -19,8 +19,9 @@ const database_constants_1 = require("../../processors/database/database.constan
 const cloudinary_constants_1 = require("../../constants/cloudinary.constants");
 const helper_service_clouldinary_1 = require("../../processors/helper/helper.service.clouldinary");
 let CourseService = class CourseService {
-    constructor(courseModel, courseLessonModel, cloudinaryService) {
+    constructor(courseModel, orderModel, courseLessonModel, cloudinaryService) {
         this.courseModel = courseModel;
+        this.orderModel = orderModel;
         this.courseLessonModel = courseLessonModel;
         this.cloudinaryService = cloudinaryService;
     }
@@ -164,8 +165,10 @@ exports.CourseService = CourseService;
 exports.CourseService = CourseService = __decorate([
     (0, common_1.Injectable)({ scope: common_1.Scope.REQUEST }),
     __param(0, (0, common_1.Inject)(database_constants_1.COURSE_MODEL)),
-    __param(1, (0, common_1.Inject)(database_constants_1.COURSE_LESSON_MODEL)),
+    __param(1, (0, common_1.Inject)(database_constants_1.COURSE_ORDER_MODEL)),
+    __param(2, (0, common_1.Inject)(database_constants_1.COURSE_LESSON_MODEL)),
     __metadata("design:paramtypes", [mongoose_1.Model,
+        mongoose_1.Model,
         mongoose_1.Model,
         helper_service_clouldinary_1.CloudinaryService])
 ], CourseService);

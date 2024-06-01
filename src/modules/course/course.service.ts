@@ -1,17 +1,19 @@
 import { BadRequestException, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import mongoose, { Model } from 'mongoose';
-import { COURSE_LESSON_MODEL, COURSE_MODEL, COURSE_VIDEO_MODEL } from 'src/processors/database/database.constants';
+import { COURSE_LESSON_MODEL, COURSE_MODEL, COURSE_ORDER_MODEL, COURSE_VIDEO_MODEL } from 'src/processors/database/database.constants';
 import { Course } from 'src/modules/course/course.model';
 import { CreateCourseDTO, UpdateCourseDTO } from './course.dto';
 import { CourseLesson } from 'src/modules/course.lesson/course.lesson.model';
 import { FILE_COURSE_INTRO, FILE_COURSE_THUMB, RESOURCE_TYPE_IMAGE, RESOURCE_TYPE_VIDEO } from 'src/constants/cloudinary.constants';
 import { CloudinaryService } from 'src/processors/helper/helper.service.clouldinary';
 import { CourseVideo } from '../course.video/course.video.model';
+import { CourseOrder } from '../course.order/course.order.model';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CourseService {
   constructor(
     @Inject(COURSE_MODEL) private courseModel: Model<Course>,
+    @Inject(COURSE_ORDER_MODEL) private orderModel: Model<CourseOrder>,
     @Inject(COURSE_LESSON_MODEL) private courseLessonModel: Model<CourseLesson>,
     private readonly cloudinaryService: CloudinaryService,
   ){}
@@ -39,7 +41,6 @@ export class CourseService {
       .skip(skip)
       .limit(limit)
       .exec();
-      
     return courses;
   }
 

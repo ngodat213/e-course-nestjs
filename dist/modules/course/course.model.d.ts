@@ -32,8 +32,9 @@ interface Course extends Document {
     readonly title: string;
     readonly price: Number;
     readonly description: string;
-    readonly rating: Number;
-    readonly register: Number;
+    rating: number;
+    register: number;
+    reviews: number;
     readonly imageIntroduce: string;
     readonly imagePublicId: string;
     readonly videoIntroduce: string;

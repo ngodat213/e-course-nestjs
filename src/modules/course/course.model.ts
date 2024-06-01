@@ -6,8 +6,9 @@ interface Course extends Document{
 	readonly title: string;
   readonly price: Number;
 	readonly description: string;
-	readonly rating: Number;
-	readonly register: Number;
+	rating: number;
+	register: number;
+  reviews: number;
 	readonly imageIntroduce: string;
   readonly imagePublicId: string;
   readonly videoIntroduce: string;
@@ -28,6 +29,7 @@ const CourseSchema = new Schema<Course>(
 		description: {type: SchemaTypes.String, required: true},
 		rating: {type: SchemaTypes.Number, default: 5},
 		register: {type: SchemaTypes.Number, default: 0},
+		reviews: {type: SchemaTypes.Number, default: 0},
 		imageIntroduce:{type: SchemaTypes.String, required: true},
 		imagePublicId:{type: SchemaTypes.String, required: true},
     videoIntroduce:{type: SchemaTypes.String, required: true},

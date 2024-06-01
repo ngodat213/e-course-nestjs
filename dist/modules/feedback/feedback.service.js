@@ -18,8 +18,9 @@ const core_1 = require("@nestjs/core");
 const mongoose_1 = require("mongoose");
 const database_constants_1 = require("../../processors/database/database.constants");
 let FeedbackService = class FeedbackService {
-    constructor(feedbackModel, req) {
+    constructor(feedbackModel, courseModel, req) {
         this.feedbackModel = feedbackModel;
+        this.courseModel = courseModel;
         this.req = req;
     }
     async findAll(keywordUser, keywordCourse, skip = 0, limit = 10) {
@@ -57,6 +58,13 @@ let FeedbackService = class FeedbackService {
         return res;
     }
     async save(data) {
+        const courseFindOne = await this.courseModel.findById(data.course);
+        if (!courseFindOne) {
+            throw new Error("Course not found");
+        }
+        courseFindOne.rating = (courseFindOne.rating * courseFindOne.reviews + data.rating) / (courseFindOne.reviews + 1);
+        courseFindOne.reviews++;
+        await courseFindOne.save();
         const res = await this.feedbackModel.create({ ...data });
         return res;
     }
@@ -104,7 +112,9 @@ exports.FeedbackService = FeedbackService;
 exports.FeedbackService = FeedbackService = __decorate([
     (0, common_1.Injectable)({ scope: common_1.Scope.REQUEST }),
     __param(0, (0, common_1.Inject)(database_constants_1.FEEDBACK_MODEL)),
-    __param(1, (0, common_1.Inject)(core_1.REQUEST)),
-    __metadata("design:paramtypes", [mongoose_1.Model, Object])
+    __param(1, (0, common_1.Inject)(database_constants_1.COURSE_MODEL)),
+    __param(2, (0, common_1.Inject)(core_1.REQUEST)),
+    __metadata("design:paramtypes", [mongoose_1.Model,
+        mongoose_1.Model, Object])
 ], FeedbackService);
 //# sourceMappingURL=feedback.service.js.map

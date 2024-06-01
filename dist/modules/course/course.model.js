@@ -8,6 +8,7 @@ const CourseSchema = new mongoose_1.Schema({
     description: { type: mongoose_1.SchemaTypes.String, required: true },
     rating: { type: mongoose_1.SchemaTypes.Number, default: 5 },
     register: { type: mongoose_1.SchemaTypes.Number, default: 0 },
+    reviews: { type: mongoose_1.SchemaTypes.Number, default: 0 },
     imageIntroduce: { type: mongoose_1.SchemaTypes.String, required: true },
     imagePublicId: { type: mongoose_1.SchemaTypes.String, required: true },
     videoIntroduce: { type: mongoose_1.SchemaTypes.String, required: true },
