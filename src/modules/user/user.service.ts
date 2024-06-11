@@ -15,7 +15,6 @@ import { ForgotPassword, ForgotPasswordModel } from './forgot.password.model';
 import { EmailService } from 'src/processors/helper/helper.service.email';
 import { hash } from 'bcrypt'
 import * as APP_CONFIG from '../../app.config';
-import { boolean } from '@hapi/joi';
 import mongoose from 'mongoose';
 @Injectable()
 export class 
